@@ -8,6 +8,7 @@
 #define SIDE_ROWS CUBE_SIZE
 #define SIDE_COLUMNS CUBE_SIZE
 
+#define BLACK		'B'
 #define WHITE 	'w'
 #define RED			'r'
 #define GREEN		'g'
@@ -37,10 +38,20 @@ typedef struct sides_t
 	cube_side_t down;
 }sides_t;
 
-typedef union cube_t
+typedef struct cube_t
 {
 	sides_t sides;
-	char cube_map[18][3];
+	char cube_map[16][35];
 }cube_t;
+
+typedef struct colour_count_t
+{
+	int white;
+	int red;
+	int green;
+	int blue;
+	int yellow;
+	int orange;
+}colour_count_t;
 
 #endif

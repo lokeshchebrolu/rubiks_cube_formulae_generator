@@ -13,7 +13,12 @@
 #define RESET_COLOUR do{printf("\033[0m");}while(0)
 #define CLEAR_SCREEN do{printf("\033[H\033[0J");}while(0)
 
+#define SET_FG_RED do{printf("\033[0;31m");}while(0)
+
+#define MOVE_CURSOR(x,y) do{printf("\033[%d;%dH",(x),(y));}while(0)
+
 extern cube_t cube;
+extern colour_count_t colour_count;
 
 extern void cube_init(void);
 
