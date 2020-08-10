@@ -7,7 +7,7 @@ CC=gcc
 OPT=2
 DEBUG=-ggdb3
 CFLAGS=-Wall $(DEBUG) -O$(OPT)
-LDFLAGS=-lm -lgraph
+LDFLAGS=-lm
 
 COBJ=$(CSRC:.c=.o)
 
