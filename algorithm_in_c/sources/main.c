@@ -15,6 +15,14 @@ int main(int argc,char *argv[])
 		cube_init();
 		cube_print();
 
+		correct_input = colour_count_valid_check();
+		if(!correct_input)
+		{
+			printf("Please enter colours correctly. Press <Enter> to continue");
+			getchar();
+			continue;
+		}
+
 		printf("Verify the cube sides you entered.\nWant to change cube colours?[y/n]:");
 		scanf(" %c",&opt);
 		switch(opt)

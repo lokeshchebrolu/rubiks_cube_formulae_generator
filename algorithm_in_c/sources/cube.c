@@ -1,6 +1,7 @@
 #include"../includes/cube.h"
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 
 cube_t cube;
 colour_count_t colour_count;
@@ -73,7 +74,13 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			scanf(" %c",&cube.sides.back.colour[row][column]);
-			
+
+			if(cube.sides.back.colour[row][column] == 'x')
+			{
+				CLEAR_SCREEN;
+				exit(0);
+			}
+
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.back.colour[row][column]))
 			{
@@ -112,6 +119,12 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			scanf(" %c",&cube.sides.left.colour[row][column]);
+			
+			if(cube.sides.left.colour[row][column] == 'x')
+			{
+				CLEAR_SCREEN;
+				exit(0);
+			}
 			
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.left.colour[row][column]))
@@ -152,6 +165,12 @@ void cube_init(void)
 			MOVE_CURSOR(cursor_x,cursor_y);
 			scanf(" %c",&cube.sides.up.colour[row][column]);
 			
+			if(cube.sides.up.colour[row][column] == 'x')
+			{
+				CLEAR_SCREEN;
+				exit(0);
+			}
+			
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.up.colour[row][column]))
 			{
@@ -190,6 +209,12 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			scanf(" %c",&cube.sides.right.colour[row][column]);
+			
+			if(cube.sides.right.colour[row][column] == 'x')
+			{
+				CLEAR_SCREEN;
+				exit(0);
+			}
 			
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.right.colour[row][column]))
@@ -230,6 +255,12 @@ void cube_init(void)
 			MOVE_CURSOR(cursor_x,cursor_y);
 			scanf(" %c",&cube.sides.down.colour[row][column]);
 			
+			if(cube.sides.down.colour[row][column] == 'x')
+			{
+				CLEAR_SCREEN;
+				exit(0);
+			}
+			
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.down.colour[row][column]))
 			{
@@ -268,6 +299,12 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			scanf(" %c",&cube.sides.front.colour[row][column]);
+			
+			if(cube.sides.front.colour[row][column] == 'x')
+			{
+				CLEAR_SCREEN;
+				exit(0);
+			}
 			
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.front.colour[row][column]))
@@ -312,12 +349,37 @@ void cube_print(void)
 	if(input)
 	{
 		printf("Colour codes :\n");
-		printf(" WHITE   :  'w' <enter>\n");
-		printf(" RED     :  'r' <enter>\n");
-		printf(" GREEN   :  'g' <enter>\n");
-		printf(" BLUE    :  'b' <enter>\n");
-		printf(" YELLOW  :  'y' <enter>\n");
-		printf(" ORANGE  :  'o' <enter>\n\n");
+		SET_FG_WHITE;
+		printf(" WHITE   :  'w'");
+		RESET_COLOUR;		
+		printf("<enter>\n");
+		
+		SET_FG_RED;
+		printf(" RED     :  'r'");
+		RESET_COLOUR;		
+		printf("<enter>\n");
+		
+		SET_FG_GREEN;
+		printf(" GREEN   :  'g'");
+		RESET_COLOUR;		
+		printf("<enter>\n");
+		
+		SET_FG_BLUE;
+		printf(" BLUE    :  'b'");
+		RESET_COLOUR;		
+		printf("<enter>\n");
+		
+		SET_FG_YELLOW;
+		printf(" YELLOW  :  'y'");
+		RESET_COLOUR;		
+		printf("<enter>\n");
+		
+		SET_FG_ORANGE;
+		printf(" ORANGE  :  'o'");
+		RESET_COLOUR;		
+		printf("<enter>\n");
+
+		printf(" EXIT    :  'x'<enter>\n");
 	}
 
 	/* Set background to black for two lines */
@@ -338,13 +400,103 @@ void cube_print(void)
 int colour_count_valid_check(void)
 {
 	int valid = 1;
-	colour_count.red++;
-	colour_count.green++;
-	colour_count.blue++;
-	colour_count.orange++;
-	colour_count.white++;
-	colour_count.yellow++;
-/* continue from here */
+	if(colour_count.red<1 || colour_count.red>9)
+	{
+		printf("[ ");
+		SET_FG_RED;
+		printf("Error");
+		RESET_COLOUR;
+		printf(" ] : ");
+		
+		SET_FG_RED;
+		printf("RED ");
+		RESET_COLOUR;
+		printf("colour count is wrongly entered as %d\n",colour_count.red);
+
+		valid=0;
+	}
+
+	if(colour_count.green<1 || colour_count.green>9)
+	{
+		printf("[ ");
+		SET_FG_RED;
+		printf("Error");
+		RESET_COLOUR;
+		printf(" ] : ");
+		
+		SET_FG_GREEN;
+		printf("GREEN ");
+		RESET_COLOUR;
+		printf("colour count is wrongly entered as %d\n",colour_count.green);
+
+		valid=0;
+	}
+
+	if(colour_count.blue<1 || colour_count.blue>9)
+	{
+		printf("[ ");
+		SET_FG_RED;
+		printf("Error");
+		RESET_COLOUR;
+		printf(" ] : ");
+		
+		SET_FG_BLUE;
+		printf("BLUE ");
+		RESET_COLOUR;
+		printf("colour count is wrongly entered as %d\n",colour_count.blue);
+
+		valid=0;
+	}
+
+	if(colour_count.yellow<1 || colour_count.yellow>9)
+	{
+		printf("[ ");
+		SET_FG_RED;
+		printf("Error");
+		RESET_COLOUR;
+		printf(" ] : ");
+		
+		SET_FG_YELLOW;
+		printf("YELLOW ");
+		RESET_COLOUR;
+		printf("colour count is wrongly entered as %d\n",colour_count.yellow);
+
+		valid=0;
+	}
+
+	if(colour_count.orange<1 || colour_count.orange>9)
+	{
+		printf("[ ");
+		SET_FG_RED;
+		printf("Error");
+		RESET_COLOUR;
+		printf(" ] : ");
+		
+		SET_FG_ORANGE;
+		printf("ORANGE ");
+		RESET_COLOUR;
+		printf("colour count is wrongly entered as %d\n",colour_count.orange);
+
+		valid=0;
+	}
+
+	if(colour_count.white<1 || colour_count.white>9)
+	{
+		printf("[ ");
+		SET_FG_RED;
+		printf("Error");
+		RESET_COLOUR;
+		printf(" ] : ");
+		
+		SET_FG_WHITE;
+		printf("WHITE ");
+		RESET_COLOUR;
+		printf("colour count is wrongly entered as %d\n",colour_count.white);
+
+		valid=0;
+	}
+
+
 	return valid;
 
 }
@@ -470,7 +622,7 @@ static void print_back(void)
 					SET_BLUE_COLOUR;
 					break;
 				case ORANGE:
-					SET_MAGENTA_COLOUR;
+					SET_ORANGE_COLOUR;
 					break;
 				case WHITE:
 					SET_WHITE_COLOUR;
@@ -518,7 +670,7 @@ static void print_lurd(void)
 					SET_BLUE_COLOUR;
 					break;
 				case ORANGE:
-					SET_MAGENTA_COLOUR;
+					SET_ORANGE_COLOUR;
 					break;
 				case WHITE:
 					SET_WHITE_COLOUR;
@@ -565,7 +717,7 @@ static void print_front(void)
 					SET_BLUE_COLOUR;
 					break;
 				case ORANGE:
-					SET_MAGENTA_COLOUR;
+					SET_ORANGE_COLOUR;
 					break;
 				case WHITE:
 					SET_WHITE_COLOUR;
