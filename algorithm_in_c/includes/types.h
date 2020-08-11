@@ -54,4 +54,15 @@ typedef struct colour_count_t
 	int orange;
 }colour_count_t;
 
+typedef struct step_t
+{
+	char step[3];
+}step_t;
+
+typedef struct formula_t
+{
+	int step_count;
+	step_t *steps;
+}formula_t;
+
 #endif

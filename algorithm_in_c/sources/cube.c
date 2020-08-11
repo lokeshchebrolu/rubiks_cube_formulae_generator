@@ -9,12 +9,15 @@ colour_count_t colour_count;
 
 static int input;
 static int nullify;
+static formula_t formula;
+
 
 static void update_cube_map(void);
 static void print_back(void);
 static void print_front(void);
 static void print_lurd(void);
 static int update_colour_count(char colour);
+static void apply_formula(formula_t fr);
 
 /* Cube rotation functions */
 static void R(void);
@@ -47,6 +50,7 @@ static void Z(void);
 static void Xi(void);
 static void Yi(void);
 static void Zi(void);
+
 
 void cube_init(void)
 {
@@ -119,18 +123,18 @@ void cube_init(void)
 			if(!update_colour_count(cube.sides.back.colour[row][column]))
 			{
 				MOVE_CURSOR(27,1);
-				
+
 				printf("[ ");
 				SET_FG_RED;
 				printf("Error");
 				RESET_COLOUR;
 				printf(" ] : Invalid colour entered.Please enter valid colour");
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				SET_BLACK_COLOUR;
 				printf(" ");
 				RESET_COLOUR;
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				column++;
 				continue;
@@ -153,29 +157,29 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.left.colour[row][column]);
-			
+
 			if(cube.sides.left.colour[row][column] == 'x')
 			{
 				CLEAR_SCREEN;
 				exit(0);
 			}
-			
+
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.left.colour[row][column]))
 			{
 				MOVE_CURSOR(27,1);
-				
+
 				printf("[ ");
 				SET_FG_RED;
 				printf("Error");
 				RESET_COLOUR;
 				printf(" ] : Invalid colour entered.Please enter valid colour");
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				SET_BLACK_COLOUR;
 				printf(" ");
 				RESET_COLOUR;
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				row++;
 				continue;
@@ -198,29 +202,29 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.up.colour[row][column]);
-			
+
 			if(cube.sides.up.colour[row][column] == 'x')
 			{
 				CLEAR_SCREEN;
 				exit(0);
 			}
-			
+
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.up.colour[row][column]))
 			{
 				MOVE_CURSOR(27,1);
-				
+
 				printf("[ ");
 				SET_FG_RED;
 				printf("Error");
 				RESET_COLOUR;
 				printf(" ] : Invalid colour entered.Please enter valid colour");
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				SET_BLACK_COLOUR;
 				printf(" ");
 				RESET_COLOUR;
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				column--;
 				continue;
@@ -243,29 +247,29 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.right.colour[row][column]);
-			
+
 			if(cube.sides.right.colour[row][column] == 'x')
 			{
 				CLEAR_SCREEN;
 				exit(0);
 			}
-			
+
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.right.colour[row][column]))
 			{
 				MOVE_CURSOR(27,1);
-				
+
 				printf("[ ");
 				SET_FG_RED;
 				printf("Error");
 				RESET_COLOUR;
 				printf(" ] : Invalid colour entered.Please enter valid colour");
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				SET_BLACK_COLOUR;
 				printf(" ");
 				RESET_COLOUR;
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				row--;
 				continue;
@@ -288,29 +292,29 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.down.colour[row][column]);
-			
+
 			if(cube.sides.down.colour[row][column] == 'x')
 			{
 				CLEAR_SCREEN;
 				exit(0);
 			}
-			
+
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.down.colour[row][column]))
 			{
 				MOVE_CURSOR(27,1);
-				
+
 				printf("[ ");
 				SET_FG_RED;
 				printf("Error");
 				RESET_COLOUR;
 				printf(" ] : Invalid colour entered.Please enter valid colour");
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				SET_BLACK_COLOUR;
 				printf(" ");
 				RESET_COLOUR;
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				column++;
 				continue;
@@ -333,29 +337,29 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.front.colour[row][column]);
-			
+
 			if(cube.sides.front.colour[row][column] == 'x')
 			{
 				CLEAR_SCREEN;
 				exit(0);
 			}
-			
+
 			/* Entered input colour validation */
 			if(!update_colour_count(cube.sides.front.colour[row][column]))
 			{
 				MOVE_CURSOR(27,1);
-				
+
 				printf("[ ");
 				SET_FG_RED;
 				printf("Error");
 				RESET_COLOUR;
 				printf(" ] : Invalid colour entered.Please enter valid colour");
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				SET_BLACK_COLOUR;
 				printf(" ");
 				RESET_COLOUR;
-				
+
 				MOVE_CURSOR(cursor_x,cursor_y);
 				column--;
 				continue;
@@ -370,6 +374,19 @@ void cube_init(void)
 	}
 
 	input=0;
+
+	formula.step_count = 8;
+	formula.steps = (step_t*)calloc(formula.step_count,sizeof(step_t));
+	strcpy(formula.steps[0].step,"R");
+	strcpy(formula.steps[1].step,"Ri");
+	strcpy(formula.steps[2].step,"L");
+	strcpy(formula.steps[3].step,"Li");
+	strcpy(formula.steps[4].step,"U");
+	strcpy(formula.steps[5].step,"Ui");
+	strcpy(formula.steps[6].step,"F");
+	strcpy(formula.steps[7].step,"Fi");
+
+	apply_formula(formula);
 	getchar();
 	getchar();
 
@@ -387,27 +404,27 @@ void cube_print(void)
 		printf(" WHITE   :  'w'");
 		RESET_COLOUR;		
 		printf("<enter>\n");
-		
+
 		SET_FG_RED;
 		printf(" RED     :  'r'");
 		RESET_COLOUR;		
 		printf("<enter>\n");
-		
+
 		SET_FG_GREEN;
 		printf(" GREEN   :  'g'");
 		RESET_COLOUR;		
 		printf("<enter>\n");
-		
+
 		SET_FG_BLUE;
 		printf(" BLUE    :  'b'");
 		RESET_COLOUR;		
 		printf("<enter>\n");
-		
+
 		SET_FG_YELLOW;
 		printf(" YELLOW  :  'y'");
 		RESET_COLOUR;		
 		printf("<enter>\n");
-		
+
 		SET_FG_ORANGE;
 		printf(" ORANGE  :  'o'");
 		RESET_COLOUR;		
@@ -441,7 +458,7 @@ int colour_count_valid_check(void)
 		printf("Error");
 		RESET_COLOUR;
 		printf(" ] : ");
-		
+
 		SET_FG_RED;
 		printf("RED ");
 		RESET_COLOUR;
@@ -457,7 +474,7 @@ int colour_count_valid_check(void)
 		printf("Error");
 		RESET_COLOUR;
 		printf(" ] : ");
-		
+
 		SET_FG_GREEN;
 		printf("GREEN ");
 		RESET_COLOUR;
@@ -473,7 +490,7 @@ int colour_count_valid_check(void)
 		printf("Error");
 		RESET_COLOUR;
 		printf(" ] : ");
-		
+
 		SET_FG_BLUE;
 		printf("BLUE ");
 		RESET_COLOUR;
@@ -489,7 +506,7 @@ int colour_count_valid_check(void)
 		printf("Error");
 		RESET_COLOUR;
 		printf(" ] : ");
-		
+
 		SET_FG_YELLOW;
 		printf("YELLOW ");
 		RESET_COLOUR;
@@ -505,7 +522,7 @@ int colour_count_valid_check(void)
 		printf("Error");
 		RESET_COLOUR;
 		printf(" ] : ");
-		
+
 		SET_FG_ORANGE;
 		printf("ORANGE ");
 		RESET_COLOUR;
@@ -521,7 +538,7 @@ int colour_count_valid_check(void)
 		printf("Error");
 		RESET_COLOUR;
 		printf(" ] : ");
-		
+
 		SET_FG_WHITE;
 		printf("WHITE ");
 		RESET_COLOUR;
@@ -785,23 +802,23 @@ static int update_colour_count(char colour)
 		case RED:
 			colour_count.red++;
 			break;
-		
+
 		case GREEN:
 			colour_count.green++;
 			break;
-		
+
 		case BLUE:
 			colour_count.blue++;
 			break;
-		
+
 		case ORANGE:
 			colour_count.orange++;
 			break;
-		
+
 		case WHITE:
 			colour_count.white++;
 			break;
-		
+
 		case YELLOW:
 			colour_count.yellow++;
 			break;
@@ -819,50 +836,62 @@ static int update_colour_count(char colour)
 /* Cube rotation functions */
 static void R(void)
 {
+	rotate_clockwise(&cube.sides.right);
 }
 
 static void Ri(void)
 {
+	rotate_anti_clockwise(&cube.sides.right);
 }
 
 static void L(void)
 {
+	rotate_clockwise(&cube.sides.left);
 }
 
 static void Li(void)
 {
+	rotate_anti_clockwise(&cube.sides.left);
 }
 
 static void U(void)
 {
+	rotate_clockwise(&cube.sides.up);
 }
 
 static void Ui(void)
 {
+	rotate_anti_clockwise(&cube.sides.up);
 }
 
 static void D(void)
 {
+	rotate_clockwise(&cube.sides.down);
 }
 
 static void Di(void)
 {
+	rotate_anti_clockwise(&cube.sides.down);
 }
 
 static void F(void)
 {
+	rotate_clockwise(&cube.sides.front);
 }
 
 static void Fi(void)
 {
+	rotate_anti_clockwise(&cube.sides.front);
 }
 
 static void B(void)
 {
+	rotate_clockwise(&cube.sides.back);
 }
 
 static void Bi(void)
 {
+	rotate_anti_clockwise(&cube.sides.back);
 }
 
 static void r(void)
@@ -938,6 +967,194 @@ static void Zi(void)
 }
 
 
+static void apply_formula(formula_t fr)
+{
+	char temp_step[3];
+
+	for(int i=0;i<fr.step_count;i++)
+	{
+		getchar();
+		strcpy(temp_step,fr.steps[i].step);
+		switch(temp_step[0])
+		{
+			case 'R' :
+				if(IS_INVERSE)
+				{
+					Ri();
+				}
+				else
+				{
+					R();
+				}
+				break;
+			
+			case 'L' :
+				if(IS_INVERSE)
+				{
+					Li();
+				}
+				else
+				{
+					L();
+				}
+				break;
+			
+			case 'U' :
+				if(IS_INVERSE)
+				{
+					Ui();
+				}
+				else
+				{
+					U();
+				}
+				break;
+			
+			case 'D' :
+				if(IS_INVERSE)
+				{
+					Di();
+				}
+				else
+				{
+					D();
+				}
+				break;
+			
+			case 'F' :
+				if(IS_INVERSE)
+				{
+					Fi();
+				}
+				else
+				{
+					F();
+				}
+				break;
+			
+			case 'B' :
+				if(IS_INVERSE)
+				{
+					Bi();
+				}
+				else
+				{
+					B();
+				}
+				break;
+			
+			case 'r' :
+				if(IS_INVERSE)
+				{
+					ri();
+				}
+				else
+				{
+					r();
+				}
+				break;
+			
+			case 'l' :
+				if(IS_INVERSE)
+				{
+					li();
+				}
+				else
+				{
+					l();
+				}
+				break;
+			
+			case 'u' :
+				if(IS_INVERSE)
+				{
+					ui();
+				}
+				else
+				{
+					u();
+				}
+				break;
+			
+			case 'd' :
+				if(IS_INVERSE)
+				{
+					di();
+				}
+				else
+				{
+					d();
+				}
+				break;
+			
+			case 'f' :
+				if(IS_INVERSE)
+				{
+					fi();
+				}
+				else
+				{
+					f();
+				}
+				break;
+			
+			case 'b' :
+				if(IS_INVERSE)
+				{
+					bi();
+				}
+				else
+				{
+					b();
+				}
+				break;
+			
+			case 'X' :
+				if(IS_INVERSE)
+				{
+					Xi();
+				}
+				else
+				{
+					X();
+				}
+				break;
+			
+			case 'Y' :
+				if(IS_INVERSE)
+				{
+					Yi();
+				}
+				else
+				{
+					Y();
+				}
+				break;
+			
+			case 'Z' :
+				if(IS_INVERSE)
+				{
+					Zi();
+				}
+				else
+				{
+					Z();
+				}
+				break;
+			
+			default:
+				printf("[ ");
+				SET_FG_RED;
+				printf("Error");
+				RESET_COLOUR;
+				printf(" ] : Invalid step in formula\n");
+				break;
+
+		}
+		update_cube_map();
+		cube_print();
+	}
+}
 
 
 

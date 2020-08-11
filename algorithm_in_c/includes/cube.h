@@ -23,6 +23,8 @@
 
 #define MOVE_CURSOR(x,y) do{printf("\033[%d;%dH",(x),(y));}while(0)
 
+#define IS_INVERSE (temp_step[1]=='i')
+
 extern cube_t cube;
 extern colour_count_t colour_count;
 
