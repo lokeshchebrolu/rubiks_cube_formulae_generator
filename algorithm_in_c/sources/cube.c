@@ -1,4 +1,5 @@
 #include"../includes/cube.h"
+#include"../includes/matrix_operations.h"
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -7,12 +8,45 @@ cube_t cube;
 colour_count_t colour_count;
 
 static int input;
+static int nullify;
 
 static void update_cube_map(void);
 static void print_back(void);
 static void print_front(void);
 static void print_lurd(void);
 static int update_colour_count(char colour);
+
+/* Cube rotation functions */
+static void R(void);
+static void Ri(void);
+static void L(void);
+static void Li(void);
+static void U(void);
+static void Ui(void);
+static void D(void);
+static void Di(void);
+static void F(void);
+static void Fi(void);
+static void B(void);
+static void Bi(void);
+static void r(void);
+static void ri(void);
+static void l(void);
+static void li(void);
+static void u(void);
+static void ui(void);
+static void d(void);
+static void di(void);
+static void f(void);
+static void fi(void);
+static void b(void);
+static void bi(void);
+static void X(void);
+static void Y(void);
+static void Z(void);
+static void Xi(void);
+static void Yi(void);
+static void Zi(void);
 
 void cube_init(void)
 {
@@ -73,7 +107,7 @@ void cube_init(void)
 		for(column=SIDE_COLUMNS-1;column>=0;column--)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
-			scanf(" %c",&cube.sides.back.colour[row][column]);
+			nullify = scanf(" %c",&cube.sides.back.colour[row][column]);
 
 			if(cube.sides.back.colour[row][column] == 'x')
 			{
@@ -118,7 +152,7 @@ void cube_init(void)
 		for(row=SIDE_ROWS-1;row>=0;row--)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
-			scanf(" %c",&cube.sides.left.colour[row][column]);
+			nullify = scanf(" %c",&cube.sides.left.colour[row][column]);
 			
 			if(cube.sides.left.colour[row][column] == 'x')
 			{
@@ -163,7 +197,7 @@ void cube_init(void)
 		for(column=0;column<SIDE_COLUMNS;column++)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
-			scanf(" %c",&cube.sides.up.colour[row][column]);
+			nullify = scanf(" %c",&cube.sides.up.colour[row][column]);
 			
 			if(cube.sides.up.colour[row][column] == 'x')
 			{
@@ -208,7 +242,7 @@ void cube_init(void)
 		for(row=0;row<SIDE_ROWS;row++)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
-			scanf(" %c",&cube.sides.right.colour[row][column]);
+			nullify = scanf(" %c",&cube.sides.right.colour[row][column]);
 			
 			if(cube.sides.right.colour[row][column] == 'x')
 			{
@@ -253,7 +287,7 @@ void cube_init(void)
 		for(column=SIDE_COLUMNS-1;column>=0;column--)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
-			scanf(" %c",&cube.sides.down.colour[row][column]);
+			nullify = scanf(" %c",&cube.sides.down.colour[row][column]);
 			
 			if(cube.sides.down.colour[row][column] == 'x')
 			{
@@ -298,7 +332,7 @@ void cube_init(void)
 		for(column=0;column<SIDE_COLUMNS;column++)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
-			scanf(" %c",&cube.sides.front.colour[row][column]);
+			nullify = scanf(" %c",&cube.sides.front.colour[row][column]);
 			
 			if(cube.sides.front.colour[row][column] == 'x')
 			{
@@ -781,6 +815,127 @@ static int update_colour_count(char colour)
 }
 
 
+
+/* Cube rotation functions */
+static void R(void)
+{
+}
+
+static void Ri(void)
+{
+}
+
+static void L(void)
+{
+}
+
+static void Li(void)
+{
+}
+
+static void U(void)
+{
+}
+
+static void Ui(void)
+{
+}
+
+static void D(void)
+{
+}
+
+static void Di(void)
+{
+}
+
+static void F(void)
+{
+}
+
+static void Fi(void)
+{
+}
+
+static void B(void)
+{
+}
+
+static void Bi(void)
+{
+}
+
+static void r(void)
+{
+}
+
+static void ri(void)
+{
+}
+
+static void l(void)
+{
+}
+
+static void li(void)
+{
+}
+
+static void u(void)
+{
+}
+
+static void ui(void)
+{
+}
+
+static void d(void)
+{
+}
+
+static void di(void)
+{
+}
+
+static void f(void)
+{
+}
+
+static void fi(void)
+{
+}
+
+static void b(void)
+{
+}
+
+static void bi(void)
+{
+}
+
+static void X(void)
+{
+}
+
+static void Y(void)
+{
+}
+
+static void Z(void)
+{
+}
+
+static void Xi(void)
+{
+}
+
+static void Yi(void)
+{
+}
+
+static void Zi(void)
+{
+}
 
 
 
