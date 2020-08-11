@@ -4,6 +4,8 @@
 #include"../includes/cube.h"
 #include<stdio.h>
 
+static int nullify;
+
 /* main function */
 int main(int argc,char *argv[])
 {
@@ -24,7 +26,7 @@ int main(int argc,char *argv[])
 		}
 
 		printf("Verify the cube sides you entered.\nWant to change cube colours?[y/n]:");
-		scanf(" %c",&opt);
+		nullify = scanf(" %c",&opt);
 		switch(opt)
 		{
 			case 'y':
