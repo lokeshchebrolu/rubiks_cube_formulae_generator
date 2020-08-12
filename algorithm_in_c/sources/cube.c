@@ -51,6 +51,7 @@ static void Xi(void);
 static void Yi(void);
 static void Zi(void);
 
+static void up_line_move(int line);
 
 void cube_init(void)
 {
@@ -375,7 +376,7 @@ void cube_init(void)
 
 	input=0;
 
-	formula.step_count = 8;
+	formula.step_count = 10;
 	formula.steps = (step_t*)calloc(formula.step_count,sizeof(step_t));
 	strcpy(formula.steps[0].step,"R");
 	strcpy(formula.steps[1].step,"Ri");
@@ -385,6 +386,8 @@ void cube_init(void)
 	strcpy(formula.steps[5].step,"Ui");
 	strcpy(formula.steps[6].step,"F");
 	strcpy(formula.steps[7].step,"Fi");
+	strcpy(formula.steps[6].step,"B");
+	strcpy(formula.steps[7].step,"Bi");
 
 	apply_formula(formula);
 	getchar();
@@ -892,6 +895,7 @@ static void B(void)
 static void Bi(void)
 {
 	rotate_anti_clockwise(&cube.sides.back);
+	up_line_move(UP_ROW0);
 }
 
 static void r(void)
@@ -1157,5 +1161,49 @@ static void apply_formula(formula_t fr)
 }
 
 
+static void up_line_move(int line)
+{
+	char temp[3];
 
+	switch(line)
+	{
+		case UP_ROW0 :
+			temp[0] = cube.sides.up.colour[0][0];
+			temp[1] = cube.sides.up.colour[0][1];
+			temp[2] = cube.sides.up.colour[0][2];
+
+			cube.sides.up.colour[0][0] = cube.sides.left.colour[2][0];
+			cube.sides.up.colour[0][1] = cube.sides.left.colour[1][0];
+			cube.sides.up.colour[0][2] = cube.sides.left.colour[0][0];
+
+			cube.sides.left.colour[2][0] = cube.sides.down.colour[2][2];
+			cube.sides.left.colour[1][0] = cube.sides.down.colour[2][1];
+			cube.sides.left.colour[0][0] = cube.sides.down.colour[2][0];
+
+			cube.sides.down.colour[2][2] = cube.sides.right.colour[0][2];
+			cube.sides.down.colour[2][1] = cube.sides.right.colour[1][2];
+			cube.sides.down.colour[2][0] = cube.sides.right.colour[2][2];
+
+			cube.sides.right.colour[0][2] = temp[0];
+			cube.sides.right.colour[1][2] = temp[1];
+			cube.sides.right.colour[2][2] = temp[2];
+			break;
+
+		case UP_ROW1 :
+			break;
+			
+		case UP_ROW2 :
+			break;
+			
+		case UP_COLUMN0 :
+			break;
+			
+		case UP_COLUMN1 :
+			break;
+			
+		case UP_COLUMN2 :
+			break;
+			
+	}
+}
 

@@ -25,6 +25,13 @@
 
 #define IS_INVERSE (temp_step[1]=='i')
 
+#define UP_ROW0 (0)
+#define UP_ROW1 (1)
+#define UP_ROW2 (2)
+#define UP_COLUMN0 (3)
+#define UP_COLUMN1 (4)
+#define UP_COLUMN2 (5)
+
 extern cube_t cube;
 extern colour_count_t colour_count;
 
