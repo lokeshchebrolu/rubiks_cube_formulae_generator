@@ -1,5 +1,6 @@
 #include"../includes/cube.h"
 #include"../includes/matrix_operations.h"
+#include"../includes/movements.h"
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -11,7 +12,6 @@ static int input;
 static int nullify;
 static formula_t formula;
 
-
 static void update_cube_map(void);
 static void print_back(void);
 static void print_front(void);
@@ -19,39 +19,40 @@ static void print_lurd(void);
 static int update_colour_count(char colour);
 static void apply_formula(formula_t fr);
 
-/* Cube rotation functions */
-static void R(void);
-static void Ri(void);
-static void L(void);
-static void Li(void);
-static void U(void);
-static void Ui(void);
-static void D(void);
-static void Di(void);
-static void F(void);
-static void Fi(void);
-static void B(void);
-static void Bi(void);
-static void r(void);
-static void ri(void);
-static void l(void);
-static void li(void);
-static void u(void);
-static void ui(void);
-static void d(void);
-static void di(void);
-static void f(void);
-static void fi(void);
-static void b(void);
-static void bi(void);
-static void X(void);
-static void Y(void);
-static void Z(void);
-static void Xi(void);
-static void Yi(void);
-static void Zi(void);
 
-static void up_line_move(int line);
+void temp_cube_init(void)
+{
+	for(int i=0;i<3;i++)
+	{
+		for(int j=0;j<3;j++)
+			cube.sides.front.colour[i][j] = 'y';
+	}
+	for(int i=0;i<3;i++)
+	{
+		for(int j=0;j<3;j++)
+			cube.sides.back.colour[i][j] = 'w';
+	}
+	for(int i=0;i<3;i++)
+	{
+		for(int j=0;j<3;j++)
+			cube.sides.left.colour[i][j] = 'b';
+	}
+	for(int i=0;i<3;i++)
+	{
+		for(int j=0;j<3;j++)
+			cube.sides.right.colour[i][j] = 'g';
+	}
+	for(int i=0;i<3;i++)
+	{
+		for(int j=0;j<3;j++)
+			cube.sides.up.colour[i][j] = 'o';
+	}
+	for(int i=0;i<3;i++)
+	{
+		for(int j=0;j<3;j++)
+			cube.sides.down.colour[i][j] = 'r';
+	}
+}
 
 void cube_init(void)
 {
@@ -103,7 +104,37 @@ void cube_init(void)
 	cube_print();
 
 	/* Read cube colours */
+	/****************************** Test **************************************/
+	temp_cube_init();
+	formula.step_count = 24;
+	formula.steps = (step_t*)calloc(formula.step_count,sizeof(step_t));
+	strcpy(formula.steps[0].step,"F");
+	strcpy(formula.steps[1].step,"Fi");
+	strcpy(formula.steps[2].step,"B");
+	strcpy(formula.steps[3].step,"Bi");
+	strcpy(formula.steps[4].step,"U");
+	strcpy(formula.steps[5].step,"Ui");
+	strcpy(formula.steps[6].step,"D");
+	strcpy(formula.steps[7].step,"Di");
+	strcpy(formula.steps[8].step,"R");
+	strcpy(formula.steps[9].step,"Ri");
+	strcpy(formula.steps[10].step,"L");
+	strcpy(formula.steps[11].step,"Li");
+	strcpy(formula.steps[12].step,"f");
+	strcpy(formula.steps[13].step,"fi");
+	strcpy(formula.steps[14].step,"b");
+	strcpy(formula.steps[15].step,"bi");
+	strcpy(formula.steps[16].step,"u");
+	strcpy(formula.steps[17].step,"ui");
+	strcpy(formula.steps[18].step,"d");
+	strcpy(formula.steps[19].step,"di");
+	strcpy(formula.steps[20].step,"r");
+	strcpy(formula.steps[21].step,"ri");
+	strcpy(formula.steps[22].step,"l");
+	strcpy(formula.steps[23].step,"li");
 
+	apply_formula(formula);
+	/***************************************************************************/
 	/* Read BACK colours */
 	cursor_x = 12; 
 	cursor_y = 11;
@@ -376,22 +407,12 @@ void cube_init(void)
 
 	input=0;
 
-	formula.step_count = 10;
+	formula.step_count = 2;
 	formula.steps = (step_t*)calloc(formula.step_count,sizeof(step_t));
-	strcpy(formula.steps[0].step,"R");
-	strcpy(formula.steps[1].step,"Ri");
-	strcpy(formula.steps[2].step,"L");
-	strcpy(formula.steps[3].step,"Li");
-	strcpy(formula.steps[4].step,"U");
-	strcpy(formula.steps[5].step,"Ui");
-	strcpy(formula.steps[6].step,"F");
-	strcpy(formula.steps[7].step,"Fi");
 	strcpy(formula.steps[6].step,"B");
 	strcpy(formula.steps[7].step,"Bi");
 
 	apply_formula(formula);
-	getchar();
-	getchar();
 
 }
 
@@ -835,150 +856,14 @@ static int update_colour_count(char colour)
 }
 
 
-
-/* Cube rotation functions */
-static void R(void)
-{
-	rotate_clockwise(&cube.sides.right);
-}
-
-static void Ri(void)
-{
-	rotate_anti_clockwise(&cube.sides.right);
-}
-
-static void L(void)
-{
-	rotate_clockwise(&cube.sides.left);
-}
-
-static void Li(void)
-{
-	rotate_anti_clockwise(&cube.sides.left);
-}
-
-static void U(void)
-{
-	rotate_clockwise(&cube.sides.up);
-}
-
-static void Ui(void)
-{
-	rotate_anti_clockwise(&cube.sides.up);
-}
-
-static void D(void)
-{
-	rotate_clockwise(&cube.sides.down);
-}
-
-static void Di(void)
-{
-	rotate_anti_clockwise(&cube.sides.down);
-}
-
-static void F(void)
-{
-	rotate_clockwise(&cube.sides.front);
-}
-
-static void Fi(void)
-{
-	rotate_anti_clockwise(&cube.sides.front);
-}
-
-static void B(void)
-{
-	rotate_clockwise(&cube.sides.back);
-}
-
-static void Bi(void)
-{
-	rotate_anti_clockwise(&cube.sides.back);
-	up_line_move(UP_ROW0);
-}
-
-static void r(void)
-{
-}
-
-static void ri(void)
-{
-}
-
-static void l(void)
-{
-}
-
-static void li(void)
-{
-}
-
-static void u(void)
-{
-}
-
-static void ui(void)
-{
-}
-
-static void d(void)
-{
-}
-
-static void di(void)
-{
-}
-
-static void f(void)
-{
-}
-
-static void fi(void)
-{
-}
-
-static void b(void)
-{
-}
-
-static void bi(void)
-{
-}
-
-static void X(void)
-{
-}
-
-static void Y(void)
-{
-}
-
-static void Z(void)
-{
-}
-
-static void Xi(void)
-{
-}
-
-static void Yi(void)
-{
-}
-
-static void Zi(void)
-{
-}
-
-
 static void apply_formula(formula_t fr)
 {
 	char temp_step[3];
-
 	for(int i=0;i<fr.step_count;i++)
 	{
-		getchar();
 		strcpy(temp_step,fr.steps[i].step);
+		printf("%s\n",temp_step);
+		getchar();
 		switch(temp_step[0])
 		{
 			case 'R' :
@@ -1157,53 +1042,6 @@ static void apply_formula(formula_t fr)
 		}
 		update_cube_map();
 		cube_print();
-	}
-}
-
-
-static void up_line_move(int line)
-{
-	char temp[3];
-
-	switch(line)
-	{
-		case UP_ROW0 :
-			temp[0] = cube.sides.up.colour[0][0];
-			temp[1] = cube.sides.up.colour[0][1];
-			temp[2] = cube.sides.up.colour[0][2];
-
-			cube.sides.up.colour[0][0] = cube.sides.left.colour[2][0];
-			cube.sides.up.colour[0][1] = cube.sides.left.colour[1][0];
-			cube.sides.up.colour[0][2] = cube.sides.left.colour[0][0];
-
-			cube.sides.left.colour[2][0] = cube.sides.down.colour[2][2];
-			cube.sides.left.colour[1][0] = cube.sides.down.colour[2][1];
-			cube.sides.left.colour[0][0] = cube.sides.down.colour[2][0];
-
-			cube.sides.down.colour[2][2] = cube.sides.right.colour[0][2];
-			cube.sides.down.colour[2][1] = cube.sides.right.colour[1][2];
-			cube.sides.down.colour[2][0] = cube.sides.right.colour[2][2];
-
-			cube.sides.right.colour[0][2] = temp[0];
-			cube.sides.right.colour[1][2] = temp[1];
-			cube.sides.right.colour[2][2] = temp[2];
-			break;
-
-		case UP_ROW1 :
-			break;
-			
-		case UP_ROW2 :
-			break;
-			
-		case UP_COLUMN0 :
-			break;
-			
-		case UP_COLUMN1 :
-			break;
-			
-		case UP_COLUMN2 :
-			break;
-			
 	}
 }
 

@@ -1,6 +1,6 @@
 
 TARGET=cube_formulae
-CSRC=main.c cube.c matrix_operations.c
+CSRC=main.c cube.c matrix_operations.c movements.c
 CSRC+=
 
 CC=gcc
