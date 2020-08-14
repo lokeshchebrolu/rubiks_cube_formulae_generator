@@ -1,6 +1,8 @@
 #ifndef __MOVEMENTS_H
 #define __MOVEMENTS_H
 
+#include"types.h"
+
 #define UP_ROW0 (1)
 #define UP_ROW1 (2)
 #define UP_ROW2 (3)
