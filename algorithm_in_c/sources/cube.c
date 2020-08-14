@@ -224,6 +224,67 @@ void update_cube_map(void)
 			cube.sides.front.colour[2][2]);
 } 
 
+void cube_solve(void)
+{
+	int cube_solved = 0;
+	cube_stages_t stage = ANALYSE;
+	int analysis_completed=0;
+	int stage1_completed=0;
+	int stage2_completed=0;
+	int stage3_completed=0;
+	int stage4_completed=0;
+
+	char white_side;
+
+	while(!cube_solved)
+	{
+		switch(stage)
+		{
+			case ANALYSE :
+				white_side = side_of_center_colour(WHITE);
+				
+				/* Move white side to UP */
+				switch(white_side)
+				{
+					case FRONT :
+						break;
+
+					case BACK :
+						break;
+
+					case LEFT :
+						break;
+
+					case RIGHT :
+						break;
+
+					case DOWN :
+						break;
+
+					case UP :
+						break;
+				}
+				break;
+
+			case STAGE1 :
+				break;
+			
+			case STAGE2 :
+				break;
+
+			case STAGE3 :
+				break;
+
+			case STAGE4 :
+				break;
+
+			default:
+				stage = ANALYSE;
+				break;
+		}
+
+	}
+}
 
 static void apply_formula(formula_t fr)
 {
@@ -350,3 +411,34 @@ static void apply_formula(formula_t fr)
 	}
 }
 
+static int side_of_center_colour(char colour)
+{
+	char side;
+	switch(colour)
+	{
+		case cube.sides.front.colour[1][1] :
+			side = FRONT;
+			break;
+
+		case cube.sides.back.colour[1][1] :
+			side = BACK;
+			break;
+
+		case cube.sides.left.colour[1][1] :
+			side = LEFT;
+			break;
+
+		case cube.sides.right.colour[1][1] :
+			side = RIGHT;
+			break;
+
+		case cube.sides.up.colour[1][1] :
+			side = UP;
+			break;
+
+		case cube.sides.down.colour[1][1] :
+			side = DOWN;
+			break;
+	}
+	return side;
+}

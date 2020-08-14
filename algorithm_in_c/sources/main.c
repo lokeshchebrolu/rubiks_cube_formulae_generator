@@ -46,6 +46,9 @@ int main(int argc,char *argv[])
 				break;
 		}
 	}while(!correct_input);
+
+	cube_solve();
+	
 	printf("DONE\n");
 	return 0;
 }

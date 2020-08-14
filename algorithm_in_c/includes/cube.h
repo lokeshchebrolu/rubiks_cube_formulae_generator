@@ -7,6 +7,15 @@
 
 #define IS_INVERSE (temp_step[1]=='i')
 
+typedef enum
+{
+    ANALYSE=0, /* Analyse the input given cube state */
+    STAGE1=1,  /* White colour completion */
+    STAGE2=2,  /* Line 2 completion */
+    STAGE3=3,  /* Top layer completion */
+    STAGE4=4,  /* Top side line completion */
+}cube_stages_t;
+
 extern cube_t cube;
 extern colour_count_t colour_count;
 extern formula_t formula;
@@ -14,5 +23,6 @@ extern formula_t formula;
 extern void cube_init(void);
 extern void update_cube_map(void);
 extern void cube_print(void);
+extern void cube_solve(void);
 
 #endif
