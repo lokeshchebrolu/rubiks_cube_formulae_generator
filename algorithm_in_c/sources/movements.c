@@ -149,27 +149,44 @@ void bi(void)
 
 void X(void)
 {
-
+	front_line_move(FRONT_COLUMN0);
+	front_line_move(FRONT_COLUMN1);
+	front_line_move(FRONT_COLUMN2);
 }
 
 void Y(void)
 {
+	front_line_move(FRONT_ROW0);
+	front_line_move(FRONT_ROW1);
+	front_line_move(FRONT_ROW2);
 }
 
 void Z(void)
 {
+	up_line_move(UP_ROW0);
+	up_line_move(UP_ROW1);
+	up_line_move(UP_ROW2);
 }
 
 void Xi(void)
 {
+	front_line_move(FRONT_COLUMN0_i);
+	front_line_move(FRONT_COLUMN1_i);
+	front_line_move(FRONT_COLUMN2_i);
 }
 
 void Yi(void)
 {
+	front_line_move(FRONT_ROW0_i);
+	front_line_move(FRONT_ROW1_i);
+	front_line_move(FRONT_ROW2_i);
 }
 
 void Zi(void)
 {
+	up_line_move(UP_ROW0_i);
+	up_line_move(UP_ROW1_i);
+	up_line_move(UP_ROW2_i);
 }
 
 void up_line_move(int line)

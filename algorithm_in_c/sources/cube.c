@@ -106,32 +106,14 @@ void cube_init(void)
 	/* Read cube colours */
 	/****************************** Test **************************************/
 	temp_cube_init();
-	formula.step_count = 24;
+	formula.step_count = 6;
 	formula.steps = (step_t*)calloc(formula.step_count,sizeof(step_t));
-	strcpy(formula.steps[0].step,"F");
-	strcpy(formula.steps[1].step,"Fi");
-	strcpy(formula.steps[2].step,"B");
-	strcpy(formula.steps[3].step,"Bi");
-	strcpy(formula.steps[4].step,"U");
-	strcpy(formula.steps[5].step,"Ui");
-	strcpy(formula.steps[6].step,"D");
-	strcpy(formula.steps[7].step,"Di");
-	strcpy(formula.steps[8].step,"R");
-	strcpy(formula.steps[9].step,"Ri");
-	strcpy(formula.steps[10].step,"L");
-	strcpy(formula.steps[11].step,"Li");
-	strcpy(formula.steps[12].step,"f");
-	strcpy(formula.steps[13].step,"fi");
-	strcpy(formula.steps[14].step,"b");
-	strcpy(formula.steps[15].step,"bi");
-	strcpy(formula.steps[16].step,"u");
-	strcpy(formula.steps[17].step,"ui");
-	strcpy(formula.steps[18].step,"d");
-	strcpy(formula.steps[19].step,"di");
-	strcpy(formula.steps[20].step,"r");
-	strcpy(formula.steps[21].step,"ri");
-	strcpy(formula.steps[22].step,"l");
-	strcpy(formula.steps[23].step,"li");
+	strcpy(formula.steps[0].step,"X");
+	strcpy(formula.steps[1].step,"Xi");
+	strcpy(formula.steps[2].step,"Y");
+	strcpy(formula.steps[3].step,"Yi");
+	strcpy(formula.steps[4].step,"Z");
+	strcpy(formula.steps[5].step,"Zi");
 
 	apply_formula(formula);
 	/***************************************************************************/
