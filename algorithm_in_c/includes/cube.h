@@ -6,6 +6,8 @@
 #define MOVE_CURSOR(x,y) do{printf("\033[%d;%dH",(x),(y));}while(0)
 
 #define IS_INVERSE (temp_step[1]=='i')
+#define START_FORMULA "S"
+#define END_FORMULA   "E"
 
 typedef enum
 {
@@ -18,7 +20,7 @@ typedef enum
 
 extern cube_t cube;
 extern colour_count_t colour_count;
-extern formula_t formula;
+extern formula_t *formula;
 
 extern void cube_init(void);
 extern void update_cube_map(void);
