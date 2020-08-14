@@ -1,5 +1,5 @@
-#ifndef _YPES_H
-#define _YPES_H
+#ifndef _TYPES_H
+#define _TYPES_H
 /* File Description: All object types of game*/
 
 #define CUBE_SIZE (3)
@@ -8,20 +8,12 @@
 #define SIDE_ROWS CUBE_SIZE
 #define SIDE_COLUMNS CUBE_SIZE
 
-#define BLACK		'B'
-#define WHITE 	'w'
-#define RED			'r'
-#define GREEN		'g'
-#define BLUE		'b'
-#define YELLOW	'y'
-#define ORANGE	'o'
-
-#define FRONT	(0)
-#define BACK	(1)
-#define LEFT	(2)
-#define RIGHT	(3)
-#define UP		(4)
-#define	DOWN	(5)
+#define FRONT  (0)
+#define BACK   (1)
+#define LEFT   (2)
+#define RIGHT  (3)
+#define UP     (4)
+#define	DOWN   (5)
 
 typedef struct cube_side_t
 {

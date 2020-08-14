@@ -1,6 +1,8 @@
 #include"../includes/cube.h"
 #include"../includes/matrix_operations.h"
 #include"../includes/movements.h"
+#include"../includes/colour.h"
+#include"../includes/print.h"
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -13,12 +15,7 @@ static int nullify;
 static formula_t formula;
 
 static void update_cube_map(void);
-static void print_back(void);
-static void print_front(void);
-static void print_lurd(void);
-static int update_colour_count(char colour);
 static void apply_formula(formula_t fr);
-
 
 void temp_cube_init(void)
 {
@@ -104,7 +101,7 @@ void cube_init(void)
 	cube_print();
 
 	/* Read cube colours */
-	/****************************** Test **************************************/
+	/****************************** Test *************************************
 	temp_cube_init();
 	formula.step_count = 6;
 	formula.steps = (step_t*)calloc(formula.step_count,sizeof(step_t));
@@ -116,7 +113,7 @@ void cube_init(void)
 	strcpy(formula.steps[5].step,"Zi");
 
 	apply_formula(formula);
-	/***************************************************************************/
+	**************************************************************************/
 	/* Read BACK colours */
 	cursor_x = 12; 
 	cursor_y = 11;
@@ -126,6 +123,12 @@ void cube_init(void)
 		{
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.back.colour[row][column]);
+
+			/* Set opposite side's center to opposite colour of current center */
+			if(!(row^1)&&!(column^1))
+			{
+				cube.sides.front.colour[row][column] = opposite_colour(cube.sides.back.colour[row][column]);
+			}
 
 			if(cube.sides.back.colour[row][column] == 'x')
 			{
@@ -172,6 +175,12 @@ void cube_init(void)
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.left.colour[row][column]);
 
+			/* Set opposite side's center to opposite colour of current center */
+			if(!(row^1)&&!(column^1))
+			{
+				cube.sides.right.colour[row][column] = opposite_colour(cube.sides.left.colour[row][column]);
+			}
+
 			if(cube.sides.left.colour[row][column] == 'x')
 			{
 				CLEAR_SCREEN;
@@ -217,6 +226,12 @@ void cube_init(void)
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.up.colour[row][column]);
 
+			/* Set opposite side's center to opposite colour of current center */
+			if(!(row^1)&&!(column^1))
+			{
+				cube.sides.down.colour[row][column] = opposite_colour(cube.sides.up.colour[row][column]);
+			}
+
 			if(cube.sides.up.colour[row][column] == 'x')
 			{
 				CLEAR_SCREEN;
@@ -259,6 +274,13 @@ void cube_init(void)
 	{
 		for(row=0;row<SIDE_ROWS;row++)
 		{
+			/* Right center updated already in Left center reading */
+			if(!(row^1)&&!(column^1))
+			{
+				cursor_y += 2;
+				continue;
+			}
+
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.right.colour[row][column]);
 
@@ -304,8 +326,21 @@ void cube_init(void)
 	{
 		for(column=SIDE_COLUMNS-1;column>=0;column--)
 		{
+			/* Down center updated already in Up center reading */
+			if(!(row^1)&&!(column^1))
+			{
+				cursor_y += 2;
+				continue;
+			}
+
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.down.colour[row][column]);
+
+			/* Set opposite side's center to opposite colour of current center */
+			if(!(row^1)&&!(column^1))
+			{
+				cube.sides.up.colour[row][column] = opposite_colour(cube.sides.down.colour[row][column]);
+			}
 
 			if(cube.sides.down.colour[row][column] == 'x')
 			{
@@ -349,6 +384,13 @@ void cube_init(void)
 	{
 		for(column=0;column<SIDE_COLUMNS;column++)
 		{
+			/* Front center updated already in Back center reading */
+			if(!(row^1)&&!(column^1))
+			{
+				cursor_y += 2;
+				continue;
+			}
+
 			MOVE_CURSOR(cursor_x,cursor_y);
 			nullify = scanf(" %c",&cube.sides.front.colour[row][column]);
 
@@ -454,109 +496,6 @@ void cube_print(void)
 	printf("\n\n");
 }
 
-int colour_count_valid_check(void)
-{
-	int valid = 1;
-	if(colour_count.red<1 || colour_count.red>9)
-	{
-		printf("[ ");
-		SET_FG_RED;
-		printf("Error");
-		RESET_COLOUR;
-		printf(" ] : ");
-
-		SET_FG_RED;
-		printf("RED ");
-		RESET_COLOUR;
-		printf("colour count is wrongly entered as %d\n",colour_count.red);
-
-		valid=0;
-	}
-
-	if(colour_count.green<1 || colour_count.green>9)
-	{
-		printf("[ ");
-		SET_FG_RED;
-		printf("Error");
-		RESET_COLOUR;
-		printf(" ] : ");
-
-		SET_FG_GREEN;
-		printf("GREEN ");
-		RESET_COLOUR;
-		printf("colour count is wrongly entered as %d\n",colour_count.green);
-
-		valid=0;
-	}
-
-	if(colour_count.blue<1 || colour_count.blue>9)
-	{
-		printf("[ ");
-		SET_FG_RED;
-		printf("Error");
-		RESET_COLOUR;
-		printf(" ] : ");
-
-		SET_FG_BLUE;
-		printf("BLUE ");
-		RESET_COLOUR;
-		printf("colour count is wrongly entered as %d\n",colour_count.blue);
-
-		valid=0;
-	}
-
-	if(colour_count.yellow<1 || colour_count.yellow>9)
-	{
-		printf("[ ");
-		SET_FG_RED;
-		printf("Error");
-		RESET_COLOUR;
-		printf(" ] : ");
-
-		SET_FG_YELLOW;
-		printf("YELLOW ");
-		RESET_COLOUR;
-		printf("colour count is wrongly entered as %d\n",colour_count.yellow);
-
-		valid=0;
-	}
-
-	if(colour_count.orange<1 || colour_count.orange>9)
-	{
-		printf("[ ");
-		SET_FG_RED;
-		printf("Error");
-		RESET_COLOUR;
-		printf(" ] : ");
-
-		SET_FG_ORANGE;
-		printf("ORANGE ");
-		RESET_COLOUR;
-		printf("colour count is wrongly entered as %d\n",colour_count.orange);
-
-		valid=0;
-	}
-
-	if(colour_count.white<1 || colour_count.white>9)
-	{
-		printf("[ ");
-		SET_FG_RED;
-		printf("Error");
-		RESET_COLOUR;
-		printf(" ] : ");
-
-		SET_FG_WHITE;
-		printf("WHITE ");
-		RESET_COLOUR;
-		printf("colour count is wrongly entered as %d\n",colour_count.white);
-
-		valid=0;
-	}
-
-
-	return valid;
-
-}
 
 static void update_cube_map(void) 
 {
@@ -655,187 +594,6 @@ static void update_cube_map(void)
 			cube.sides.front.colour[2][2],
 			cube.sides.front.colour[2][2]);
 } 
-
-
-static void print_back(void)
-{
-	RESET_COLOUR;
-	printf("%s",cube.cube_map[2]);
-
-	for(int j=3;j<6;j++)
-	{
-		for(int i=0;i<strlen(cube.cube_map[j]);i++)
-		{
-
-			switch(cube.cube_map[j][i])
-			{
-				case RED:
-					SET_RED_COLOUR;
-					break;
-				case GREEN:
-					SET_GREEN_COLOUR;
-					break;
-				case BLUE:
-					SET_BLUE_COLOUR;
-					break;
-				case ORANGE:
-					SET_ORANGE_COLOUR;
-					break;
-				case WHITE:
-					SET_WHITE_COLOUR;
-					break;
-				case YELLOW:
-					SET_YELLOW_COLOUR;
-					break;
-				case BLACK:
-					SET_BLACK_COLOUR;
-					break;
-				case ' ':
-				case '\n':
-					RESET_COLOUR;
-					break;
-			}
-			if(cube.cube_map[j][i] == '\n')
-				printf("\n");
-			else
-				printf(" ");
-		}
-	}
-	RESET_COLOUR;
-}
-
-
-static void print_lurd(void)
-{
-	RESET_COLOUR;
-	printf("%s%s",cube.cube_map[6],cube.cube_map[7]);
-
-	for(int j=0;j<3;j++)
-	{
-		j += 8;
-		for(int i=0;i<strlen(cube.cube_map[j]);i++)
-		{
-			switch(cube.cube_map[j][i])
-			{
-				case RED:
-					SET_RED_COLOUR;
-					break;
-				case GREEN:
-					SET_GREEN_COLOUR;
-					break;
-				case BLUE:
-					SET_BLUE_COLOUR;
-					break;
-				case ORANGE:
-					SET_ORANGE_COLOUR;
-					break;
-				case WHITE:
-					SET_WHITE_COLOUR;
-					break;
-				case YELLOW:
-					SET_YELLOW_COLOUR;
-					break;
-				case BLACK:
-					SET_BLACK_COLOUR;
-					break;
-				case ' ':
-				case '\n':
-					RESET_COLOUR;
-					break;
-			}
-			if(cube.cube_map[j][i] == '\n')
-				printf("\n");
-			else
-				printf(" ");
-		}
-	}
-	RESET_COLOUR;
-}
-
-
-static void print_front(void)
-{
-	RESET_COLOUR;
-	printf("%s%s",cube.cube_map[11],cube.cube_map[12]);
-
-	for(int j=13;j<16;j++)
-	{
-		for(int i=0;i<strlen(cube.cube_map[j]);i++)
-		{
-			switch(cube.cube_map[j][i])
-			{
-				case RED:
-					SET_RED_COLOUR;
-					break;
-				case GREEN:
-					SET_GREEN_COLOUR;
-					break;
-				case BLUE:
-					SET_BLUE_COLOUR;
-					break;
-				case ORANGE:
-					SET_ORANGE_COLOUR;
-					break;
-				case WHITE:
-					SET_WHITE_COLOUR;
-					break;
-				case YELLOW:
-					SET_YELLOW_COLOUR;
-					break;
-				case BLACK:
-					SET_BLACK_COLOUR;
-					break;
-				case ' ':
-				case '\n':
-					RESET_COLOUR;
-					break;
-			}
-			if(cube.cube_map[j][i] == '\n')
-				printf("\n");
-			else
-				printf(" ");
-		}
-	}
-	RESET_COLOUR;
-}
-
-
-static int update_colour_count(char colour)
-{
-	int valid=1;
-	switch(colour)
-	{
-		case RED:
-			colour_count.red++;
-			break;
-
-		case GREEN:
-			colour_count.green++;
-			break;
-
-		case BLUE:
-			colour_count.blue++;
-			break;
-
-		case ORANGE:
-			colour_count.orange++;
-			break;
-
-		case WHITE:
-			colour_count.white++;
-			break;
-
-		case YELLOW:
-			colour_count.yellow++;
-			break;
-
-		default:
-			valid=0;
-			break;
-	}
-
-	return valid;
-}
 
 
 static void apply_formula(formula_t fr)

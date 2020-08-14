@@ -2,6 +2,7 @@
 
 /*** Heade file inclusion ***/
 #include"../includes/cube.h"
+#include"../includes/colour.h"
 #include<stdio.h>
 
 static int nullify;
