@@ -32,5 +32,6 @@
 extern int colour_count_valid_check(void);
 extern int update_colour_count(char colour);
 extern char opposite_colour(char c);
+extern int side_of_center_colour(char colour);
 
 #endif

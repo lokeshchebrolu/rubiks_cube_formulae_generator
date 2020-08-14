@@ -178,3 +178,35 @@ char opposite_colour(char c)
 	}
 	return opp_colour;
 }
+
+int side_of_center_colour(char colour)
+{
+	char side;
+	switch (colour)
+	{
+	case cube.sides.front.colour[1][1]:
+		side = FRONT;
+		break;
+
+	case cube.sides.back.colour[1][1]:
+		side = BACK;
+		break;
+
+	case cube.sides.left.colour[1][1]:
+		side = LEFT;
+		break;
+
+	case cube.sides.right.colour[1][1]:
+		side = RIGHT;
+		break;
+
+	case cube.sides.up.colour[1][1]:
+		side = UP;
+		break;
+
+	case cube.sides.down.colour[1][1]:
+		side = DOWN;
+		break;
+	}
+	return side;
+}
