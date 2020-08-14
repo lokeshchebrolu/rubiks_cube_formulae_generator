@@ -3,6 +3,7 @@
 /*** Heade file inclusion ***/
 #include"../includes/cube.h"
 #include"../includes/colour.h"
+#include"../includes/print.h"
 #include<stdio.h>
 
 static int nullify;
@@ -16,7 +17,7 @@ int main(int argc,char *argv[])
 	{
 		CLEAR_SCREEN;
 		cube_init();
-		cube_print();
+		print_screen();
 
 		correct_input = colour_count_valid_check();
 		if(!correct_input)
