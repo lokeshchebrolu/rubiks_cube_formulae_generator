@@ -183,11 +183,11 @@ void print_error(char *msg)
     printf(" ] : %s\n", msg);
 }
 
-void print_green_msg(char *title, char *msg)
+void print_yellow_msg(char *title, char *msg)
 {
     printf("[ ");
-    print_colour(GREEN, title);
-    printf(" ] : %s\n", msg);
+    print_colour(YELLOW, title);
+    printf(" ] : %s", msg);
 }
 
 void print_input_message(void)
@@ -255,9 +255,9 @@ void print_screen(void)
 
     if (formula_to_apply)
     {
+        printf("\n");
         print_formula();
     }
-    printf("\n");
     RESET_COLOUR;
 }
 
@@ -265,13 +265,12 @@ void print_formula(void)
 {
     char temp_title[12];
 
-    sprintf(temp_title, "Formula - %2d", formula_count);
+    sprintf(temp_title, "Formula - %d", formula_count);
 
-    print_green_msg(temp_title, "");
+    print_yellow_msg(temp_title, "");
 
     for (int i = 0; i < CURRENT_FORMULA.step_count - 1; i++)
     {
-        printf("%s ", CURRENT_FORMULA.steps[i]);
+        printf("%s ", CURRENT_FORMULA.steps[i].step);
     }
-    printf("\n");
 }

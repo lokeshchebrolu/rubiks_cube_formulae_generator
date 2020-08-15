@@ -181,31 +181,17 @@ char opposite_colour(char c)
 int side_of_center_colour(char colour)
 {
 	char side;
-	switch (colour)
-	{
-	case cube.sides.front.colour[1][1]:
+	if(FRONT_CENTER_COLOUR == colour)
 		side = FRONT;
-		break;
-
-	case cube.sides.back.colour[1][1]:
+	if(BACK_CENTER_COLOUR == colour)
 		side = BACK;
-		break;
-
-	case cube.sides.left.colour[1][1]:
+	if(LEFT_CENTER_COLOUR == colour)
 		side = LEFT;
-		break;
-
-	case cube.sides.right.colour[1][1]:
+	if(RIGHT_CENTER_COLOUR == colour)
 		side = RIGHT;
-		break;
-
-	case cube.sides.up.colour[1][1]:
+	if(UP_CENTER_COLOUR == colour)
 		side = UP;
-		break;
-
-	case cube.sides.down.colour[1][1]:
+	if(DOWN_CENTER_COLOUR == colour)
 		side = DOWN;
-		break;
-	}
 	return side;
 }
