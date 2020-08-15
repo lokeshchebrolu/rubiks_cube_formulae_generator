@@ -146,7 +146,7 @@ void print_front(void)
     RESET_COLOUR;
 }
 
-extern void print_colour(char colour, char *msg)
+void print_colour(char colour, char *msg)
 {
     switch (colour)
     {
@@ -172,7 +172,7 @@ extern void print_colour(char colour, char *msg)
         SET_FG_BLACK;
         break;
     }
-    printf("%s",msg);
+    printf("%s", msg);
     RESET_COLOUR;
 }
 
@@ -183,38 +183,45 @@ void print_error(char *msg)
     printf(" ] : %s\n", msg);
 }
 
+void print_green_msg(char *title, char *msg)
+{
+    printf("[ ");
+    print_colour(GREEN, title);
+    printf(" ] : %s\n", msg);
+}
+
 void print_input_message(void)
 {
     printf("Colour codes :\n");
-    
-    print_colour(WHITE," WHITE ");
+
+    print_colour(WHITE, " WHITE ");
     printf("   :  ");
-    print_colour(WHITE,"w ");
+    print_colour(WHITE, "w ");
     printf("<enter>\n");
 
-    print_colour(RED," RED   ");
+    print_colour(RED, " RED   ");
     printf("   :  ");
-    print_colour(RED,"r");
+    print_colour(RED, "r");
     printf("<enter>\n");
 
-    print_colour(GREEN," GREEN ");
+    print_colour(GREEN, " GREEN ");
     printf("   :  ");
-    print_colour(GREEN,"g");
+    print_colour(GREEN, "g");
     printf("<enter>\n");
 
-    print_colour(BLUE," BLUE  ");
+    print_colour(BLUE, " BLUE  ");
     printf("   :  ");
-    print_colour(BLUE,"b");
+    print_colour(BLUE, "b");
     printf("<enter>\n");
 
-    print_colour(YELLOW," YELLOW");
+    print_colour(YELLOW, " YELLOW");
     printf("   :  ");
-    print_colour(YELLOW,"y");
+    print_colour(YELLOW, "y");
     printf("<enter>\n");
 
-    print_colour(ORANGE," ORANGE");
+    print_colour(ORANGE, " ORANGE");
     printf("   :  ");
-    print_colour(ORANGE,"o");
+    print_colour(ORANGE, "o");
     printf("<enter>\n");
 
     printf(" EXIT     :  'x'<enter>\n");
@@ -223,38 +230,48 @@ void print_input_message(void)
 void print_cube(void)
 {
     /* Set background to black for two lines */
-	printf("%s%s",cube.cube_map[0],cube.cube_map[1]);
-	/* Print back */
-	print_back();
+    printf("%s%s", cube.cube_map[0], cube.cube_map[1]);
+    /* Print back */
+    print_back();
 
-	/* Print LEFT,UP,RIGHT,DOWN in order */
-	print_lurd();
+    /* Print LEFT,UP,RIGHT,DOWN in order */
+    print_lurd();
 
-	/* Print front */
-	print_front();
+    /* Print front */
+    print_front();
 }
 
 void print_screen(void)
 {
-	/* Clears screen */
-	CLEAR_SCREEN;
+    /* Clears screen */
+    CLEAR_SCREEN;
 
-	if(input)
-	{
-		print_input_message();
-	}
+    if (input)
+    {
+        print_input_message();
+    }
 
-	print_cube();
+    print_cube();
 
-	if(0)
-	{
-		print_formula();
-	}
-	printf("\n");
+    if (formula_to_apply)
+    {
+        print_formula();
+    }
+    printf("\n");
     RESET_COLOUR;
 }
 
 void print_formula(void)
 {
+    char temp_title[12];
 
+    sprintf(temp_title, "Formula - %2d", formula_count);
+
+    print_green_msg(temp_title, "");
+
+    for (int i = 0; i < CURRENT_FORMULA.step_count - 1; i++)
+    {
+        printf("%s ", CURRENT_FORMULA.steps[i]);
+    }
+    printf("\n");
 }

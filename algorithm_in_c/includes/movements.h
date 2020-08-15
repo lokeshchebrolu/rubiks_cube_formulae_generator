@@ -1,7 +1,7 @@
 #ifndef __MOVEMENTS_H
 #define __MOVEMENTS_H
 
-#include"types.h"
+#include "types.h"
 
 #define UP_ROW0 (1)
 #define UP_ROW1 (2)
@@ -15,9 +15,9 @@
 #define UP_COLUMN0_i (-4)
 #define UP_COLUMN1_i (-5)
 #define UP_COLUMN2_i (-6)
-#define UP_ROW_CLOCKWISE (1) /* This is similar to F step */
-#define UP_ROW_ANTI_CLOCKWISE (-1) /* This is similar to Fi step */
-#define UP_COLUMN_CLOCKWISE (2) /* This is similar to R step */
+#define UP_ROW_CLOCKWISE (1)          /* This is similar to F step */
+#define UP_ROW_ANTI_CLOCKWISE (-1)    /* This is similar to Fi step */
+#define UP_COLUMN_CLOCKWISE (2)       /* This is similar to R step */
 #define UP_COLUMN_ANTI_CLOCKWISE (-2) /* This is similar to Ri step */
 
 #define FRONT_ROW0 (1)
@@ -32,9 +32,9 @@
 #define FRONT_COLUMN0_i (-4)
 #define FRONT_COLUMN1_i (-5)
 #define FRONT_COLUMN2_i (-6)
-#define FRONT_ROW_CLOCKWISE (1) /* This is similar to U step */
-#define FRONT_ROW_ANTI_CLOCKWISE (-1) /* This is similar to Ui step */
-#define FRONT_COLUMN_CLOCKWISE (2) /* This is similar to R step */
+#define FRONT_ROW_CLOCKWISE (1)          /* This is similar to U step */
+#define FRONT_ROW_ANTI_CLOCKWISE (-1)    /* This is similar to Ui step */
+#define FRONT_COLUMN_CLOCKWISE (2)       /* This is similar to R step */
 #define FRONT_COLUMN_ANTI_CLOCKWISE (-2) /* This is similar to Ri step */
 
 /* Cube rotation functions */
