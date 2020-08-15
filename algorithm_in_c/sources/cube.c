@@ -16,44 +16,12 @@ int formula_count;
 
 static cube_t cube_local;
 
-static void apply_formula(void);
-static void formulae_update_step(char *step);
-static int validate_step(char *step);
 static void update_cube_local(void);
+static int validate_step(char *step);
+static void formulae_update_step(char *step);
+static void apply_formula(void);
+static int search_middle_colour_of_side(int side, char colour);
 
-void temp_cube_init(void)
-{
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-			cube.sides.front.colour[i][j] = 'y';
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-			cube.sides.back.colour[i][j] = 'w';
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-			cube.sides.left.colour[i][j] = 'b';
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-			cube.sides.right.colour[i][j] = 'g';
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-			cube.sides.up.colour[i][j] = 'o';
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-			cube.sides.down.colour[i][j] = 'r';
-	}
-}
 
 void cube_init(void)
 {
@@ -374,6 +342,89 @@ static void update_cube_local(void)
 	}
 }
 
+static int validate_step(char *step)
+{
+	int validate_status = 0;
+	switch (step[0])
+	{
+	case 'S':
+	case 'E':
+	case 'R':
+	case 'L':
+	case 'U':
+	case 'D':
+	case 'F':
+	case 'B':
+	case 'r':
+	case 'l':
+	case 'u':
+	case 'd':
+	case 'f':
+	case 'b':
+	case 'X':
+	case 'Y':
+	case 'Z':
+		switch (step[1])
+		{
+		case '\0':
+		case 'i':
+			validate_status = 1;
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+	return validate_status;
+}
+
+static void formulae_update_step(char *step)
+{
+	if (!validate_step(step)
+	{
+		print_error("wrong step received to forumlae_update() function. Press 'Enter' to continue");
+		getchar();
+		getchar();
+		return;
+	}
+	switch (step[0])
+	{
+	case 'S': /* Adding a new forumla */
+		formula_count++;
+		formula = (formula_t *)realloc(formula, sizeof(formula_t) * formula_count);
+		if (!formula)
+		{
+			print_error("relloc() error in formulae_update_step() function");
+			exit(1);
+		}
+
+		CURRENT_FORMULA.step_count = 0;
+		break;
+
+	case 'E': /* End of Forumla */
+		CURRENT_FORMULA.step_count++;
+		CURRENT_FORMULA.steps = (step_t *)realloc(CURRENT_FORMULA.steps, (sizeof(step_t)) * (CURRENT_FORMULA.step_count));
+		if (!CURRENT_FORMULA.steps)
+		{
+			print_error("relloc() error in formulae_update_step() function");
+			exit(1);
+		}
+		strcpy(CURRENT_FORMULA.steps[(CURRENT_FORMULA.step_count - 1)], "END");
+		break;
+
+	default: /* Adding a new step to current formula */
+		CURRENT_FORMULA.step_count++;
+		CURRENT_FORMULA.steps = (step_t *)realloc(CURRENT_FORMULA.steps, (sizeof(step_t)) * (CURRENT_FORMULA.step_count));
+		if (!CURRENT_FORMULA.steps)
+		{
+			print_error("relloc() error in formulae_update_step() function");
+			exit(1);
+		}
+		strcpy(CURRENT_FORMULA.steps[(CURRENT_FORMULA.step_count - 1)], step);
+		break;
+	}
+}
+
 static void apply_formula(void)
 {
 	char temp_step[3];
@@ -497,89 +548,6 @@ static void apply_formula(void)
 		}
 		update_cube_map();
 		print_screen();
-	}
-}
-
-static int validate_step(char *step)
-{
-	int validate_status = 0;
-	switch (step[0])
-	{
-	case 'S':
-	case 'E':
-	case 'R':
-	case 'L':
-	case 'U':
-	case 'D':
-	case 'F':
-	case 'B':
-	case 'r':
-	case 'l':
-	case 'u':
-	case 'd':
-	case 'f':
-	case 'b':
-	case 'X':
-	case 'Y':
-	case 'Z':
-		switch (step[1])
-		{
-		case '\0':
-		case 'i':
-			validate_status = 1;
-			break;
-		}
-		break;
-	default:
-		break;
-	}
-	return validate_status;
-}
-
-static void formulae_update_step(char *step)
-{
-	if (!validate_step(step)
-	{
-		print_error("wrong step received to forumlae_update() function. Press 'Enter' to continue");
-		getchar();
-		getchar();
-		return;
-	}
-	switch (step[0])
-	{
-	case 'S': /* Adding a new forumla */
-		formula_count++;
-		formula = (formula_t *)realloc(formula, sizeof(formula_t) * formula_count);
-		if (!formula)
-		{
-			print_error("relloc() error in formulae_update_step() function");
-			exit(1);
-		}
-
-		CURRENT_FORMULA.step_count = 0;
-		break;
-
-	case 'E': /* End of Forumla */
-		CURRENT_FORMULA.step_count++;
-		CURRENT_FORMULA.steps = (step_t *)realloc(CURRENT_FORMULA.steps, (sizeof(step_t)) * (CURRENT_FORMULA.step_count));
-		if (!CURRENT_FORMULA.steps)
-		{
-			print_error("relloc() error in formulae_update_step() function");
-			exit(1);
-		}
-		strcpy(CURRENT_FORMULA.steps[(CURRENT_FORMULA.step_count - 1)], "END");
-		break;
-
-	default: /* Adding a new step to current formula */
-		CURRENT_FORMULA.step_count++;
-		CURRENT_FORMULA.steps = (step_t *)realloc(CURRENT_FORMULA.steps, (sizeof(step_t)) * (CURRENT_FORMULA.step_count));
-		if (!CURRENT_FORMULA.steps)
-		{
-			print_error("relloc() error in formulae_update_step() function");
-			exit(1);
-		}
-		strcpy(CURRENT_FORMULA.steps[(CURRENT_FORMULA.step_count - 1)], step);
-		break;
 	}
 }
 
