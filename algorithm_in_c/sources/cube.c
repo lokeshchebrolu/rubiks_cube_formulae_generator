@@ -11,11 +11,12 @@
 cube_t cube;
 colour_count_t colour_count;
 formula_t *formula;
+int formula_to_apply;
+int formula_count;
 
 static cube_t cube_local;
-static int formula_count = 0;
 
-static void apply_formula(formula_t *fr);
+static void apply_formula(void);
 static void formulae_update_step(char *step);
 static int validate_step(char *step);
 static void update_cube_local(void);
@@ -207,104 +208,6 @@ void update_cube_map(void)
 						  cube.sides.front.colour[2][2]);
 }
 
-void update_cube_local_map(void)
-{
-	/* Line 01 */ sprintf(cube_local.cube_map[0], "   -- Cube current colours --\n");
-
-	/* Line 02 */ cube_local.cube_map[1][0] = '\n';
-
-	/* Line 03 */ sprintf(cube_local.cube_map[2], "           BACK\n");
-
-	/* Line 04 */ sprintf(cube_local.cube_map[3], "          %c%c%c%c%c%c\n",
-						  cube_local.sides.back.colour[2][2], /* Back side line 1 */
-						  cube_local.sides.back.colour[2][2],
-						  cube_local.sides.back.colour[2][1],
-						  cube_local.sides.back.colour[2][1],
-						  cube_local.sides.back.colour[2][0],
-						  cube_local.sides.back.colour[2][0]);
-
-	/* Line 05 */ sprintf(cube_local.cube_map[4], "          %c%c%c%c%c%c\n",
-						  cube_local.sides.back.colour[1][2], /* Back side line 2 */
-						  cube_local.sides.back.colour[1][2],
-						  cube_local.sides.back.colour[1][1],
-						  cube_local.sides.back.colour[1][1],
-						  cube_local.sides.back.colour[1][0],
-						  cube_local.sides.back.colour[1][0]);
-
-	/* Line 06 */ sprintf(cube_local.cube_map[5], "          %c%c%c%c%c%c\n",
-						  cube_local.sides.back.colour[0][2], /* Back side line 3 */
-						  cube_local.sides.back.colour[0][2],
-						  cube_local.sides.back.colour[0][1],
-						  cube_local.sides.back.colour[0][1],
-						  cube_local.sides.back.colour[0][0],
-						  cube_local.sides.back.colour[0][0]);
-
-	/* Line 07 */ cube_local.cube_map[6][0] = '\n';
-
-	/* Line 08 */ sprintf(cube_local.cube_map[7], "  LEFT      UP      RIGHT    DOWN\n");
-
-	/* Line 09 */
-	sprintf(cube_local.cube_map[8], " %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c\n",
-			cube_local.sides.left.colour[2][0], cube_local.sides.left.colour[2][0], cube_local.sides.left.colour[1][0],
-			cube_local.sides.left.colour[1][0], cube_local.sides.left.colour[0][0], cube_local.sides.left.colour[0][0],
-			cube_local.sides.up.colour[0][0], cube_local.sides.up.colour[0][0], cube_local.sides.up.colour[0][1],
-			cube_local.sides.up.colour[0][1], cube_local.sides.up.colour[0][2], cube_local.sides.up.colour[0][2],
-			cube_local.sides.right.colour[0][2], cube_local.sides.right.colour[0][2], cube_local.sides.right.colour[1][2],
-			cube_local.sides.right.colour[1][2], cube_local.sides.right.colour[2][2], cube_local.sides.right.colour[2][2],
-			cube_local.sides.down.colour[2][2], cube_local.sides.down.colour[2][2], cube_local.sides.down.colour[2][1],
-			cube_local.sides.down.colour[2][1], cube_local.sides.down.colour[2][0], cube_local.sides.down.colour[2][0]);
-
-	/* Line 10 */
-	sprintf(cube_local.cube_map[9], " %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c\n",
-			cube_local.sides.left.colour[2][1], cube_local.sides.left.colour[2][1], cube_local.sides.left.colour[1][1],
-			cube_local.sides.left.colour[1][1], cube_local.sides.left.colour[0][1], cube_local.sides.left.colour[0][1],
-			cube_local.sides.up.colour[1][0], cube_local.sides.up.colour[1][0], cube_local.sides.up.colour[1][1],
-			cube_local.sides.up.colour[1][1], cube_local.sides.up.colour[1][2], cube_local.sides.up.colour[1][2],
-			cube_local.sides.right.colour[0][1], cube_local.sides.right.colour[0][1], cube_local.sides.right.colour[1][1],
-			cube_local.sides.right.colour[1][1], cube_local.sides.right.colour[2][1], cube_local.sides.right.colour[2][1],
-			cube_local.sides.down.colour[1][2], cube_local.sides.down.colour[1][2], cube_local.sides.down.colour[1][1],
-			cube_local.sides.down.colour[1][1], cube_local.sides.down.colour[1][0], cube_local.sides.down.colour[1][0]);
-
-	/* Line 11 */
-	sprintf(cube_local.cube_map[10], " %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c\n",
-			cube_local.sides.left.colour[2][2], cube_local.sides.left.colour[2][2], cube_local.sides.left.colour[1][2],
-			cube_local.sides.left.colour[1][2], cube_local.sides.left.colour[0][2], cube_local.sides.left.colour[0][2],
-			cube_local.sides.up.colour[2][0], cube_local.sides.up.colour[2][0], cube_local.sides.up.colour[2][1],
-			cube_local.sides.up.colour[2][1], cube_local.sides.up.colour[2][2], cube_local.sides.up.colour[2][2],
-			cube_local.sides.right.colour[0][0], cube_local.sides.right.colour[0][0], cube_local.sides.right.colour[1][0],
-			cube_local.sides.right.colour[1][0], cube_local.sides.right.colour[2][0], cube_local.sides.right.colour[2][0],
-			cube_local.sides.down.colour[0][2], cube_local.sides.down.colour[0][2], cube_local.sides.down.colour[0][1],
-			cube_local.sides.down.colour[0][1], cube_local.sides.down.colour[0][0], cube_local.sides.down.colour[0][0]);
-
-	/* Line 12 */ cube_local.cube_map[11][0] = '\n';
-
-	/* Line 13 */ sprintf(cube_local.cube_map[12], "           FRONT\n");
-
-	/* Line 14 */ sprintf(cube_local.cube_map[13], "          %c%c%c%c%c%c\n",
-						  cube_local.sides.front.colour[0][0], /* Front side line 1 */
-						  cube_local.sides.front.colour[0][0],
-						  cube_local.sides.front.colour[0][1],
-						  cube_local.sides.front.colour[0][1],
-						  cube_local.sides.front.colour[0][2],
-						  cube_local.sides.front.colour[0][2]);
-
-	/* Line 15 */ sprintf(cube_local.cube_map[14], "          %c%c%c%c%c%c\n",
-						  cube_local.sides.front.colour[1][0], /* Front side line 2 */
-						  cube_local.sides.front.colour[1][0],
-						  cube_local.sides.front.colour[1][1],
-						  cube_local.sides.front.colour[1][1],
-						  cube_local.sides.front.colour[1][2],
-						  cube_local.sides.front.colour[1][2]);
-
-	/* Line 16 */ sprintf(cube_local.cube_map[15], "          %c%c%c%c%c%c\n",
-						  cube_local.sides.front.colour[2][0], /* Front side line 3 */
-						  cube_local.sides.front.colour[2][0],
-						  cube_local.sides.front.colour[2][1],
-						  cube_local.sides.front.colour[2][1],
-						  cube_local.sides.front.colour[2][2],
-						  cube_local.sides.front.colour[2][2]);
-}
-
 void cube_solve(void)
 {
 	int cube_solved = 0;
@@ -314,6 +217,8 @@ void cube_solve(void)
 	int stage2_completed = 0;
 	int stage3_completed = 0;
 	int stage4_completed = 0;
+
+	formula_to_apply = 1;
 
 	char white_side;
 
@@ -364,15 +269,40 @@ void cube_solve(void)
 				/* Do nothing */
 				break;
 			}
+			apply_formula();
 			stage = STAGE1;
 			break;
 
 		case STAGE1:
 			/* Complete cross */
-			if (cube.sides.up.colour[0][1] != 'w')
+			if (cube.sides.up.colour[0][1] != WHITE)
+			{
+				int middle_num = 0;
+				/* Search front */
+				middle_num = search_middle_colour_of_side(FRONT, WHITE);
+				if (middle_num)
+				{
+					switch (middle_num)
+					{
+					case 1:
+
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+					case 4:
+						break;
+					}
+				}
+			}
+			if (cube.sides.up.colour[1][0] != WHITE)
 			{
 			}
-			if (cube.sides.up.colour[0][1] != 'w')
+			if (cube.sides.up.colour[1][2] != WHITE)
+			{
+			}
+			if (cube.sides.up.colour[2][1] != WHITE)
 			{
 			}
 			break;
@@ -437,21 +367,20 @@ static void update_cube_local(void)
 			cube_local.sides.down.colour[i][j] = cube.sides.down.colour[i][j];
 	}
 
+	/* Cube map copy */
 	for (int i = 0; i < 16; i++)
 	{
 		strcpy(cube_local.cube_map[i], cube.cube_map[i]);
 	}
-
-	update_cube_local_map();
 }
 
-static void apply_formula(formula_t *fr)
+static void apply_formula(void)
 {
 	char temp_step[3];
-	for (int i = 0; i < fr->step_count; i++)
+
+	for (int i = 0; i < CURRENT_FORMULA.step_count - 1; i++)
 	{
-		strcpy(temp_step, fr->steps[i]->step);
-		printf("%s\n", temp_step);
+		strcpy(temp_step, CURRENT_FORMULA.steps[i]);
 		getchar();
 		switch (temp_step[0])
 		{
@@ -627,27 +556,103 @@ static void formulae_update_step(char *step)
 			exit(1);
 		}
 
-		formula[formula_count - 1].step_count = 0;
+		CURRENT_FORMULA.step_count = 0;
 		break;
 
 	case 'E': /* End of Forumla */
-		formula[formula_count - 1].step_count++;
-		formula[formula_count - 1].steps = (step_t *)realloc(formula[formula_count - 1].steps, (sizeof(step_t)) * (formula[formula_count - 1].step_count)) if (!formula[formula_count - 1].steps)
+		CURRENT_FORMULA.step_count++;
+		CURRENT_FORMULA.steps = (step_t *)realloc(CURRENT_FORMULA.steps, (sizeof(step_t)) * (CURRENT_FORMULA.step_count));
+		if (!CURRENT_FORMULA.steps)
 		{
 			print_error("relloc() error in formulae_update_step() function");
 			exit(1);
 		}
-		strcpy(formula[formula_count - 1].steps[(formula[formula_count - 1].step_count - 1)], "END");
+		strcpy(CURRENT_FORMULA.steps[(CURRENT_FORMULA.step_count - 1)], "END");
 		break;
 
 	default: /* Adding a new step to current formula */
-		formula[formula_count - 1].step_count++;
-		formula[formula_count - 1].steps = (step_t *)realloc(formula[formula_count - 1].steps, (sizeof(step_t)) * (formula[formula_count - 1].step_count)) if (!formula[formula_count - 1].steps)
+		CURRENT_FORMULA.step_count++;
+		CURRENT_FORMULA.steps = (step_t *)realloc(CURRENT_FORMULA.steps, (sizeof(step_t)) * (CURRENT_FORMULA.step_count));
+		if (!CURRENT_FORMULA.steps)
 		{
 			print_error("relloc() error in formulae_update_step() function");
 			exit(1);
 		}
-		strcpy(formula[formula_count - 1].steps[(formula[formula_count - 1].step_count - 1)], step);
+		strcpy(CURRENT_FORMULA.steps[(CURRENT_FORMULA.step_count - 1)], step);
 		break;
 	}
+}
+
+static int search_middle_colour_of_side(int side, char colour)
+{
+	int middle_num = 0;
+	switch (side)
+	{
+	case FRONT:
+		if (cube.sides.front.colour[0][1] == colour)
+			middle_num = 1;
+		else if (cube.sides.front.colour[1][0] == colour)
+			middle_num = 2;
+		else if (cube.sides.front.colour[1][2] == colour)
+			middle_num = 3;
+		else if (cube.sides.front.colour[2][1] == colour)
+			middle_num = 4;
+		break;
+
+	case BACK:
+		if (cube.sides.back.colour[0][1] == colour)
+			middle_num = 1;
+		else if (cube.sides.back.colour[1][0] == colour)
+			middle_num = 2;
+		else if (cube.sides.back.colour[1][2] == colour)
+			middle_num = 3;
+		else if (cube.sides.back.colour[2][1] == colour)
+			middle_num = 4;
+		break;
+
+	case LEFT:
+		if (cube.sides.left.colour[0][1] == colour)
+			middle_num = 1;
+		else if (cube.sides.left.colour[1][0] == colour)
+			middle_num = 2;
+		else if (cube.sides.left.colour[1][2] == colour)
+			middle_num = 3;
+		else if (cube.sides.left.colour[2][1] == colour)
+			middle_num = 4;
+		break;
+
+	case RIGHT:
+		if (cube.sides.right.colour[0][1] == colour)
+			middle_num = 1;
+		else if (cube.sides.right.colour[1][0] == colour)
+			middle_num = 2;
+		else if (cube.sides.right.colour[1][2] == colour)
+			middle_num = 3;
+		else if (cube.sides.right.colour[2][1] == colour)
+			middle_num = 4;
+		break;
+
+	case DOWN:
+		if (cube.sides.down.colour[0][1] == colour)
+			middle_num = 1;
+		else if (cube.sides.down.colour[1][0] == colour)
+			middle_num = 2;
+		else if (cube.sides.down.colour[1][2] == colour)
+			middle_num = 3;
+		else if (cube.sides.down.colour[2][1] == colour)
+			middle_num = 4;
+		break;
+
+	case UP:
+		if (cube.sides.up.colour[0][1] == colour)
+			middle_num = 1;
+		else if (cube.sides.up.colour[1][0] == colour)
+			middle_num = 2;
+		else if (cube.sides.up.colour[1][2] == colour)
+			middle_num = 3;
+		else if (cube.sides.up.colour[2][1] == colour)
+			middle_num = 4;
+		break;
+	}
+	return middle_num;
 }
