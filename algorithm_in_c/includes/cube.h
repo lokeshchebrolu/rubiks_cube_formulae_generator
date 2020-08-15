@@ -32,7 +32,6 @@ extern int formula_to_apply;
 
 extern void cube_init(void);
 extern void update_cube_map(void);
-extern void cube_print(void);
 extern void cube_solve(void);
 
 #endif
