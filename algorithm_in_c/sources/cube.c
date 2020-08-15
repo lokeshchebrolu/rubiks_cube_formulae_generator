@@ -1257,6 +1257,7 @@ void cube_solve(void)
 				}
 			}
 
+			/* UP Corner Solving */
 			stage = STAGE2;
 			printf("\n__HOLD__\n");
 			getchar();
