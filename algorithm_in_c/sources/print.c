@@ -190,6 +190,13 @@ void print_yellow_msg(char *title, char *msg)
     printf(" ] : %s", msg);
 }
 
+void print_white_msg(char *title, char *msg)
+{
+    printf("[ ");
+    print_colour(WHITE, title);
+    printf(" ] : %s", msg);
+}
+
 void print_input_message(void)
 {
     printf("Colour codes :\n");
@@ -224,7 +231,7 @@ void print_input_message(void)
     print_colour(ORANGE, "o");
     printf("<enter>\n");
 
-    printf(" EXIT     :  'x'<enter>\n");
+    printf(" EXIT     :  x<enter>\n");
 }
 
 void print_cube(void)
@@ -263,14 +270,34 @@ void print_screen(void)
 
 void print_formula(void)
 {
-    char temp_title[12];
+    char temp_string[17];
 
-    sprintf(temp_title, "Formula - %d", formula_count);
-
-    print_yellow_msg(temp_title, "");
-
-    for (int i = 0; i < CURRENT_FORMULA.step_count - 1; i++)
+    for (int i = 0; i < formula_count; i++)
     {
-        printf("%s ", CURRENT_FORMULA.steps[i].step);
+        sprintf(temp_string, "Formula - %2d", i + 1);
+        print_yellow_msg(temp_string, "");
+
+        sprintf(temp_string, "%s", formula[i].formula_description);
+        print_white_msg(temp_string, "");
+
+        for (int j = 0; j < formula[i].step_count - 1; j++)
+        {
+            if (formula[i].executed)
+            {
+                SET_GREEN_COLOUR;
+                SET_FG_WHITE;
+            }
+            printf("%s", formula[i].steps[j].step);
+            RESET_COLOUR;
+            printf(" ");
+        }
+        printf("\n");
     }
+}
+
+void wait_for_enter(char *s)
+{
+    if(s)
+        printf("%s",s);
+    getchar();
 }

@@ -53,8 +53,12 @@ typedef struct step_t
 
 typedef struct formula_t
 {
+	int executed;
 	int step_count;
+	char formula_description[16];
 	step_t *steps;
 } formula_t;
+
+
 
 #endif
