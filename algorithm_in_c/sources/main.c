@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 		print_screen();
 
 		correct_input = colour_count_valid_check();
+		wait_for_enter("");
 		if (!correct_input)
 		{
 			printf("Please enter colours correctly. Press <Enter> to continue");
