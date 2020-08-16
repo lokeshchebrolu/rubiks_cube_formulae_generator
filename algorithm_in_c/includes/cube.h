@@ -9,6 +9,24 @@
         printf("\033[%d;%dH", (x), (y)); \
     } while (0)
 
+#define MOVE_CURSOR_UP(x)                \
+    do                                   \
+    {                                    \
+        printf("\033[%dA", (x)); \
+    } while (0)
+
+#define MOVE_CURSOR_FORWARD(x)                \
+    do                                   \
+    {                                    \
+        printf("\033[%dC", (x)); \
+    } while (0)
+
+#define MOVE_CURSOR_BACK(x)                \
+    do                                   \
+    {                                    \
+        printf("\033[%dD", (x)); \
+    } while (0)
+
 #define IS_INVERSE (temp_step[1] == 'i')
 #define START_FORMULA "S"
 #define END_FORMULA "E"
