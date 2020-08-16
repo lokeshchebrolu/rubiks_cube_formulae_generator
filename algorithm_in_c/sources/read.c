@@ -43,9 +43,10 @@ static void read_back(void)
 			if (!(row ^ 1) && !(column ^ 1))
 			{
 				cube.sides.front.colour[row][column] = opposite_colour(cube.sides.back.colour[row][column]);
+				update_colour_count(cube.sides.front.colour[row][column]);
 			}
 
-			if (cube.sides.back.colour[row][column] == 'x')
+			if (cube.sides.left.colour[row][column] == 'x')
 			{
 				CLEAR_SCREEN;
 				exit(0);
@@ -92,6 +93,7 @@ static void read_left(void)
 			if (!(row ^ 1) && !(column ^ 1))
 			{
 				cube.sides.right.colour[row][column] = opposite_colour(cube.sides.left.colour[row][column]);
+				update_colour_count(cube.sides.right.colour[row][column]);
 			}
 
 			if (cube.sides.left.colour[row][column] == 'x')
@@ -141,6 +143,7 @@ static void read_up(void)
 			if (!(row ^ 1) && !(column ^ 1))
 			{
 				cube.sides.down.colour[row][column] = opposite_colour(cube.sides.up.colour[row][column]);
+				update_colour_count(cube.sides.down.colour[row][column]);
 			}
 
 			if (cube.sides.up.colour[row][column] == 'x')
