@@ -7,7 +7,7 @@
 int colour_count_valid_check(void)
 {
 	int valid = 1;
-	if (colour_count.red < 1 || colour_count.red > 9)
+	if (colour_count.red != 9)
 	{
 		printf("[ ");
 		SET_FG_RED;
@@ -23,7 +23,7 @@ int colour_count_valid_check(void)
 		valid = 0;
 	}
 
-	if (colour_count.green < 1 || colour_count.green > 9)
+	if (colour_count.green != 9)
 	{
 		printf("[ ");
 		SET_FG_RED;
@@ -39,7 +39,7 @@ int colour_count_valid_check(void)
 		valid = 0;
 	}
 
-	if (colour_count.blue < 1 || colour_count.blue > 9)
+	if (colour_count.blue != 9)
 	{
 		printf("[ ");
 		SET_FG_RED;
@@ -55,7 +55,7 @@ int colour_count_valid_check(void)
 		valid = 0;
 	}
 
-	if (colour_count.yellow < 1 || colour_count.yellow > 9)
+	if (colour_count.yellow != 9)
 	{
 		printf("[ ");
 		SET_FG_RED;
@@ -71,7 +71,7 @@ int colour_count_valid_check(void)
 		valid = 0;
 	}
 
-	if (colour_count.orange < 1 || colour_count.orange > 9)
+	if (colour_count.orange != 9)
 	{
 		printf("[ ");
 		SET_FG_RED;
@@ -87,7 +87,7 @@ int colour_count_valid_check(void)
 		valid = 0;
 	}
 
-	if (colour_count.white < 1 || colour_count.white > 9)
+	if (colour_count.white != 9)
 	{
 		printf("[ ");
 		SET_FG_RED;
@@ -181,17 +181,17 @@ char opposite_colour(char c)
 int side_of_center_colour(char colour)
 {
 	char side;
-	if(FRONT_CENTER_COLOUR == colour)
+	if (FRONT_CENTER_COLOUR == colour)
 		side = FRONT;
-	if(BACK_CENTER_COLOUR == colour)
+	if (BACK_CENTER_COLOUR == colour)
 		side = BACK;
-	if(LEFT_CENTER_COLOUR == colour)
+	if (LEFT_CENTER_COLOUR == colour)
 		side = LEFT;
-	if(RIGHT_CENTER_COLOUR == colour)
+	if (RIGHT_CENTER_COLOUR == colour)
 		side = RIGHT;
-	if(UP_CENTER_COLOUR == colour)
+	if (UP_CENTER_COLOUR == colour)
 		side = UP;
-	if(DOWN_CENTER_COLOUR == colour)
+	if (DOWN_CENTER_COLOUR == colour)
 		side = DOWN;
 	return side;
 }
