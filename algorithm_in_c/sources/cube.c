@@ -1268,7 +1268,8 @@ void cube_solve(void)
 					break;
 				}
 			}
-
+			/* White cross completed */
+			
 			/* UP Corner Solving */
 			printf("__CORNER_SOLVING__TBD\n");
 			getchar();getchar();
