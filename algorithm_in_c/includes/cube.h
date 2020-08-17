@@ -34,8 +34,10 @@
 
 #define CURRENT_FORMULA formula[formula_count - 1]
 
-/* Condition checks */
+/*** Condition checks ***/
 /* White cross checks */
+#if 0
+/* Kept for backup */
 #define CROSS_01_NOT_SOLVED (((!is_white(UP_01_COLOUR)) && (!is_blue(BACK_01_COLOUR))) || \
                              ((!is_white(UP_01_COLOUR)) && (is_blue(BACK_01_COLOUR))))
 
@@ -47,11 +49,43 @@
 
 #define CROSS_04_NOT_SOLVED (((!is_white(UP_21_COLOUR)) && (!is_green(FRONT_01_COLOUR))) || \
                              ((!is_white(UP_21_COLOUR)) && (is_green(FRONT_01_COLOUR))))
+#endif
 
 #define CROSS_01_SOLVED ((is_white(UP_01_COLOUR)) && (is_blue(BACK_01_COLOUR)))
 #define CROSS_02_SOLVED ((is_white(UP_10_COLOUR)) && (is_same_colour(LEFT_01_COLOUR, LEFT_CENTER_COLOUR)))
 #define CROSS_03_SOLVED ((is_white(UP_12_COLOUR)) && (is_same_colour(RIGHT_01_COLOUR, RIGHT_CENTER_COLOUR)))
 #define CROSS_04_SOLVED ((is_white(UP_21_COLOUR)) && (is_green(FRONT_01_COLOUR)))
+
+#define CROSS_01_NOT_SOLVED (!CROSS_01_SOLVED)
+#define CROSS_02_NOT_SOLVED (!CROSS_02_SOLVED)
+#define CROSS_03_NOT_SOLVED (!CROSS_03_SOLVED)
+#define CROSS_04_NOT_SOLVED (!CROSS_04_SOLVED)
+
+/* White corners checks */
+#if 0
+/* Kept for backup */
+#define WHITE_CORNER_01_NOT_SOLVED (((!is_white(UP_00_COLOUR)) || \
+                                     (!((is_blue(BACK_02_COLOUR)) && (is_same_colour(LEFT_00_COLOUR, LEFT_CENTER_COLOUR))))))
+
+#define WHITE_CORNER_02_NOT_SOLVED (((!is_white(UP_02_COLOUR)) || \
+                                     (!((is_blue(BACK_01_COLOUR)) && (is_same_colour(RIGHT_02_COLOUR, RIGHT_CENTER_COLOUR))))))
+
+#define WHITE_CORNER_03_NOT_SOLVED (((!is_white(UP_20_COLOUR)) || \
+                                     (!((is_green(FRONT_01_COLOUR)) && (is_same_colour(LEFT_02_COLOUR, LEFT_CENTER_COLOUR))))))
+
+#define WHITE_CORNER_04_NOT_SOLVED (((!is_white(UP_22_COLOUR)) || \
+                                     (!((is_green(FRONT_02_COLOUR)) && (is_same_colour(RIGHT_00_COLOUR, RIGHT_CENTER_COLOUR))))))
+#endif
+
+#define WHITE_CORNER_01_SOLVED (is_white(UP_00_COLOUR) && is_blue(BACK_02_COLOUR) && is_same_colour(LEFT_00_COLOUR, LEFT_CENTER_COLOUR))
+#define WHITE_CORNER_02_SOLVED (is_white(UP_02_COLOUR) && is_blue(BACK_01_COLOUR) && is_same_colour(RIGHT_02_COLOUR, RIGHT_CENTER_COLOUR))
+#define WHITE_CORNER_03_SOLVED (is_white(UP_20_COLOUR) && is_green(FRONT_01_COLOUR) && is_same_colour(LEFT_02_COLOUR, LEFT_CENTER_COLOUR))
+#define WHITE_CORNER_04_SOLVED (is_white(UP_22_COLOUR) && is_green(FRONT_02_COLOUR) && is_same_colour(RIGHT_00_COLOUR, RIGHT_CENTER_COLOUR))
+
+#define WHITE_CORNER_01_NOT_SOLVED (!WHITE_CORNER_01_SOLVED)
+#define WHITE_CORNER_02_NOT_SOLVED (!WHITE_CORNER_02_SOLVED)
+#define WHITE_CORNER_03_NOT_SOLVED (!WHITE_CORNER_03_SOLVED)
+#define WHITE_CORNER_04_NOT_SOLVED (!WHITE_CORNER_04_SOLVED)
 
 typedef enum
 {
