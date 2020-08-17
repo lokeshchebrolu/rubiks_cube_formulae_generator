@@ -6,7 +6,7 @@ CSRC+=
 CC=gcc
 OPT=2
 DEBUG=-ggdb3
-CFLAGS=-Wall $(DEBUG) -O$(OPT)
+CFLAGS=-Wall -Wno-switch $(DEBUG) -O$(OPT)
 LDFLAGS=-lm
 
 COBJ=$(CSRC:.c=.o)
