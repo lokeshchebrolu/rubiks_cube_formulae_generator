@@ -18,6 +18,7 @@ static cube_t cube_local;
 
 static void update_cube_local(void);
 static int validate_step(char *step);
+static void add_formula(char *formula_new, char *description);
 static void formulae_update_step(char *step, char *formula_description);
 static void apply_formula(void);
 static int search_edge_colour_of_side(int side, char colour_main, char colour_pair);
@@ -66,7 +67,7 @@ void cube_init(void)
 	}
 
 	/* Stub cube */
-	/* cube_init_temp_colour(); */
+	cube_init_temp_colour();
 
 	update_cube_map();
 	/******************************/
@@ -75,7 +76,7 @@ void cube_init(void)
 	print_screen();
 
 	/* Read cube colours */
-	read_cube();
+	/* read_cube(); */
 
 	input = 0;
 }
@@ -89,28 +90,28 @@ void update_cube_map(void)
 	/* Line 03 */ sprintf(cube.cube_map[2], "           BACK\n");
 
 	/* Line 04 */ sprintf(cube.cube_map[3], "          %c%c%c%c%c%c\n",
-						  cube.sides.back.colour[2][2], /* Back side line 1 */
-						  cube.sides.back.colour[2][2],
-						  cube.sides.back.colour[2][1],
-						  cube.sides.back.colour[2][1],
-						  cube.sides.back.colour[2][0],
-						  cube.sides.back.colour[2][0]);
+						  BACK_22_COLOUR, /* Back side line 1 */
+						  BACK_22_COLOUR,
+						  BACK_21_COLOUR,
+						  BACK_21_COLOUR,
+						  BACK_20_COLOUR,
+						  BACK_20_COLOUR);
 
 	/* Line 05 */ sprintf(cube.cube_map[4], "          %c%c%c%c%c%c\n",
-						  cube.sides.back.colour[1][2], /* Back side line 2 */
-						  cube.sides.back.colour[1][2],
-						  cube.sides.back.colour[1][1],
-						  cube.sides.back.colour[1][1],
-						  cube.sides.back.colour[1][0],
-						  cube.sides.back.colour[1][0]);
+						  BACK_12_COLOUR, /* Back side line 2 */
+						  BACK_12_COLOUR,
+						  BACK_11_COLOUR,
+						  BACK_11_COLOUR,
+						  BACK_10_COLOUR,
+						  BACK_10_COLOUR);
 
 	/* Line 06 */ sprintf(cube.cube_map[5], "          %c%c%c%c%c%c\n",
-						  cube.sides.back.colour[0][2], /* Back side line 3 */
-						  cube.sides.back.colour[0][2],
-						  cube.sides.back.colour[0][1],
-						  cube.sides.back.colour[0][1],
-						  cube.sides.back.colour[0][0],
-						  cube.sides.back.colour[0][0]);
+						  BACK_02_COLOUR, /* Back side line 3 */
+						  BACK_02_COLOUR,
+						  BACK_01_COLOUR,
+						  BACK_01_COLOUR,
+						  BACK_00_COLOUR,
+						  BACK_00_COLOUR);
 
 	/* Line 07 */ cube.cube_map[6][0] = '\n';
 
@@ -118,64 +119,64 @@ void update_cube_map(void)
 
 	/* Line 09 */
 	sprintf(cube.cube_map[8], " %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c\n",
-			cube.sides.left.colour[2][0], cube.sides.left.colour[2][0], cube.sides.left.colour[1][0],
-			cube.sides.left.colour[1][0], cube.sides.left.colour[0][0], cube.sides.left.colour[0][0],
-			cube.sides.up.colour[0][0], cube.sides.up.colour[0][0], cube.sides.up.colour[0][1],
-			cube.sides.up.colour[0][1], cube.sides.up.colour[0][2], cube.sides.up.colour[0][2],
-			cube.sides.right.colour[0][2], cube.sides.right.colour[0][2], cube.sides.right.colour[1][2],
-			cube.sides.right.colour[1][2], cube.sides.right.colour[2][2], cube.sides.right.colour[2][2],
-			cube.sides.down.colour[2][2], cube.sides.down.colour[2][2], cube.sides.down.colour[2][1],
-			cube.sides.down.colour[2][1], cube.sides.down.colour[2][0], cube.sides.down.colour[2][0]);
+			LEFT_20_COLOUR, LEFT_20_COLOUR, LEFT_10_COLOUR,
+			LEFT_10_COLOUR, LEFT_00_COLOUR, LEFT_00_COLOUR,
+			UP_00_COLOUR, UP_00_COLOUR, UP_01_COLOUR,
+			UP_01_COLOUR, UP_02_COLOUR, UP_02_COLOUR,
+			RIGHT_02_COLOUR, RIGHT_02_COLOUR, RIGHT_12_COLOUR,
+			RIGHT_12_COLOUR, RIGHT_22_COLOUR, RIGHT_22_COLOUR,
+			DOWN_22_COLOUR, DOWN_22_COLOUR, DOWN_21_COLOUR,
+			DOWN_21_COLOUR, DOWN_20_COLOUR, DOWN_20_COLOUR);
 
 	/* Line 10 */
 	sprintf(cube.cube_map[9], " %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c\n",
-			cube.sides.left.colour[2][1], cube.sides.left.colour[2][1], cube.sides.left.colour[1][1],
-			cube.sides.left.colour[1][1], cube.sides.left.colour[0][1], cube.sides.left.colour[0][1],
-			cube.sides.up.colour[1][0], cube.sides.up.colour[1][0], cube.sides.up.colour[1][1],
-			cube.sides.up.colour[1][1], cube.sides.up.colour[1][2], cube.sides.up.colour[1][2],
-			cube.sides.right.colour[0][1], cube.sides.right.colour[0][1], cube.sides.right.colour[1][1],
-			cube.sides.right.colour[1][1], cube.sides.right.colour[2][1], cube.sides.right.colour[2][1],
-			cube.sides.down.colour[1][2], cube.sides.down.colour[1][2], cube.sides.down.colour[1][1],
-			cube.sides.down.colour[1][1], cube.sides.down.colour[1][0], cube.sides.down.colour[1][0]);
+			LEFT_21_COLOUR, LEFT_21_COLOUR, LEFT_11_COLOUR,
+			LEFT_11_COLOUR, LEFT_01_COLOUR, LEFT_01_COLOUR,
+			UP_10_COLOUR, UP_10_COLOUR, UP_11_COLOUR,
+			UP_11_COLOUR, UP_12_COLOUR, UP_12_COLOUR,
+			RIGHT_01_COLOUR, RIGHT_01_COLOUR, RIGHT_11_COLOUR,
+			RIGHT_11_COLOUR, RIGHT_21_COLOUR, RIGHT_21_COLOUR,
+			DOWN_12_COLOUR, DOWN_12_COLOUR, DOWN_11_COLOUR,
+			DOWN_11_COLOUR, DOWN_10_COLOUR, DOWN_10_COLOUR);
 
 	/* Line 11 */
 	sprintf(cube.cube_map[10], " %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c   %c%c%c%c%c%c\n",
-			cube.sides.left.colour[2][2], cube.sides.left.colour[2][2], cube.sides.left.colour[1][2],
-			cube.sides.left.colour[1][2], cube.sides.left.colour[0][2], cube.sides.left.colour[0][2],
-			cube.sides.up.colour[2][0], cube.sides.up.colour[2][0], cube.sides.up.colour[2][1],
-			cube.sides.up.colour[2][1], cube.sides.up.colour[2][2], cube.sides.up.colour[2][2],
-			cube.sides.right.colour[0][0], cube.sides.right.colour[0][0], cube.sides.right.colour[1][0],
-			cube.sides.right.colour[1][0], cube.sides.right.colour[2][0], cube.sides.right.colour[2][0],
-			cube.sides.down.colour[0][2], cube.sides.down.colour[0][2], cube.sides.down.colour[0][1],
-			cube.sides.down.colour[0][1], cube.sides.down.colour[0][0], cube.sides.down.colour[0][0]);
+			LEFT_22_COLOUR, LEFT_22_COLOUR, LEFT_12_COLOUR,
+			LEFT_12_COLOUR, LEFT_02_COLOUR, LEFT_02_COLOUR,
+			UP_20_COLOUR, UP_20_COLOUR, UP_21_COLOUR,
+			UP_21_COLOUR, UP_22_COLOUR, UP_22_COLOUR,
+			RIGHT_00_COLOUR, RIGHT_00_COLOUR, RIGHT_10_COLOUR,
+			RIGHT_10_COLOUR, RIGHT_20_COLOUR, RIGHT_20_COLOUR,
+			DOWN_02_COLOUR, DOWN_02_COLOUR, DOWN_01_COLOUR,
+			DOWN_01_COLOUR, DOWN_00_COLOUR, DOWN_00_COLOUR);
 
 	/* Line 12 */ cube.cube_map[11][0] = '\n';
 
 	/* Line 13 */ sprintf(cube.cube_map[12], "           FRONT\n");
 
 	/* Line 14 */ sprintf(cube.cube_map[13], "          %c%c%c%c%c%c\n",
-						  cube.sides.front.colour[0][0], /* Front side line 1 */
-						  cube.sides.front.colour[0][0],
-						  cube.sides.front.colour[0][1],
-						  cube.sides.front.colour[0][1],
-						  cube.sides.front.colour[0][2],
-						  cube.sides.front.colour[0][2]);
+						  FRONT_00_COLOUR, /* Front side line 1 */
+						  FRONT_00_COLOUR,
+						  FRONT_01_COLOUR,
+						  FRONT_01_COLOUR,
+						  FRONT_02_COLOUR,
+						  FRONT_02_COLOUR);
 
 	/* Line 15 */ sprintf(cube.cube_map[14], "          %c%c%c%c%c%c\n",
-						  cube.sides.front.colour[1][0], /* Front side line 2 */
-						  cube.sides.front.colour[1][0],
-						  cube.sides.front.colour[1][1],
-						  cube.sides.front.colour[1][1],
-						  cube.sides.front.colour[1][2],
-						  cube.sides.front.colour[1][2]);
+						  FRONT_10_COLOUR, /* Front side line 2 */
+						  FRONT_10_COLOUR,
+						  FRONT_11_COLOUR,
+						  FRONT_11_COLOUR,
+						  FRONT_12_COLOUR,
+						  FRONT_12_COLOUR);
 
 	/* Line 16 */ sprintf(cube.cube_map[15], "          %c%c%c%c%c%c\n",
-						  cube.sides.front.colour[2][0], /* Front side line 3 */
-						  cube.sides.front.colour[2][0],
-						  cube.sides.front.colour[2][1],
-						  cube.sides.front.colour[2][1],
-						  cube.sides.front.colour[2][2],
-						  cube.sides.front.colour[2][2]);
+						  FRONT_20_COLOUR, /* Front side line 3 */
+						  FRONT_20_COLOUR,
+						  FRONT_21_COLOUR,
+						  FRONT_21_COLOUR,
+						  FRONT_22_COLOUR,
+						  FRONT_22_COLOUR);
 }
 
 void cube_solve(void)
@@ -183,15 +184,17 @@ void cube_solve(void)
 	int cube_solved = 0;
 
 	cube_stages_t stage = ANALYSE;
-	up_edges_t stage1_substage_1 = UP_01;
+	up_t stage1_substage_1 = UP_01;
+	up_t stage1_substage_2 = UP_00;
 
 	int analysis_completed = 0;
-	int stage1_completed = 0;
+	stage1_t stage1_completed = WHITE_CROSS;
 	int stage2_completed = 0;
 	int stage3_completed = 0;
 	int stage4_completed = 0;
 
 	int cross_complete = 0;
+	int white_corners_complete = 0;
 
 	char blue_side;
 	char white_side;
@@ -214,34 +217,23 @@ void cube_solve(void)
 			switch (white_side)
 			{
 			case FRONT:
-				formulae_update_step(START_FORMULA, "  WHITE_TO_UP1 ");
-				formulae_update_step("X", NULL);
-				formulae_update_step(END_FORMULA, NULL);
+				add_formula("X", "  WHITE TO UP1 ");
 				break;
 
 			case BACK:
-				formulae_update_step(START_FORMULA, "  WHITE_TO_UP  ");
-				formulae_update_step("Xi", NULL);
-				formulae_update_step(END_FORMULA, NULL);
+				add_formula("Xi", "  WHITE TO UP1 ");
 				break;
 
 			case LEFT:
-				formulae_update_step(START_FORMULA, "  WHITE_TO_UP  ");
-				formulae_update_step("Z", NULL);
-				formulae_update_step(END_FORMULA, NULL);
+				add_formula("Z", "  WHITE TO UP1 ");
 				break;
 
 			case RIGHT:
-				formulae_update_step(START_FORMULA, "  WHITE_TO_UP  ");
-				formulae_update_step("Zi", NULL);
-				formulae_update_step(END_FORMULA, NULL);
+				add_formula("Zi", "  WHITE TO UP1 ");
 				break;
 
 			case DOWN:
-				formulae_update_step(START_FORMULA, "  WHITE_TO_UP  ");
-				formulae_update_step("X", NULL);
-				formulae_update_step("X", NULL);
-				formulae_update_step(END_FORMULA, NULL);
+				add_formula("X X", "  WHITE TO UP1 ");
 				break;
 
 			case UP:
@@ -259,10 +251,7 @@ void cube_solve(void)
 			switch (blue_side)
 			{
 			case FRONT:
-				formulae_update_step(START_FORMULA, "  BLUE_TO_BACK ");
-				formulae_update_step("d", NULL);
-				formulae_update_step("d", NULL);
-				formulae_update_step(END_FORMULA, NULL);
+				add_formula("d d", "  BLUE TO BACK ");
 				break;
 
 			case BACK:
@@ -271,15 +260,11 @@ void cube_solve(void)
 				break;
 
 			case LEFT:
-				formulae_update_step(START_FORMULA, "  BLUE_TO_BACK ");
-				formulae_update_step("di", NULL);
-				formulae_update_step(END_FORMULA, NULL);
+				add_formula("di", "  BLUE TO BACK ");
 				break;
 
 			case RIGHT:
-				formulae_update_step(START_FORMULA, "  BLUE_TO_BACK ");
-				formulae_update_step("d", NULL);
-				formulae_update_step(END_FORMULA, NULL);
+				add_formula("d", "  BLUE TO BACK ");
 				break;
 
 			case DOWN:
@@ -306,880 +291,212 @@ void cube_solve(void)
 		case STAGE1:
 
 			formula_to_apply = 1;
-			while (!cross_complete) /* Cross not completed */
+			while (stage1_completed != COMPLETE)
 			{
-				switch (stage1_substage_1)
+				switch (stage1_completed)
 				{
-				case UP_01:
-					if (((cube.sides.up.colour[0][1] != WHITE) && (cube.sides.back.colour[0][1] != BLUE)) ||
-						((cube.sides.up.colour[0][1] != WHITE) && (cube.sides.back.colour[0][1] == BLUE)))
+				case WHITE_CROSS:
+					while (!cross_complete) /* Cross not completed */
 					{
-						int middle_num = 0;
-						/* Search front */
-						middle_num = search_edge_colour_of_side(FRONT, WHITE, BLUE);
-						if (middle_num) /* Found in front */
+						switch (stage1_substage_1)
 						{
-							switch (middle_num)
+						case UP_01:
+							if (CROSS_01_NOT_SOLVED)
 							{
-							case 1:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-								formulae_update_step("Fi", NULL);
-								formulae_update_step("Li", NULL);
-								formulae_update_step("U", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 2:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-								formulae_update_step("Li", NULL);
-								formulae_update_step("U", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 3:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-								formulae_update_step("F", NULL);
-								formulae_update_step("Li", NULL);
-								formulae_update_step("U", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 4:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-								formulae_update_step("F", NULL);
-								formulae_update_step("F", NULL);
-								formulae_update_step("Li", NULL);
-								formulae_update_step("U", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							}
-						}
-						else
-						{
-							/* Search down */
-							middle_num = search_edge_colour_of_side(DOWN, WHITE, BLUE);
-							if (middle_num) /* Found in down */
-							{
-								switch (middle_num)
-								{
-								case 1:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-									formulae_update_step("F", NULL);
-									formulae_update_step("F", NULL);
-									formulae_update_step("U", NULL);
-									formulae_update_step("U", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 2:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-									formulae_update_step("L", NULL);
-									formulae_update_step("L", NULL);
-									formulae_update_step("U", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 3:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-									formulae_update_step("R", NULL);
-									formulae_update_step("R", NULL);
-									formulae_update_step("Ui", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 4:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-									formulae_update_step("B", NULL);
-									formulae_update_step("B", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								}
-							}
-							else
-							{
-								/* Search back */
-								middle_num = search_edge_colour_of_side(BACK, WHITE, BLUE);
-								if (middle_num) /* Found in back */
+								int middle_num = 0;
+								/* Search front */
+								middle_num = search_edge_colour_of_side(FRONT, WHITE, BLUE);
+								if (middle_num) /* Found in front */
 								{
 									switch (middle_num)
 									{
 									case 1:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-										formulae_update_step("B", NULL);
-										formulae_update_step("L", NULL);
-										formulae_update_step("U", NULL);
-										formulae_update_step(END_FORMULA, NULL);
+										add_formula("Fi Li U", "   SOLVE UP01  ");
 										break;
 									case 2:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-										formulae_update_step("Ri", NULL);
-										formulae_update_step("Ui", NULL);
-										formulae_update_step(END_FORMULA, NULL);
+										add_formula("Li U", "   SOLVE UP01  ");
 										break;
 									case 3:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-										formulae_update_step("L", NULL);
-										formulae_update_step("U", NULL);
-										formulae_update_step(END_FORMULA, NULL);
+										add_formula("F Li U", "   SOLVE UP01  ");
 										break;
 									case 4:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-										formulae_update_step("B", NULL);
-										formulae_update_step("Ri", NULL);
-										formulae_update_step("Ui", NULL);
-										formulae_update_step(END_FORMULA, NULL);
+										add_formula("F F Li U", "   SOLVE UP01  ");
 										break;
 									}
 								}
 								else
 								{
-									/* Search left */
-									middle_num = search_edge_colour_of_side(LEFT, WHITE, BLUE);
-									if (middle_num) /* Found in left */
+									/* Search down */
+									middle_num = search_edge_colour_of_side(DOWN, WHITE, BLUE);
+									if (middle_num) /* Found in down */
 									{
 										switch (middle_num)
 										{
 										case 1:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-											formulae_update_step("Li", NULL);
-											formulae_update_step("Bi", NULL);
-											formulae_update_step(END_FORMULA, NULL);
+											add_formula("F F U U", "   SOLVE UP01  ");
 											break;
 										case 2:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-											formulae_update_step("Bi", NULL);
-											formulae_update_step(END_FORMULA, NULL);
+											add_formula("L L U", "   SOLVE UP01  ");
 											break;
 										case 3:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-											formulae_update_step("F", NULL);
-											formulae_update_step("U", NULL);
-											formulae_update_step("U", NULL);
-											formulae_update_step(END_FORMULA, NULL);
+											add_formula("R R Ui", "   SOLVE UP01  ");
 											break;
 										case 4:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-											formulae_update_step("L", NULL);
-											formulae_update_step("Bi", NULL);
-											formulae_update_step(END_FORMULA, NULL);
+											add_formula("B B", "   SOLVE UP01  ");
 											break;
 										}
 									}
 									else
 									{
-										/* Search right */
-										middle_num = search_edge_colour_of_side(RIGHT, WHITE, BLUE);
-										if (middle_num) /* Found in right */
+										/* Search back */
+										middle_num = search_edge_colour_of_side(BACK, WHITE, BLUE);
+										if (middle_num) /* Found in back */
 										{
 											switch (middle_num)
 											{
 											case 1:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-												formulae_update_step("R", NULL);
-												formulae_update_step("B", NULL);
-												formulae_update_step(END_FORMULA, NULL);
+												add_formula("B L U", "   SOLVE UP01  ");
 												break;
 											case 2:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-												formulae_update_step("R", NULL);
-												formulae_update_step("R", NULL);
-												formulae_update_step("B", NULL);
-												formulae_update_step(END_FORMULA, NULL);
+												add_formula("Ri Ui", "   SOLVE UP01  ");
 												break;
 											case 3:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-												formulae_update_step("B", NULL);
-												formulae_update_step(END_FORMULA, NULL);
+												add_formula("L U", "   SOLVE UP01  ");
 												break;
 											case 4:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-												formulae_update_step("Ri", NULL);
-												formulae_update_step("B", NULL);
-												formulae_update_step(END_FORMULA, NULL);
+												add_formula("B Ri Ui", "   SOLVE UP01  ");
 												break;
 											}
 										}
 										else
 										{
-											/* Search UP */
-											middle_num = search_edge_colour_of_side(UP, WHITE, BLUE);
-											if (middle_num) /* Found in right */
+											/* Search left */
+											middle_num = search_edge_colour_of_side(LEFT, WHITE, BLUE);
+											if (middle_num) /* Found in left */
 											{
 												switch (middle_num)
 												{
 												case 1:
-													/* Invalid case */
+													add_formula("Li Bi", "   SOLVE UP01  ");
 													break;
 												case 2:
-													formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-													formulae_update_step("U", NULL);
-													formulae_update_step(END_FORMULA, NULL);
+													add_formula("Bi", "   SOLVE UP01  ");
 													break;
 												case 3:
-													formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-													formulae_update_step("Ui", NULL);
-													formulae_update_step(END_FORMULA, NULL);
+													add_formula("F U U", "   SOLVE UP01  ");
 													break;
 												case 4:
-													formulae_update_step(START_FORMULA, "   SOLVE_UP01  ");
-													formulae_update_step("U", NULL);
-													formulae_update_step("U", NULL);
-													formulae_update_step(END_FORMULA, NULL);
+													add_formula("L Bi", "   SOLVE UP01  ");
 													break;
+												}
+											}
+											else
+											{
+												/* Search right */
+												middle_num = search_edge_colour_of_side(RIGHT, WHITE, BLUE);
+												if (middle_num) /* Found in right */
+												{
+													switch (middle_num)
+													{
+													case 1:
+														add_formula("R B", "   SOLVE UP01  ");
+														break;
+													case 2:
+														add_formula("R R B", "   SOLVE UP01  ");
+														break;
+													case 3:
+														add_formula("B", "   SOLVE UP01  ");
+														break;
+													case 4:
+														add_formula("Ri B", "   SOLVE UP01  ");
+														break;
+													}
+												}
+												else
+												{
+													/* Search UP */
+													middle_num = search_edge_colour_of_side(UP, WHITE, BLUE);
+													if (middle_num) /* Found in right */
+													{
+														switch (middle_num)
+														{
+														case 1:
+															/* Invalid case */
+															break;
+														case 2:
+															add_formula("U", "   SOLVE UP01  ");
+															break;
+														case 3:
+															add_formula("Ui", "   SOLVE UP01  ");
+															break;
+														case 4:
+															add_formula("U U", "   SOLVE UP01  ");
+															break;
+														}
+													}
 												}
 											}
 										}
 									}
 								}
 							}
-						}
-					}
-					print_screen();
-					apply_formula();
-					if ((cube.sides.up.colour[0][1] == WHITE) && (cube.sides.back.colour[0][1] == BLUE))
-						stage1_substage_1 = UP_10;
-					break;
+							print_screen();
+							apply_formula();
+							if (CROSS_01_SOLVED)
+								stage1_substage_1 = UP_10;
+							break;
 
-				case UP_10:
-					if (((cube.sides.up.colour[1][0] != WHITE) && (cube.sides.left.colour[0][1] != LEFT_CENTER_COLOUR)) ||
-						((cube.sides.up.colour[1][0] != WHITE) && (cube.sides.left.colour[0][1] == LEFT_CENTER_COLOUR)))
-					{
-						int middle_num = 0;
-						/* Search front */
-						middle_num = search_edge_colour_of_side(FRONT, WHITE, LEFT_CENTER_COLOUR);
-						if (middle_num) /* Found in front */
-						{
-							switch (middle_num)
+						case UP_10:
+							if (CROSS_02_NOT_SOLVED)
 							{
-							case 1:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-								formulae_update_step("Fi", NULL);
-								formulae_update_step("Li", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 2:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-								formulae_update_step("Li", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 3:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-								formulae_update_step("F", NULL);
-								formulae_update_step("F", NULL);
-								formulae_update_step("Li", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 4:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-								formulae_update_step("F", NULL);
-								formulae_update_step("Li", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							}
-						}
-						else
-						{
-							/* Search down */
-							middle_num = search_edge_colour_of_side(DOWN, WHITE, LEFT_CENTER_COLOUR);
-							if (middle_num) /* Found in down */
-							{
-								switch (middle_num)
-								{
-								case 1:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-									formulae_update_step("Di", NULL);
-									formulae_update_step("L", NULL);
-									formulae_update_step("L", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 2:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-									formulae_update_step("L", NULL);
-									formulae_update_step("L", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 3:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-									formulae_update_step("D", NULL);
-									formulae_update_step("D", NULL);
-									formulae_update_step("L", NULL);
-									formulae_update_step("L", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 4:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-									formulae_update_step("D", NULL);
-									formulae_update_step("L", NULL);
-									formulae_update_step("L", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								}
-							}
-							else
-							{
-								/* Search back */
-								middle_num = search_edge_colour_of_side(BACK, WHITE, LEFT_CENTER_COLOUR);
-								if (middle_num) /* Found in back */
+								int middle_num = 0;
+								/* Search front */
+								middle_num = search_edge_colour_of_side(FRONT, WHITE, LEFT_CENTER_COLOUR);
+								if (middle_num) /* Found in front */
 								{
 									switch (middle_num)
 									{
 									case 1:
-										/* Invalid case */
+										add_formula("Fi Li", "   SOLVE UP10  ");
 										break;
 									case 2:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-										formulae_update_step("R", NULL);
-										formulae_update_step("D", NULL);
-										formulae_update_step("D", NULL);
-										formulae_update_step("L", NULL);
-										formulae_update_step("L", NULL);
-										formulae_update_step(END_FORMULA, NULL);
+										add_formula("Li", "   SOLVE UP10  ");
 										break;
 									case 3:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-										formulae_update_step("L", NULL);
-										formulae_update_step(END_FORMULA, NULL);
+										add_formula("F F Li", "   SOLVE UP10  ");
 										break;
 									case 4:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-										formulae_update_step("D", NULL);
-										formulae_update_step("D", NULL);
-										formulae_update_step("F", NULL);
-										formulae_update_step("Li", NULL);
-										formulae_update_step(END_FORMULA, NULL);
+										add_formula("F Li", "   SOLVE UP10  ");
 										break;
 									}
 								}
 								else
 								{
-									/* Search left */
-									middle_num = search_edge_colour_of_side(LEFT, WHITE, LEFT_CENTER_COLOUR);
-									if (middle_num) /* Found in left */
+									/* Search down */
+									middle_num = search_edge_colour_of_side(DOWN, WHITE, LEFT_CENTER_COLOUR);
+									if (middle_num) /* Found in down */
 									{
 										switch (middle_num)
 										{
 										case 1:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-											formulae_update_step("Ui", NULL);
-											formulae_update_step("Fi", NULL);
-											formulae_update_step("U", NULL);
-											formulae_update_step("Li", NULL);
-											formulae_update_step(END_FORMULA, NULL);
+											add_formula("Di L L", "   SOLVE UP10  ");
 											break;
 										case 2:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-											formulae_update_step("L", NULL);
-											formulae_update_step("Ui", NULL);
-											formulae_update_step("Fi", NULL);
-											formulae_update_step("U", NULL);
-											formulae_update_step("Li", NULL);
-											formulae_update_step(END_FORMULA, NULL);
+											add_formula("L L", "   SOLVE UP10  ");
 											break;
 										case 3:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-											formulae_update_step("L", NULL);
-											formulae_update_step("L", NULL);
-											formulae_update_step("Ui", NULL);
-											formulae_update_step("Fi", NULL);
-											formulae_update_step("U", NULL);
-											formulae_update_step("Li", NULL);
-											formulae_update_step(END_FORMULA, NULL);
+											add_formula("D D L L", "   SOLVE UP10  ");
 											break;
 										case 4:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-											formulae_update_step("Li", NULL);
-											formulae_update_step("Ui", NULL);
-											formulae_update_step("Fi", NULL);
-											formulae_update_step("U", NULL);
-											formulae_update_step("Li", NULL);
-											formulae_update_step(END_FORMULA, NULL);
+											add_formula("D L L", "   SOLVE UP10  ");
 											break;
 										}
 									}
 									else
 									{
-										/* Search right */
-										middle_num = search_edge_colour_of_side(RIGHT, WHITE, LEFT_CENTER_COLOUR);
-										if (middle_num) /* Found in right */
-										{
-											switch (middle_num)
-											{
-											case 1:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-												formulae_update_step("U", NULL);
-												formulae_update_step("Fi", NULL);
-												formulae_update_step("Ui", NULL);
-												formulae_update_step("Li", NULL);
-												formulae_update_step(END_FORMULA, NULL);
-												break;
-											case 2:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-												formulae_update_step("R", NULL);
-												formulae_update_step("U", NULL);
-												formulae_update_step("Fi", NULL);
-												formulae_update_step("Ui", NULL);
-												formulae_update_step("Li", NULL);
-												formulae_update_step(END_FORMULA, NULL);
-												break;
-											case 3:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-												formulae_update_step("Ri", NULL);
-												formulae_update_step("U", NULL);
-												formulae_update_step("Fi", NULL);
-												formulae_update_step("Ui", NULL);
-												formulae_update_step("Li", NULL);
-												formulae_update_step(END_FORMULA, NULL);
-												break;
-											case 4:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-												formulae_update_step("R", NULL);
-												formulae_update_step("R", NULL);
-												formulae_update_step("U", NULL);
-												formulae_update_step("Fi", NULL);
-												formulae_update_step("Ui", NULL);
-												formulae_update_step("Li", NULL);
-												formulae_update_step(END_FORMULA, NULL);
-												break;
-											}
-										}
-										else
-										{
-											/* Search UP */
-											middle_num = search_edge_colour_of_side(UP, WHITE, LEFT_CENTER_COLOUR);
-											if (middle_num) /* Found in right */
-											{
-												switch (middle_num)
-												{
-												case 1:
-													/* Invalid case */
-													break;
-												case 2:
-													/* In place */
-													break;
-												case 3:
-													formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-													formulae_update_step("Ri", NULL);
-													formulae_update_step("Ui", NULL);
-													formulae_update_step("Ui", NULL);
-													formulae_update_step("R", NULL);
-													formulae_update_step("U", NULL);
-													formulae_update_step("U", NULL);
-													formulae_update_step(END_FORMULA, NULL);
-													break;
-												case 4:
-													formulae_update_step(START_FORMULA, "   SOLVE_UP10  ");
-													formulae_update_step("Fi", NULL);
-													formulae_update_step("Ui", NULL);
-													formulae_update_step("F", NULL);
-													formulae_update_step("U", NULL);
-													formulae_update_step(END_FORMULA, NULL);
-													break;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-					print_screen();
-					apply_formula();
-					if ((cube.sides.up.colour[1][0] == WHITE) && (cube.sides.left.colour[0][1] == LEFT_CENTER_COLOUR))
-						stage1_substage_1 = UP_12;
-					break;
-
-				case UP_12:
-					if (((cube.sides.up.colour[1][2] != WHITE) && (cube.sides.right.colour[0][1] != RIGHT_CENTER_COLOUR)) ||
-						((cube.sides.up.colour[1][2] != WHITE) && (cube.sides.right.colour[0][1] == RIGHT_CENTER_COLOUR)))
-					{
-						int middle_num = 0;
-						/* Search front */
-						middle_num = search_edge_colour_of_side(FRONT, WHITE, RIGHT_CENTER_COLOUR);
-						if (middle_num) /* Found in front */
-						{
-							switch (middle_num)
-							{
-							case 1:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-								formulae_update_step("F", NULL);
-								formulae_update_step("R", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 2:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-								formulae_update_step("F", NULL);
-								formulae_update_step("F", NULL);
-								formulae_update_step("R", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 3:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-								formulae_update_step("R", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 4:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-								formulae_update_step("Fi", NULL);
-								formulae_update_step("R", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							}
-						}
-						else
-						{
-							/* Search down */
-							middle_num = search_edge_colour_of_side(DOWN, WHITE, RIGHT_CENTER_COLOUR);
-							if (middle_num) /* Found in down */
-							{
-								switch (middle_num)
-								{
-								case 1:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-									formulae_update_step("D", NULL);
-									formulae_update_step("R", NULL);
-									formulae_update_step("R", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 2:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-									formulae_update_step("D", NULL);
-									formulae_update_step("D", NULL);
-									formulae_update_step("R", NULL);
-									formulae_update_step("R", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 3:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-									formulae_update_step("R", NULL);
-									formulae_update_step("R", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 4:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-									formulae_update_step("Di", NULL);
-									formulae_update_step("R", NULL);
-									formulae_update_step("R", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								}
-							}
-							else
-							{
-								/* Search back */
-								middle_num = search_edge_colour_of_side(BACK, WHITE, RIGHT_CENTER_COLOUR);
-								if (middle_num) /* Found in back */
-								{
-									switch (middle_num)
-									{
-									case 1:
-										/* Invalid case */
-										break;
-									case 2:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-										formulae_update_step("Ri", NULL);
-										formulae_update_step(END_FORMULA, NULL);
-										break;
-									case 3:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-										formulae_update_step("Ui", NULL);
-										formulae_update_step("B", NULL);
-										formulae_update_step("B", NULL);
-										formulae_update_step("U", NULL);
-										formulae_update_step("Ri", NULL);
-										formulae_update_step(END_FORMULA, NULL);
-										break;
-									case 4:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-										formulae_update_step("D", NULL);
-										formulae_update_step("D", NULL);
-										formulae_update_step("Fi", NULL);
-										formulae_update_step("R", NULL);
-										formulae_update_step(END_FORMULA, NULL);
-										break;
-									}
-								}
-								else
-								{
-									/* Search left */
-									middle_num = search_edge_colour_of_side(LEFT, WHITE, RIGHT_CENTER_COLOUR);
-									if (middle_num) /* Found in left */
-									{
-										switch (middle_num)
-										{
-										case 1:
-											/* Invalid case */
-											break;
-										case 2:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-											formulae_update_step("Ui", NULL);
-											formulae_update_step("Bi", NULL);
-											formulae_update_step("U", NULL);
-											formulae_update_step(END_FORMULA, NULL);
-											break;
-										case 3:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-											formulae_update_step("U", NULL);
-											formulae_update_step("F", NULL);
-											formulae_update_step("Ui", NULL);
-											formulae_update_step(END_FORMULA, NULL);
-											break;
-										case 4:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-											formulae_update_step("U", NULL);
-											formulae_update_step("Li", NULL);
-											formulae_update_step("F", NULL);
-											formulae_update_step("Ui", NULL);
-											formulae_update_step(END_FORMULA, NULL);
-											break;
-										}
-									}
-									else
-									{
-										/* Search right */
-										middle_num = search_edge_colour_of_side(RIGHT, WHITE, RIGHT_CENTER_COLOUR);
-										if (middle_num) /* Found in right */
-										{
-											switch (middle_num)
-											{
-											case 1:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-												formulae_update_step("R", NULL);
-												formulae_update_step("Ui", NULL);
-												formulae_update_step("B", NULL);
-												formulae_update_step("U", NULL);
-												formulae_update_step(END_FORMULA, NULL);
-												break;
-											case 2:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-												formulae_update_step("U", NULL);
-												formulae_update_step("Fi", NULL);
-												formulae_update_step("Ui", NULL);
-												formulae_update_step(END_FORMULA, NULL);
-												break;
-											case 3:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-												formulae_update_step("Ui", NULL);
-												formulae_update_step("B", NULL);
-												formulae_update_step("U", NULL);
-												formulae_update_step(END_FORMULA, NULL);
-												break;
-											case 4:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-												formulae_update_step("Ri", NULL);
-												formulae_update_step("Ui", NULL);
-												formulae_update_step("B", NULL);
-												formulae_update_step("U", NULL);
-												formulae_update_step(END_FORMULA, NULL);
-												break;
-											}
-										}
-										else
-										{
-											/* Search UP */
-											middle_num = search_edge_colour_of_side(UP, WHITE, RIGHT_CENTER_COLOUR);
-											if (middle_num) /* Found in right */
-											{
-												switch (middle_num)
-												{
-												case 1:
-													/* Invalid case */
-													break;
-												case 2:
-													/* Invalid case */
-													break;
-												case 3:
-													/* In place */
-													break;
-												case 4:
-													formulae_update_step(START_FORMULA, "   SOLVE_UP12  ");
-													formulae_update_step("Fi", NULL);
-													formulae_update_step("U", NULL);
-													formulae_update_step("F", NULL);
-													formulae_update_step("Ui", NULL);
-													formulae_update_step(END_FORMULA, NULL);
-													break;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-					print_screen();
-					apply_formula();
-					if ((cube.sides.up.colour[1][2] == WHITE) && (cube.sides.right.colour[0][1] == RIGHT_CENTER_COLOUR))
-						stage1_substage_1 = UP_21;
-					break;
-
-				case UP_21:
-					if (((cube.sides.up.colour[2][1] != WHITE) && (cube.sides.front.colour[0][1] != GREEN)) ||
-						((cube.sides.up.colour[2][1] != WHITE) && (cube.sides.front.colour[0][1] == GREEN)))
-					{
-						int middle_num = 0;
-						/* Search front */
-						middle_num = search_edge_colour_of_side(FRONT, WHITE, GREEN);
-						if (middle_num) /* Found in front */
-						{
-							switch (middle_num)
-							{
-							case 1:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-								formulae_update_step("F", NULL);
-								formulae_update_step("F", NULL);
-								formulae_update_step("D", NULL);
-								formulae_update_step("R", NULL);
-								formulae_update_step("Fi", NULL);
-								formulae_update_step("Ri", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 2:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-								formulae_update_step("Fi", NULL);
-								formulae_update_step("D", NULL);
-								formulae_update_step("R", NULL);
-								formulae_update_step("Fi", NULL);
-								formulae_update_step("Ri", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 3:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-								formulae_update_step("F", NULL);
-								formulae_update_step("D", NULL);
-								formulae_update_step("R", NULL);
-								formulae_update_step("Fi", NULL);
-								formulae_update_step("Ri", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							case 4:
-								formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-								formulae_update_step("D", NULL);
-								formulae_update_step("R", NULL);
-								formulae_update_step("Fi", NULL);
-								formulae_update_step("Ri", NULL);
-								formulae_update_step(END_FORMULA, NULL);
-								break;
-							}
-						}
-						else
-						{
-							/* Search down */
-							middle_num = search_edge_colour_of_side(DOWN, WHITE, GREEN);
-							if (middle_num) /* Found in down */
-							{
-								switch (middle_num)
-								{
-								case 1:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-									formulae_update_step("F", NULL);
-									formulae_update_step("F", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 2:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-									formulae_update_step("D", NULL);
-									formulae_update_step("F", NULL);
-									formulae_update_step("F", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 3:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-									formulae_update_step("Di", NULL);
-									formulae_update_step("F", NULL);
-									formulae_update_step("F", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								case 4:
-									formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-									formulae_update_step("D", NULL);
-									formulae_update_step("D", NULL);
-									formulae_update_step("F", NULL);
-									formulae_update_step("F", NULL);
-									formulae_update_step(END_FORMULA, NULL);
-									break;
-								}
-							}
-							else
-							{
-								/* Search back */
-								middle_num = search_edge_colour_of_side(BACK, WHITE, GREEN);
-								if (middle_num) /* Found in back */
-								{
-									switch (middle_num)
-									{
-									case 1:
-										/* Invalid case */
-										break;
-									case 2:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-										formulae_update_step("U", NULL);
-										formulae_update_step("U", NULL);
-										formulae_update_step("Bi", NULL);
-										formulae_update_step("U", NULL);
-										formulae_update_step("U", NULL);
-										formulae_update_step("Di", NULL);
-										formulae_update_step("R", NULL);
-										formulae_update_step("Fi", NULL);
-										formulae_update_step("Ri", NULL);
-										formulae_update_step(END_FORMULA, NULL);
-										break;
-									case 3:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-										formulae_update_step("U", NULL);
-										formulae_update_step("U", NULL);
-										formulae_update_step("B", NULL);
-										formulae_update_step("U", NULL);
-										formulae_update_step("U", NULL);
-										formulae_update_step("Di", NULL);
-										formulae_update_step("R", NULL);
-										formulae_update_step("Fi", NULL);
-										formulae_update_step("Ri", NULL);
-										formulae_update_step(END_FORMULA, NULL);
-										break;
-									case 4:
-										formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-										formulae_update_step("Di", NULL);
-										formulae_update_step("R", NULL);
-										formulae_update_step("Fi", NULL);
-										formulae_update_step("Ri", NULL);
-										formulae_update_step(END_FORMULA, NULL);
-										break;
-									}
-								}
-								else
-								{
-									/* Search left */
-									middle_num = search_edge_colour_of_side(LEFT, WHITE, GREEN);
-									if (middle_num) /* Found in left */
-									{
-										switch (middle_num)
-										{
-										case 1:
-											/* Invalid case */
-											break;
-										case 2:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-											formulae_update_step("U", NULL);
-											formulae_update_step("Li", NULL);
-											formulae_update_step("Li", NULL);
-											formulae_update_step("Ui", NULL);
-											formulae_update_step("F", NULL);
-											formulae_update_step(END_FORMULA, NULL);
-											break;
-										case 3:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-											formulae_update_step("F", NULL);
-											formulae_update_step(END_FORMULA, NULL);
-											break;
-										case 4:
-											formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-											formulae_update_step("U", NULL);
-											formulae_update_step("Li", NULL);
-											formulae_update_step("Ui", NULL);
-											formulae_update_step("F", NULL);
-											formulae_update_step(END_FORMULA, NULL);
-											break;
-										}
-									}
-									else
-									{
-										/* Search right */
-										middle_num = search_edge_colour_of_side(RIGHT, WHITE, GREEN);
-										if (middle_num) /* Found in right */
+										/* Search back */
+										middle_num = search_edge_colour_of_side(BACK, WHITE, LEFT_CENTER_COLOUR);
+										if (middle_num) /* Found in back */
 										{
 											switch (middle_num)
 											{
@@ -1187,34 +504,167 @@ void cube_solve(void)
 												/* Invalid case */
 												break;
 											case 2:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-												formulae_update_step("Fi", NULL);
-												formulae_update_step(END_FORMULA, NULL);
+												add_formula("R D D L L", "   SOLVE UP10  ");
 												break;
 											case 3:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-												formulae_update_step("Bi", NULL);
-												formulae_update_step("D", NULL);
-												formulae_update_step("D", NULL);
-												formulae_update_step("B", NULL);
-												formulae_update_step("F", NULL);
-												formulae_update_step("F", NULL);
-												formulae_update_step(END_FORMULA, NULL);
+												add_formula("L", "   SOLVE UP10  ");
 												break;
 											case 4:
-												formulae_update_step(START_FORMULA, "   SOLVE_UP21  ");
-												formulae_update_step("R", NULL);
-												formulae_update_step("Fi", NULL);
-												formulae_update_step("Ri", NULL);
-												formulae_update_step(END_FORMULA, NULL);
+												add_formula("D D F Li", "   SOLVE UP10  ");
 												break;
 											}
 										}
 										else
 										{
-											/* Search UP */
-											middle_num = search_edge_colour_of_side(UP, WHITE, GREEN);
-											if (middle_num) /* Found in right */
+											/* Search left */
+											middle_num = search_edge_colour_of_side(LEFT, WHITE, LEFT_CENTER_COLOUR);
+											if (middle_num) /* Found in left */
+											{
+												switch (middle_num)
+												{
+												case 1:
+													add_formula("Ui Fi U Li", "   SOLVE UP10  ");
+													break;
+												case 2:
+													add_formula("L Ui Fi U Li", "   SOLVE UP10  ");
+													break;
+												case 3:
+													add_formula("L L Ui Fi U Li", "   SOLVE UP10  ");
+													break;
+												case 4:
+													add_formula("Li Ui Fi U Li", "   SOLVE UP10  ");
+													break;
+												}
+											}
+											else
+											{
+												/* Search right */
+												middle_num = search_edge_colour_of_side(RIGHT, WHITE, LEFT_CENTER_COLOUR);
+												if (middle_num) /* Found in right */
+												{
+													switch (middle_num)
+													{
+													case 1:
+														add_formula("U Fi Ui Li", "   SOLVE UP10  ");
+														break;
+													case 2:
+														add_formula("R U Fi Ui Li", "   SOLVE UP10  ");
+														break;
+													case 3:
+														add_formula("Ri U Fi Ui Li", "   SOLVE UP10  ");
+														break;
+													case 4:
+														add_formula("R R U Fi Ui Li", "   SOLVE UP10  ");
+														break;
+													}
+												}
+												else
+												{
+													/* Search UP */
+													middle_num = search_edge_colour_of_side(UP, WHITE, LEFT_CENTER_COLOUR);
+													if (middle_num) /* Found in right */
+													{
+														switch (middle_num)
+														{
+														case 1:
+															/* Invalid case */
+															break;
+														case 2:
+															/* In place */
+															break;
+														case 3:
+															add_formula("Ri Ui Ui R U U", "   SOLVE UP10  ");
+															break;
+														case 4:
+															add_formula("Fi Ui F U", "   SOLVE UP10  ");
+															break;
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+							print_screen();
+							apply_formula();
+							if (CROSS_02_SOLVED)
+								stage1_substage_1 = UP_12;
+							break;
+
+						case UP_12:
+							if (CROSS_03_NOT_SOLVED)
+							{
+								int middle_num = 0;
+								/* Search front */
+								middle_num = search_edge_colour_of_side(FRONT, WHITE, RIGHT_CENTER_COLOUR);
+								if (middle_num) /* Found in front */
+								{
+									switch (middle_num)
+									{
+									case 1:
+										add_formula("F R", "   SOLVE UP12  ");
+										break;
+									case 2:
+										add_formula("F F R", "   SOLVE UP12  ");
+										break;
+									case 3:
+										add_formula("R", "   SOLVE UP12  ");
+										break;
+									case 4:
+										add_formula("Fi R", "   SOLVE UP12  ");
+										break;
+									}
+								}
+								else
+								{
+									/* Search down */
+									middle_num = search_edge_colour_of_side(DOWN, WHITE, RIGHT_CENTER_COLOUR);
+									if (middle_num) /* Found in down */
+									{
+										switch (middle_num)
+										{
+										case 1:
+											add_formula("D R R", "   SOLVE UP12  ");
+											break;
+										case 2:
+											add_formula("D D R R", "   SOLVE UP12  ");
+											break;
+										case 3:
+											add_formula("R R", "   SOLVE UP12  ");
+											break;
+										case 4:
+											add_formula("Di R R", "   SOLVE UP12  ");
+											break;
+										}
+									}
+									else
+									{
+										/* Search back */
+										middle_num = search_edge_colour_of_side(BACK, WHITE, RIGHT_CENTER_COLOUR);
+										if (middle_num) /* Found in back */
+										{
+											switch (middle_num)
+											{
+											case 1:
+												/* Invalid case */
+												break;
+											case 2:
+												add_formula("Ri", "   SOLVE UP12  ");
+												break;
+											case 3:
+												add_formula("Ui B B U Ri", "   SOLVE UP12  ");
+												break;
+											case 4:
+												add_formula("D D Fi R", "   SOLVE UP12  ");
+												break;
+											}
+										}
+										else
+										{
+											/* Search left */
+											middle_num = search_edge_colour_of_side(LEFT, WHITE, RIGHT_CENTER_COLOUR);
+											if (middle_num) /* Found in left */
 											{
 												switch (middle_num)
 												{
@@ -1222,57 +672,272 @@ void cube_solve(void)
 													/* Invalid case */
 													break;
 												case 2:
-													/* Invalid case */
+													add_formula("Ui Bi U", "   SOLVE UP12  ");
 													break;
 												case 3:
-													/* Invalid case */
+													add_formula("U F Ui", "   SOLVE UP12  ");
 													break;
 												case 4:
-													/* In place */
+													add_formula("U Li F Ui", "   SOLVE UP12  ");
 													break;
+												}
+											}
+											else
+											{
+												/* Search right */
+												middle_num = search_edge_colour_of_side(RIGHT, WHITE, RIGHT_CENTER_COLOUR);
+												if (middle_num) /* Found in right */
+												{
+													switch (middle_num)
+													{
+													case 1:
+														add_formula("R Ui B U", "   SOLVE UP12  ");
+														break;
+													case 2:
+														add_formula("U Fi Ui", "   SOLVE UP12  ");
+														break;
+													case 3:
+														add_formula("Ui B U", "   SOLVE UP12  ");
+														break;
+													case 4:
+														add_formula("Ri Ui B U", "   SOLVE UP12  ");
+														break;
+													}
+												}
+												else
+												{
+													/* Search UP */
+													middle_num = search_edge_colour_of_side(UP, WHITE, RIGHT_CENTER_COLOUR);
+													if (middle_num) /* Found in right */
+													{
+														switch (middle_num)
+														{
+														case 1:
+															/* Invalid case */
+															break;
+														case 2:
+															/* Invalid case */
+															break;
+														case 3:
+															/* In place */
+															break;
+														case 4:
+															add_formula("Fi U F Ui", "   SOLVE UP12  ");
+															break;
+														}
+													}
 												}
 											}
 										}
 									}
 								}
 							}
-						}
-					}
-					print_screen();
-					apply_formula();
-					if ((cube.sides.up.colour[2][1] == WHITE) && (cube.sides.front.colour[0][1] == GREEN))
-						stage1_substage_1 = VALIDATE_CROSS;
-					break;
+							print_screen();
+							apply_formula();
+							if (CROSS_03_SOLVED)
+								stage1_substage_1 = UP_21;
+							break;
 
-				case VALIDATE_CROSS:
-					if ((cube.sides.up.colour[0][1] == WHITE) && (cube.sides.back.colour[0][1] == BLUE))
-					{
-						if ((cube.sides.up.colour[1][0] == WHITE) && (cube.sides.left.colour[0][1] == LEFT_CENTER_COLOUR))
-						{
-							if ((cube.sides.up.colour[1][2] == WHITE) && (cube.sides.right.colour[0][1] == RIGHT_CENTER_COLOUR))
+						case UP_21:
+							if (CROSS_04_NOT_SOLVED)
 							{
-								if ((cube.sides.up.colour[2][1] == WHITE) && (cube.sides.front.colour[0][1] == GREEN))
-									cross_complete = 1;
+								int middle_num = 0;
+								/* Search front */
+								middle_num = search_edge_colour_of_side(FRONT, WHITE, GREEN);
+								if (middle_num) /* Found in front */
+								{
+									switch (middle_num)
+									{
+									case 1:
+										add_formula("F F D R Fi Ri", "   SOLVE UP21  ");
+										break;
+									case 2:
+										add_formula("Fi D R Fi Ri", "   SOLVE UP21  ");
+										break;
+									case 3:
+										add_formula("F D R Fi Ri", "   SOLVE UP21  ");
+										break;
+									case 4:
+										add_formula("D R Fi Ri", "   SOLVE UP21  ");
+										break;
+									}
+								}
 								else
-									stage1_substage_1 = UP_21;
+								{
+									/* Search down */
+									middle_num = search_edge_colour_of_side(DOWN, WHITE, GREEN);
+									if (middle_num) /* Found in down */
+									{
+										switch (middle_num)
+										{
+										case 1:
+											add_formula("F F", "   SOLVE UP21  ");
+											break;
+										case 2:
+											add_formula("D F F", "   SOLVE UP21  ");
+											break;
+										case 3:
+											add_formula("Di F F", "   SOLVE UP21  ");
+											break;
+										case 4:
+											add_formula("D D F F", "   SOLVE UP21  ");
+											break;
+										}
+									}
+									else
+									{
+										/* Search back */
+										middle_num = search_edge_colour_of_side(BACK, WHITE, GREEN);
+										if (middle_num) /* Found in back */
+										{
+											switch (middle_num)
+											{
+											case 1:
+												/* Invalid case */
+												break;
+											case 2:
+												add_formula("U U Bi U U Di R Fi Ri", "   SOLVE UP21  ");
+												break;
+											case 3:
+												add_formula("U U B U U Di R Fi Ri", "   SOLVE UP21  ");
+												break;
+											case 4:
+												add_formula("Di R Fi Ri", "   SOLVE UP21  ");
+												break;
+											}
+										}
+										else
+										{
+											/* Search left */
+											middle_num = search_edge_colour_of_side(LEFT, WHITE, GREEN);
+											if (middle_num) /* Found in left */
+											{
+												switch (middle_num)
+												{
+												case 1:
+													/* Invalid case */
+													break;
+												case 2:
+													add_formula("U Li Li Ui F", "   SOLVE UP21  ");
+													break;
+												case 3:
+													add_formula("F", "   SOLVE UP21  ");
+													break;
+												case 4:
+													add_formula("U Li Ui F", "   SOLVE UP21  ");
+													break;
+												}
+											}
+											else
+											{
+												/* Search right */
+												middle_num = search_edge_colour_of_side(RIGHT, WHITE, GREEN);
+												if (middle_num) /* Found in right */
+												{
+													switch (middle_num)
+													{
+													case 1:
+														/* Invalid case */
+														break;
+													case 2:
+														add_formula("Fi", "   SOLVE UP21  ");
+														break;
+													case 3:
+														add_formula("Bi D D B F F", "   SOLVE UP21  ");
+														break;
+													case 4:
+														add_formula("R Fi Ri", "   SOLVE UP21  ");
+														break;
+													}
+												}
+												else
+												{
+													/* Search UP */
+													middle_num = search_edge_colour_of_side(UP, WHITE, GREEN);
+													if (middle_num) /* Found in right */
+													{
+														switch (middle_num)
+														{
+														case 1:
+															/* Invalid case */
+															break;
+														case 2:
+															/* Invalid case */
+															break;
+														case 3:
+															/* Invalid case */
+															break;
+														case 4:
+															/* In place */
+															break;
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+							print_screen();
+							apply_formula();
+							if (CROSS_04_SOLVED)
+								stage1_substage_1 = VALIDATE_CROSS;
+							break;
+
+						case VALIDATE_CROSS:
+							if (CROSS_01_SOLVED)
+							{
+								if (CROSS_02_SOLVED)
+								{
+									if (CROSS_03_SOLVED)
+									{
+										if (CROSS_04_SOLVED)
+											cross_complete = 1;
+										else
+											stage1_substage_1 = UP_21;
+									}
+									else
+										stage1_substage_1 = UP_12;
+								}
+								else
+									stage1_substage_1 = UP_10;
 							}
 							else
-								stage1_substage_1 = UP_12;
-						}
-						else
-							stage1_substage_1 = UP_10;
-					}
-					else
-						stage1_substage_1 = UP_01;
+								stage1_substage_1 = UP_01;
 
+							break;
+						}
+					}
+					/* White cross solved */
+					stage1_completed = WHITE_CORNERS;
+					break;
+
+				case WHITE_CORNERS:
+					while (!white_corners_complete) /* White corners not completed */
+					{
+						switch (stage1_substage_2)
+						{
+						case UP_00:
+							if ((!is_white(UP_00_COLOUR)) && (!is_blue(BACK_02_COLOUR)) && (!is_same_colour(LEFT_00_COLOUR, LEFT_CENTER_COLOUR)))
+								break;
+
+						case UP_02:
+							break;
+
+						case UP_20:
+							break;
+
+						case UP_22:
+							break;
+						}
+					}
+
+					/* White corners solved */
+					stage1_completed = COMPLETE;
 					break;
 				}
 			}
-			/* White cross completed */
-			
-			/* UP Corner Solving */
-			printf("__CORNER_SOLVING__TBD\n");
-			getchar();getchar();
+
 			stage = STAGE2;
 			break;
 
@@ -1429,6 +1094,31 @@ static void formulae_update_step(char *step, char *formula_description)
 	}
 }
 
+static void add_formula(char *formula_new, char *description)
+{
+	char *token;
+	int len = strlen(formula_new);
+
+	char *temp_str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!temp_str)
+	{
+		print_error("malloc() error in add_formula()");
+		exit(1);
+	}
+	strcpy(temp_str, formula_new);
+
+	formulae_update_step(START_FORMULA, description);
+	token = strtok(temp_str, " ");
+	while (token)
+	{
+		formulae_update_step(token, NULL);
+		token = strtok(NULL, " ");
+	}
+	formulae_update_step(END_FORMULA, NULL);
+
+	free(temp_str);
+}
+
 static void apply_formula(void)
 {
 	char temp_step[3];
@@ -1574,68 +1264,68 @@ static int search_edge_colour_of_side(int side, char colour_main, char colour_pa
 	switch (side)
 	{
 	case FRONT:
-		if ((cube.sides.front.colour[0][1] == colour_main) && (cube.sides.up.colour[2][1] == colour_pair))
+		if ((FRONT_01_COLOUR == colour_main) && (UP_21_COLOUR == colour_pair))
 			middle_num = 1;
-		else if ((cube.sides.front.colour[1][0] == colour_main) && (cube.sides.left.colour[1][2] == colour_pair))
+		else if ((FRONT_10_COLOUR == colour_main) && (LEFT_12_COLOUR == colour_pair))
 			middle_num = 2;
-		else if ((cube.sides.front.colour[1][2] == colour_main) && (cube.sides.right.colour[1][0] == colour_pair))
+		else if ((FRONT_12_COLOUR == colour_main) && (RIGHT_10_COLOUR == colour_pair))
 			middle_num = 3;
-		else if ((cube.sides.front.colour[2][1] == colour_main) && (cube.sides.down.colour[0][1] == colour_pair))
+		else if ((FRONT_21_COLOUR == colour_main) && (DOWN_01_COLOUR == colour_pair))
 			middle_num = 4;
 		break;
 
 	case BACK:
-		if ((cube.sides.back.colour[0][1] == colour_main) && (cube.sides.up.colour[0][1] == colour_pair))
+		if ((BACK_01_COLOUR == colour_main) && (UP_01_COLOUR == colour_pair))
 			middle_num = 1;
-		else if ((cube.sides.back.colour[1][0] == colour_main) && (cube.sides.right.colour[1][2] == colour_pair))
+		else if ((BACK_10_COLOUR == colour_main) && (RIGHT_12_COLOUR == colour_pair))
 			middle_num = 2;
-		else if ((cube.sides.back.colour[1][2] == colour_main) && (cube.sides.left.colour[1][0] == colour_pair))
+		else if ((BACK_12_COLOUR == colour_main) && (LEFT_10_COLOUR == colour_pair))
 			middle_num = 3;
-		else if ((cube.sides.back.colour[2][1] == colour_main) && (cube.sides.down.colour[2][1] == colour_pair))
+		else if ((BACK_21_COLOUR == colour_main) && (DOWN_21_COLOUR == colour_pair))
 			middle_num = 4;
 		break;
 
 	case LEFT:
-		if ((cube.sides.left.colour[0][1] == colour_main) && (cube.sides.up.colour[1][0] == colour_pair))
+		if ((LEFT_01_COLOUR == colour_main) && (UP_10_COLOUR == colour_pair))
 			middle_num = 1;
-		else if ((cube.sides.left.colour[1][0] == colour_main) && (cube.sides.back.colour[1][2] == colour_pair))
+		else if ((LEFT_10_COLOUR == colour_main) && (BACK_12_COLOUR == colour_pair))
 			middle_num = 2;
-		else if ((cube.sides.left.colour[1][2] == colour_main) && (cube.sides.front.colour[1][0] == colour_pair))
+		else if ((LEFT_12_COLOUR == colour_main) && (FRONT_10_COLOUR == colour_pair))
 			middle_num = 3;
-		else if ((cube.sides.left.colour[2][1] == colour_main) && (cube.sides.down.colour[1][0] == colour_pair))
+		else if ((LEFT_21_COLOUR == colour_main) && (DOWN_10_COLOUR == colour_pair))
 			middle_num = 4;
 		break;
 
 	case RIGHT:
-		if ((cube.sides.right.colour[0][1] == colour_main) && (cube.sides.up.colour[1][2] == colour_pair))
+		if ((RIGHT_01_COLOUR == colour_main) && (UP_12_COLOUR == colour_pair))
 			middle_num = 1;
-		else if ((cube.sides.right.colour[1][0] == colour_main) && (cube.sides.front.colour[1][2] == colour_pair))
+		else if ((RIGHT_10_COLOUR == colour_main) && (FRONT_12_COLOUR == colour_pair))
 			middle_num = 2;
-		else if ((cube.sides.right.colour[1][2] == colour_main) && (cube.sides.back.colour[1][0] == colour_pair))
+		else if ((RIGHT_12_COLOUR == colour_main) && (BACK_10_COLOUR == colour_pair))
 			middle_num = 3;
-		else if ((cube.sides.right.colour[2][1] == colour_main) && (cube.sides.down.colour[1][2] == colour_pair))
+		else if ((RIGHT_21_COLOUR == colour_main) && (DOWN_12_COLOUR == colour_pair))
 			middle_num = 4;
 		break;
 
 	case DOWN:
-		if ((cube.sides.down.colour[0][1] == colour_main) && (cube.sides.front.colour[2][1] == colour_pair))
+		if ((DOWN_01_COLOUR == colour_main) && (FRONT_21_COLOUR == colour_pair))
 			middle_num = 1;
-		else if ((cube.sides.down.colour[1][0] == colour_main) && (cube.sides.left.colour[2][1] == colour_pair))
+		else if ((DOWN_10_COLOUR == colour_main) && (LEFT_21_COLOUR == colour_pair))
 			middle_num = 2;
-		else if ((cube.sides.down.colour[1][2] == colour_main) && (cube.sides.right.colour[2][1] == colour_pair))
+		else if ((DOWN_12_COLOUR == colour_main) && (RIGHT_21_COLOUR == colour_pair))
 			middle_num = 3;
-		else if ((cube.sides.down.colour[2][1] == colour_main) && (cube.sides.back.colour[2][1] == colour_pair))
+		else if ((DOWN_21_COLOUR == colour_main) && (BACK_21_COLOUR == colour_pair))
 			middle_num = 4;
 		break;
 
 	case UP:
-		if ((cube.sides.up.colour[0][1] == colour_main) && (cube.sides.back.colour[0][1] == colour_pair))
+		if ((UP_01_COLOUR == colour_main) && (BACK_01_COLOUR == colour_pair))
 			middle_num = 1;
-		else if ((cube.sides.up.colour[1][0] == colour_main) && (cube.sides.left.colour[0][1] == colour_pair))
+		else if ((UP_10_COLOUR == colour_main) && (LEFT_01_COLOUR == colour_pair))
 			middle_num = 2;
-		else if ((cube.sides.up.colour[1][2] == colour_main) && (cube.sides.right.colour[0][1] == colour_pair))
+		else if ((UP_12_COLOUR == colour_main) && (RIGHT_01_COLOUR == colour_pair))
 			middle_num = 3;
-		else if ((cube.sides.up.colour[2][1] == colour_main) && (cube.sides.front.colour[0][1] == colour_pair))
+		else if ((UP_21_COLOUR == colour_main) && (FRONT_01_COLOUR == colour_pair))
 			middle_num = 4;
 		break;
 	}
@@ -1644,65 +1334,65 @@ static int search_edge_colour_of_side(int side, char colour_main, char colour_pa
 
 static void cube_init_temp_colour(void)
 {
-	cube.sides.back.colour[0][0] = GREEN;
-	cube.sides.back.colour[0][1] = RED;
-	cube.sides.back.colour[0][2] = BLUE;
-	cube.sides.back.colour[1][0] = BLUE;
-	cube.sides.back.colour[1][1] = YELLOW;
-	cube.sides.back.colour[1][2] = WHITE;
-	cube.sides.back.colour[2][0] = ORANGE;
-	cube.sides.back.colour[2][1] = YELLOW;
-	cube.sides.back.colour[2][2] = YELLOW;
+	BACK_00_COLOUR = GREEN;
+	BACK_01_COLOUR = RED;
+	BACK_02_COLOUR = BLUE;
+	BACK_10_COLOUR = BLUE;
+	BACK_11_COLOUR = YELLOW;
+	BACK_12_COLOUR = WHITE;
+	BACK_20_COLOUR = ORANGE;
+	BACK_21_COLOUR = YELLOW;
+	BACK_22_COLOUR = YELLOW;
 
-	cube.sides.left.colour[0][0] = WHITE;
-	cube.sides.left.colour[0][1] = GREEN;
-	cube.sides.left.colour[0][2] = WHITE;
-	cube.sides.left.colour[1][0] = GREEN;
-	cube.sides.left.colour[1][1] = GREEN;
-	cube.sides.left.colour[1][2] = ORANGE;
-	cube.sides.left.colour[2][0] = GREEN;
-	cube.sides.left.colour[2][1] = RED;
-	cube.sides.left.colour[2][2] = BLUE;
+	LEFT_00_COLOUR = WHITE;
+	LEFT_01_COLOUR = GREEN;
+	LEFT_02_COLOUR = WHITE;
+	LEFT_10_COLOUR = GREEN;
+	LEFT_11_COLOUR = GREEN;
+	LEFT_12_COLOUR = ORANGE;
+	LEFT_20_COLOUR = GREEN;
+	LEFT_21_COLOUR = RED;
+	LEFT_22_COLOUR = BLUE;
 
-	cube.sides.up.colour[0][0] = RED;
-	cube.sides.up.colour[0][1] = GREEN;
-	cube.sides.up.colour[0][2] = ORANGE;
-	cube.sides.up.colour[1][0] = YELLOW;
-	cube.sides.up.colour[1][1] = ORANGE;
-	cube.sides.up.colour[1][2] = ORANGE;
-	cube.sides.up.colour[2][0] = RED;
-	cube.sides.up.colour[2][1] = RED;
-	cube.sides.up.colour[2][2] = WHITE;
+	UP_00_COLOUR = RED;
+	UP_01_COLOUR = GREEN;
+	UP_02_COLOUR = ORANGE;
+	UP_10_COLOUR = YELLOW;
+	UP_11_COLOUR = ORANGE;
+	UP_12_COLOUR = ORANGE;
+	UP_20_COLOUR = RED;
+	UP_21_COLOUR = RED;
+	UP_22_COLOUR = WHITE;
 
-	cube.sides.right.colour[0][0] = GREEN;
-	cube.sides.right.colour[0][1] = BLUE;
-	cube.sides.right.colour[0][2] = YELLOW;
-	cube.sides.right.colour[1][0] = WHITE;
-	cube.sides.right.colour[1][1] = BLUE;
-	cube.sides.right.colour[1][2] = WHITE;
-	cube.sides.right.colour[2][0] = YELLOW;
-	cube.sides.right.colour[2][1] = WHITE;
-	cube.sides.right.colour[2][2] = WHITE;
+	RIGHT_00_COLOUR = GREEN;
+	RIGHT_01_COLOUR = BLUE;
+	RIGHT_02_COLOUR = YELLOW;
+	RIGHT_10_COLOUR = WHITE;
+	RIGHT_11_COLOUR = BLUE;
+	RIGHT_12_COLOUR = WHITE;
+	RIGHT_20_COLOUR = YELLOW;
+	RIGHT_21_COLOUR = WHITE;
+	RIGHT_22_COLOUR = WHITE;
 
-	cube.sides.down.colour[0][0] = YELLOW;
-	cube.sides.down.colour[0][1] = YELLOW;
-	cube.sides.down.colour[0][2] = RED;
-	cube.sides.down.colour[1][0] = YELLOW;
-	cube.sides.down.colour[1][1] = RED;
-	cube.sides.down.colour[1][2] = RED;
-	cube.sides.down.colour[2][0] = RED;
-	cube.sides.down.colour[2][1] = ORANGE;
-	cube.sides.down.colour[2][2] = BLUE;
+	DOWN_00_COLOUR = YELLOW;
+	DOWN_01_COLOUR = YELLOW;
+	DOWN_02_COLOUR = RED;
+	DOWN_10_COLOUR = YELLOW;
+	DOWN_11_COLOUR = RED;
+	DOWN_12_COLOUR = RED;
+	DOWN_20_COLOUR = RED;
+	DOWN_21_COLOUR = ORANGE;
+	DOWN_22_COLOUR = BLUE;
 
-	cube.sides.front.colour[0][0] = GREEN;
-	cube.sides.front.colour[0][1] = BLUE;
-	cube.sides.front.colour[0][2] = ORANGE;
-	cube.sides.front.colour[1][0] = GREEN;
-	cube.sides.front.colour[1][1] = WHITE;
-	cube.sides.front.colour[1][2] = ORANGE;
-	cube.sides.front.colour[2][0] = ORANGE;
-	cube.sides.front.colour[2][1] = BLUE;
-	cube.sides.front.colour[2][2] = BLUE;
+	FRONT_00_COLOUR = GREEN;
+	FRONT_01_COLOUR = BLUE;
+	FRONT_02_COLOUR = ORANGE;
+	FRONT_10_COLOUR = GREEN;
+	FRONT_11_COLOUR = WHITE;
+	FRONT_12_COLOUR = ORANGE;
+	FRONT_20_COLOUR = ORANGE;
+	FRONT_21_COLOUR = BLUE;
+	FRONT_22_COLOUR = BLUE;
 
 	colour_count.blue = 9;
 	colour_count.green = 9;
