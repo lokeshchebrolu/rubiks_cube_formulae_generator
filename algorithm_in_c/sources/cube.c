@@ -1335,78 +1335,78 @@ static int search_edge_colour_of_side(int side, char colour_main, char colour_pa
 	return middle_num;
 }
 
-static int search_corner_colour_of_side(int side, char face_colour, char side_colour1, char side_colour2)
+static int search_corner_colour_of_side(int side, char face_colour, char side_colour1, char side_face_colour2)
 {
-	int middle_num = 0;
+	int corner_num = 0;
 	switch (side)
 	{
 	case FRONT:
 		if ((FRONT_01_COLOUR == colour_main) && (UP_21_COLOUR == colour_pair))
-			middle_num = 1;
+			corner_num = 1;
 		else if ((FRONT_10_COLOUR == colour_main) && (LEFT_12_COLOUR == colour_pair))
-			middle_num = 2;
+			corner_num = 2;
 		else if ((FRONT_12_COLOUR == colour_main) && (RIGHT_10_COLOUR == colour_pair))
-			middle_num = 3;
+			corner_num = 3;
 		else if ((FRONT_21_COLOUR == colour_main) && (DOWN_01_COLOUR == colour_pair))
-			middle_num = 4;
+			corner_num = 4;
 		break;
 
 	case BACK:
 		if ((BACK_01_COLOUR == colour_main) && (UP_01_COLOUR == colour_pair))
-			middle_num = 1;
+			corner_num = 1;
 		else if ((BACK_10_COLOUR == colour_main) && (RIGHT_12_COLOUR == colour_pair))
-			middle_num = 2;
+			corner_num = 2;
 		else if ((BACK_12_COLOUR == colour_main) && (LEFT_10_COLOUR == colour_pair))
-			middle_num = 3;
+			corner_num = 3;
 		else if ((BACK_21_COLOUR == colour_main) && (DOWN_21_COLOUR == colour_pair))
-			middle_num = 4;
+			corner_num = 4;
 		break;
 
 	case LEFT:
 		if ((LEFT_01_COLOUR == colour_main) && (UP_10_COLOUR == colour_pair))
-			middle_num = 1;
+			corner_num = 1;
 		else if ((LEFT_10_COLOUR == colour_main) && (BACK_12_COLOUR == colour_pair))
-			middle_num = 2;
+			corner_num = 2;
 		else if ((LEFT_12_COLOUR == colour_main) && (FRONT_10_COLOUR == colour_pair))
-			middle_num = 3;
+			corner_num = 3;
 		else if ((LEFT_21_COLOUR == colour_main) && (DOWN_10_COLOUR == colour_pair))
-			middle_num = 4;
+			corner_num = 4;
 		break;
 
 	case RIGHT:
 		if ((RIGHT_01_COLOUR == colour_main) && (UP_12_COLOUR == colour_pair))
-			middle_num = 1;
+			corner_num = 1;
 		else if ((RIGHT_10_COLOUR == colour_main) && (FRONT_12_COLOUR == colour_pair))
-			middle_num = 2;
+			corner_num = 2;
 		else if ((RIGHT_12_COLOUR == colour_main) && (BACK_10_COLOUR == colour_pair))
-			middle_num = 3;
+			corner_num = 3;
 		else if ((RIGHT_21_COLOUR == colour_main) && (DOWN_12_COLOUR == colour_pair))
-			middle_num = 4;
+			corner_num = 4;
 		break;
 
 	case DOWN:
 		if ((DOWN_01_COLOUR == colour_main) && (FRONT_21_COLOUR == colour_pair))
-			middle_num = 1;
+			corner_num = 1;
 		else if ((DOWN_10_COLOUR == colour_main) && (LEFT_21_COLOUR == colour_pair))
-			middle_num = 2;
+			corner_num = 2;
 		else if ((DOWN_12_COLOUR == colour_main) && (RIGHT_21_COLOUR == colour_pair))
-			middle_num = 3;
+			corner_num = 3;
 		else if ((DOWN_21_COLOUR == colour_main) && (BACK_21_COLOUR == colour_pair))
-			middle_num = 4;
+			corner_num = 4;
 		break;
 
 	case UP:
 		if ((UP_01_COLOUR == colour_main) && (BACK_01_COLOUR == colour_pair))
-			middle_num = 1;
+			corner_num = 1;
 		else if ((UP_10_COLOUR == colour_main) && (LEFT_01_COLOUR == colour_pair))
-			middle_num = 2;
+			corner_num = 2;
 		else if ((UP_12_COLOUR == colour_main) && (RIGHT_01_COLOUR == colour_pair))
-			middle_num = 3;
+			corner_num = 3;
 		else if ((UP_21_COLOUR == colour_main) && (FRONT_01_COLOUR == colour_pair))
-			middle_num = 4;
+			corner_num = 4;
 		break;
 	}
-	return middle_num;
+	return corner_num;
 }
 
 static void cube_init_temp_colour(void)
