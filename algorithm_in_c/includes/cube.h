@@ -2,6 +2,7 @@
 #define __CUBE_H
 
 #include "types.h"
+#include "colour.h"
 
 #define MOVE_CURSOR(x, y)                \
     do                                   \
