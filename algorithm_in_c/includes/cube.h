@@ -87,6 +87,9 @@
 #define WHITE_CORNER_03_NOT_SOLVED (!WHITE_CORNER_03_SOLVED)
 #define WHITE_CORNER_04_NOT_SOLVED (!WHITE_CORNER_04_SOLVED)
 
+#define FRONT_00_FOUND ((is_same_colour(FRONT_00_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(UP_20_COLOUR, side_colour1) || is_same_colour(UP_20_COLOUR, side_colour2)) && \
+                         (is_same_colour(LEFT_02_COLOUR, side_colour1) || is_same_colour(LEFT_02_COLOUR, side_colour2))))
 typedef enum
 {
     ANALYSE = 0, /* Analyse the input given cube state */
