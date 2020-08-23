@@ -90,11 +90,80 @@
 #define FRONT_00_FOUND ((is_same_colour(FRONT_00_COLOUR, face_colour)) &&                                              \
                         ((is_same_colour(UP_20_COLOUR, side_colour1) || is_same_colour(UP_20_COLOUR, side_colour2)) && \
                          (is_same_colour(LEFT_02_COLOUR, side_colour1) || is_same_colour(LEFT_02_COLOUR, side_colour2))))
+#define FRONT_02_FOUND ((is_same_colour(FRONT_02_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(UP_22_COLOUR, side_colour1) || is_same_colour(UP_22_COLOUR, side_colour2)) && \
+                         (is_same_colour(RIGHT_00_COLOUR, side_colour1) || is_same_colour(RIGHT_00_COLOUR, side_colour2))))
+#define FRONT_20_FOUND ((is_same_colour(FRONT_20_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(DOWN_00_COLOUR, side_colour1) || is_same_colour(DOWN_00_COLOUR, side_colour2)) && \
+                         (is_same_colour(LEFT_22_COLOUR, side_colour1) || is_same_colour(LEFT_22_COLOUR, side_colour2))))
+#define FRONT_22_FOUND ((is_same_colour(FRONT_22_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(DOWN_02_COLOUR, side_colour1) || is_same_colour(DOWN_02_COLOUR, side_colour2)) && \
+                         (is_same_colour(RIGHT_20_COLOUR, side_colour1) || is_same_colour(RIGHT_20_COLOUR, side_colour2))))
 
+#define BACK_00_FOUND ((is_same_colour(BACK_00_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(UP_02_COLOUR, side_colour1) || is_same_colour(UP_02_COLOUR, side_colour2)) && \
+                         (is_same_colour(RIGHT_02_COLOUR, side_colour1) || is_same_colour(RIGHT_02_COLOUR, side_colour2))))
+#define BACK_02_FOUND ((is_same_colour(BACK_02_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(UP_00_COLOUR, side_colour1) || is_same_colour(UP_00_COLOUR, side_colour2)) && \
+                         (is_same_colour(LEFT_00_COLOUR, side_colour1) || is_same_colour(LEFT_00_COLOUR, side_colour2))))
+#define BACK_20_FOUND ((is_same_colour(BACK_20_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(DOWN_22_COLOUR, side_colour1) || is_same_colour(DOWN_22_COLOUR, side_colour2)) && \
+                         (is_same_colour(RIGHT_22_COLOUR, side_colour1) || is_same_colour(RIGHT_22_COLOUR, side_colour2))))
 #define BACK_22_FOUND ((is_same_colour(BACK_22_COLOUR, face_colour)) &&                                              \
                         ((is_same_colour(DOWN_20_COLOUR, side_colour1) || is_same_colour(DOWN_20_COLOUR, side_colour2)) && \
                          (is_same_colour(LEFT_20_COLOUR, side_colour1) || is_same_colour(LEFT_20_COLOUR, side_colour2))))
 
+#define LEFT_00_FOUND ((is_same_colour(LEFT_00_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(UP_00_COLOUR, side_colour1) || is_same_colour(UP_00_COLOUR, side_colour2)) && \
+                         (is_same_colour(BACK_02_COLOUR, side_colour1) || is_same_colour(BACK_02_COLOUR, side_colour2))))
+#define LEFT_02_FOUND ((is_same_colour(LEFT_02_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(UP_20_COLOUR, side_colour1) || is_same_colour(UP_20_COLOUR, side_colour2)) && \
+                         (is_same_colour(FRONT_00_COLOUR, side_colour1) || is_same_colour(FRONT_00_COLOUR, side_colour2))))
+#define LEFT_20_FOUND ((is_same_colour(LEFT_20_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(DOWN_20_COLOUR, side_colour1) || is_same_colour(DOWN_20_COLOUR, side_colour2)) && \
+                         (is_same_colour(BACK_22_COLOUR, side_colour1) || is_same_colour(BACK_22_COLOUR, side_colour2))))
+#define LEFT_22_FOUND ((is_same_colour(LEFT_22_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(DOWN_00_COLOUR, side_colour1) || is_same_colour(DOWN_00_COLOUR, side_colour2)) && \
+                         (is_same_colour(FRONT_20_COLOUR, side_colour1) || is_same_colour(FRONT_20_COLOUR, side_colour2))))
+
+#define RIGHT_00_FOUND ((is_same_colour(RIGHT_00_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(UP_22_COLOUR, side_colour1) || is_same_colour(UP_22_COLOUR, side_colour2)) && \
+                         (is_same_colour(FRONT_02_COLOUR, side_colour1) || is_same_colour(FRONT_02_COLOUR, side_colour2))))
+#define RIGHT_02_FOUND ((is_same_colour(RIGHT_02_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(UP_02_COLOUR, side_colour1) || is_same_colour(UP_02_COLOUR, side_colour2)) && \
+                         (is_same_colour(BACK_00_COLOUR, side_colour1) || is_same_colour(BACK_00_COLOUR, side_colour2))))
+#define RIGHT_20_FOUND ((is_same_colour(RIGHT_20_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(DOWN_02_COLOUR, side_colour1) || is_same_colour(DOWN_02_COLOUR, side_colour2)) && \
+                         (is_same_colour(FRONT_22_COLOUR, side_colour1) || is_same_colour(FRONT_22_COLOUR, side_colour2))))
+#define RIGHT_22_FOUND ((is_same_colour(RIGHT_22_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(DOWN_22_COLOUR, side_colour1) || is_same_colour(DOWN_22_COLOUR, side_colour2)) && \
+                         (is_same_colour(BACK_20_COLOUR, side_colour1) || is_same_colour(BACK_20_COLOUR, side_colour2))))
+
+#define UP_00_FOUND ((is_same_colour(UP_00_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(BACK_02_COLOUR, side_colour1) || is_same_colour(BACK_02_COLOUR, side_colour2)) && \
+                         (is_same_colour(LEFT_00_COLOUR, side_colour1) || is_same_colour(LEFT_00_COLOUR, side_colour2))))
+#define UP_02_FOUND ((is_same_colour(UP_02_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(RIGHT_02_COLOUR, side_colour1) || is_same_colour(RIGHT_02_COLOUR, side_colour2)) && \
+                         (is_same_colour(BACK_00_COLOUR, side_colour1) || is_same_colour(BACK_00_COLOUR, side_colour2))))
+#define UP_20_FOUND ((is_same_colour(UP_20_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(LEFT_02_COLOUR, side_colour1) || is_same_colour(LEFT_02_COLOUR, side_colour2)) && \
+                         (is_same_colour(FRONT_00_COLOUR, side_colour1) || is_same_colour(FRONT_00_COLOUR, side_colour2))))
+#define UP_22_FOUND ((is_same_colour(UP_22_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(RIGHT_00_COLOUR, side_colour1) || is_same_colour(RIGHT_00_COLOUR, side_colour2)) && \
+                         (is_same_colour(FRONT_02_COLOUR, side_colour1) || is_same_colour(FRONT_02_COLOUR, side_colour2))))
+
+#define DOWN_00_FOUND ((is_same_colour(DOWN_00_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(FRONT_20_COLOUR, side_colour1) || is_same_colour(FRONT_20_COLOUR, side_colour2)) && \
+                         (is_same_colour(LEFT_22_COLOUR, side_colour1) || is_same_colour(LEFT_22_COLOUR, side_colour2))))
+#define DOWN_02_FOUND ((is_same_colour(DOWN_02_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(RIGHT_20_COLOUR, side_colour1) || is_same_colour(RIGHT_20_COLOUR, side_colour2)) && \
+                         (is_same_colour(FRONT_22_COLOUR, side_colour1) || is_same_colour(FRONT_22_COLOUR, side_colour2))))
+#define DOWN_20_FOUND ((is_same_colour(DOWN_20_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(LEFT_20_COLOUR, side_colour1) || is_same_colour(LEFT_20_COLOUR, side_colour2)) && \
+                         (is_same_colour(BACK_22_COLOUR, side_colour1) || is_same_colour(BACK_22_COLOUR, side_colour2))))
+#define DOWN_22_FOUND ((is_same_colour(DOWN_22_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(RIGHT_22_COLOUR, side_colour1) || is_same_colour(RIGHT_22_COLOUR, side_colour2)) && \
+                         (is_same_colour(BACK_20_COLOUR, side_colour1) || is_same_colour(BACK_20_COLOUR, side_colour2))))
 typedef enum
 {
     ANALYSE = 0, /* Analyse the input given cube state */

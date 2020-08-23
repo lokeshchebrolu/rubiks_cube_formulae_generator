@@ -456,9 +456,9 @@ void cube_solve(void)
 										}
 									}
 								}
+								print_screen();
+								apply_formula();
 							}
-							print_screen();
-							apply_formula();
 							if (CROSS_01_SOLVED)
 								stage1_substage_1 = UP_10;
 							break;
@@ -602,9 +602,9 @@ void cube_solve(void)
 										}
 									}
 								}
+								print_screen();
+								apply_formula();
 							}
-							print_screen();
-							apply_formula();
 							if (CROSS_02_SOLVED)
 								stage1_substage_1 = UP_12;
 							break;
@@ -748,9 +748,9 @@ void cube_solve(void)
 										}
 									}
 								}
+								print_screen();
+								apply_formula();
 							}
-							print_screen();
-							apply_formula();
 							if (CROSS_03_SOLVED)
 								stage1_substage_1 = UP_21;
 							break;
@@ -894,9 +894,9 @@ void cube_solve(void)
 										}
 									}
 								}
+								print_screen();
+								apply_formula();
 							}
-							print_screen();
-							apply_formula();
 							if (CROSS_04_SOLVED)
 								stage1_substage_1 = VALIDATE_CROSS;
 							break;
@@ -909,7 +909,9 @@ void cube_solve(void)
 									if (CROSS_03_SOLVED)
 									{
 										if (CROSS_04_SOLVED)
+										{
 											cross_complete = 1;
+										}
 										else
 											stage1_substage_1 = UP_21;
 									}
@@ -1067,14 +1069,151 @@ void cube_solve(void)
 										}
 									}
 								}
+								print_screen();
+								apply_formula();
 							}
-							print_screen();
-							apply_formula();
-							wait_for_enter("_DONE_");
-
+							if (WHITE_CORNER_01_SOLVED)
+								stage1_substage_2 = UP_02;
 							break;
 
 						case UP_02:
+							if (WHITE_CORNER_02_NOT_SOLVED)
+							{
+								int corner_num = 0;
+								corner_num = search_corner_colour_of_side(FRONT, WHITE, BLUE, RIGHT_CENTER_COLOUR);
+								if (corner_num) /* Found in Front side */
+								{
+									switch (corner_num)
+									{
+									case 1:
+										add_formula("Fi Di F R Di Ri", "WHITE CORNER 02");
+										break;
+									case 2:
+										add_formula("F Bi D Fi B", "WHITE CORNER 02");
+										break;
+									case 3:
+										add_formula("R D D Ri", "WHITE CORNER 02");
+										break;
+									case 4:
+										add_formula("Bi D B", "WHITE CORNER 02");
+										break;
+									}
+								}
+								else
+								{
+									corner_num = search_corner_colour_of_side(BACK, WHITE, BLUE, RIGHT_CENTER_COLOUR);
+									if (corner_num) /* Found in Back side */
+									{
+										switch (corner_num)
+										{
+										case 1:
+											add_formula("Bi D D B R D D Ri", "WHITE CORNER 02");
+											break;
+										case 2:
+											/* Solved */
+											break;
+										case 3:
+											add_formula("D R Di RI", "WHITE CORNER 02");
+											break;
+										case 4:
+											add_formula("D Bi D D B", "WHITE CORNER 02");
+											break;
+										}
+									}
+									else
+									{
+										corner_num = search_corner_colour_of_side(RIGHT, WHITE, BLUE, RIGHT_CENTER_COLOUR);
+										if (corner_num) /* Found in Right side */
+										{
+											switch (corner_num)
+											{
+											case 1:
+												add_formula("Ri Di R R D D Ri", "WHITE CORNER 02");
+												break;
+											case 2:
+												add_formula("R D D Ri Bi D D B", "WHITE CORNER 02");
+												break;
+											case 3:
+												add_formula("Di R D D Ri", "WHITE CORNER 02");
+												break;
+											case 4:
+												add_formula("Di Bi D B", "WHITE CORNER 02");
+												break;
+											}
+										}
+										else
+										{
+											corner_num = search_corner_colour_of_side(LEFT, WHITE, BLUE, RIGHT_CENTER_COLOUR);
+											if (corner_num) /* Found in Left side */
+											{
+												switch (corner_num)
+												{
+												case 1:
+													/* Solved */
+													break;
+												case 2:
+													add_formula("L Bi D D B Li", "WHITE CORNER 02");
+													break;
+												case 3:
+													add_formula("R Di Ri", "WHITE CORNER 02");
+													break;
+												case 4:
+													add_formula("Bi D D B", "WHITE CORNER 02");
+													break;
+												}
+											}
+											else
+											{
+												corner_num = search_corner_colour_of_side(DOWN, WHITE, BLUE, RIGHT_CENTER_COLOUR);
+												if (corner_num) /* Found in Down side */
+												{
+													switch (corner_num)
+													{
+													case 1:
+														add_formula("Bi L Di Li B", "WHITE CORNER 02");
+														break;
+													case 2:
+														add_formula("Di Bi L Di Li B", "WHITE CORNER 02");
+														break;
+													case 3:
+														add_formula("D Bi L Di Li B", "WHITE CORNER 02");
+														break;
+													case 4:
+														add_formula("D D Bi L Di Li B", "WHITE CORNER 02");
+														break;
+													}
+												}
+												else
+												{
+													corner_num = search_corner_colour_of_side(UP, WHITE, BLUE, RIGHT_CENTER_COLOUR);
+													if (corner_num) /* Found in UP side */
+													{
+														switch (corner_num)
+														{
+														case 1:
+															/* Solved */
+															break;
+														case 2:
+															/* In place */
+															break;
+														case 3:
+															add_formula("L R D D Ri Li", "WHITE CORNER 02");
+															break;
+														case 4:
+															add_formula("Ri Di R Bi D D B", "WHITE CORNER 02");
+															break;
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								print_screen();
+								apply_formula();
+							}
+							if (WHITE_CORNER_02_SOLVED)
+								stage1_substage_2 = UP_20;
 							break;
 
 						case UP_20:
@@ -1218,11 +1357,11 @@ static void formulae_update_step(char *step, char *formula_description)
 			print_error("relloc() error in formulae_update_step() function");
 			exit(1);
 		}
-
 		CURRENT_FORMULA.step_count = 0;
 		CURRENT_FORMULA.steps = NULL;
 		CURRENT_FORMULA.executed = 0;
 		strcpy(CURRENT_FORMULA.formula_description, formula_description);
+
 		break;
 
 	case 'E': /* End of Forumla */
@@ -1277,10 +1416,8 @@ static void add_formula(char *formula_new, char *description)
 static void apply_formula(void)
 {
 	char temp_step[3];
-
 	for (int i = 0; (i < CURRENT_FORMULA.step_count - 1) || (i == 0); i++)
 	{
-		wait_for_enter("\n3");
 		MOVE_CURSOR_UP(1);
 		MOVE_CURSOR_FORWARD(41);
 		for (int j = 0; j < i; j++)
@@ -1497,23 +1634,67 @@ static int search_corner_colour_of_side(int side, char face_colour, char side_co
 	case FRONT:
 		if (FRONT_00_FOUND)
 			corner_num = 1;
+		else if (FRONT_02_FOUND)
+			corner_num = 2;
+		else if (FRONT_20_FOUND)
+			corner_num = 3;
+		else if (FRONT_22_FOUND)
+			corner_num = 4;
 		break;
 
 	case BACK:
-		if (BACK_22_FOUND)
+		if (BACK_00_FOUND)
+			corner_num = 1;
+		else if (BACK_02_FOUND)
+			corner_num = 2;
+		else if (BACK_20_FOUND)
+			corner_num = 3;
+		else if (BACK_22_FOUND)
 			corner_num = 4;
 		break;
 
 	case LEFT:
+		if (LEFT_00_FOUND)
+			corner_num = 1;
+		else if (LEFT_02_FOUND)
+			corner_num = 2;
+		else if (LEFT_20_FOUND)
+			corner_num = 3;
+		else if (LEFT_22_FOUND)
+			corner_num = 4;
 		break;
 
 	case RIGHT:
+		if (RIGHT_00_FOUND)
+			corner_num = 1;
+		else if (RIGHT_02_FOUND)
+			corner_num = 2;
+		else if (RIGHT_20_FOUND)
+			corner_num = 3;
+		else if (RIGHT_22_FOUND)
+			corner_num = 4;
 		break;
 
 	case DOWN:
+		if (DOWN_00_FOUND)
+			corner_num = 1;
+		else if (DOWN_02_FOUND)
+			corner_num = 2;
+		else if (DOWN_20_FOUND)
+			corner_num = 3;
+		else if (DOWN_22_FOUND)
+			corner_num = 4;
 		break;
 
 	case UP:
+		if (UP_00_FOUND)
+			corner_num = 1;
+		else if (UP_02_FOUND)
+			corner_num = 2;
+		else if (UP_20_FOUND)
+			corner_num = 3;
+		else if (UP_22_FOUND)
+			corner_num = 4;
 		break;
 	}
 	return corner_num;
@@ -1602,19 +1783,15 @@ static void cube_shuffle(void)
 
 	sprintf(time_val, "%d%d%d", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
 
-	int opt = atoi(time_val) % 5;
-	wait_for_enter("\n1");
+	int opt = atoi(time_val) % 7;
 
 	switch (opt)
 	{
-	case 1:
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-		add_formula("Ri", "SHUFFLE CUBE");
+	case 0:
+		add_formula("D D U F F Ri U U Fi L B Fi L L Di Ri D B B Ri U U F F R R B Ri Di Ri Bi D U U L L R F Li Fi", "SHUFFLE CUBE");
 		break;
-		/*add_formula("Ri Bi U Fi L R Ui Bi L Di Bi F F Li R D B B Fi U L D Bi L R U L U B F Ri D", "SHUFFLE CUBE");
+	case 1:
+		add_formula("Ri Bi U Fi L R Ui Bi L Di Bi F F Li R D B B Fi U L D Bi L R U L U B F Ri D", "SHUFFLE CUBE");
 		break;
 	case 2:
 		add_formula("L L R R F L R Bi U U F F D D Ri Di L Ri D D Ui F L L Ri F F D D B B U U B B Ri F F D D Li U Ri U U", "SHUFFLE CUBE");
@@ -1627,9 +1804,15 @@ static void cube_shuffle(void)
 		break;
 	case 5:
 		add_formula("Ri B L Ri D D Bi Li U F L L R R U U B Ui Li U Bi Di Li D D R D D F Li U U B Ri D D F L", "SHUFFLE CUBE");
-		break;*/
+		break;
+	case 6:
+		add_formula("Ri D Bi Li U U Fi L L F U Fi D D U Li Bi Li Ri F F U Bi L D L L R D D Fi D D B B Li B D D", "SHUFFLE CUBE");
+		break;
+	default:
+		add_formula("F D D L Bi Li U U B Ui Ri B L L F Di Ui Bi Fi L D D Ui B B Fi D Bi D D Ui Li R R D D F R R", "SHUFFLE CUBE");
+		break;
 	}
-	wait_for_enter("\n2");
+
 	apply_formula();
 	free_formula();
 }
