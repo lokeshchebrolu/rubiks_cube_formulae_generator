@@ -90,6 +90,11 @@
 #define FRONT_00_FOUND ((is_same_colour(FRONT_00_COLOUR, face_colour)) &&                                              \
                         ((is_same_colour(UP_20_COLOUR, side_colour1) || is_same_colour(UP_20_COLOUR, side_colour2)) && \
                          (is_same_colour(LEFT_02_COLOUR, side_colour1) || is_same_colour(LEFT_02_COLOUR, side_colour2))))
+
+#define BACK_22_FOUND ((is_same_colour(BACK_22_COLOUR, face_colour)) &&                                              \
+                        ((is_same_colour(DOWN_20_COLOUR, side_colour1) || is_same_colour(DOWN_20_COLOUR, side_colour2)) && \
+                         (is_same_colour(LEFT_20_COLOUR, side_colour1) || is_same_colour(LEFT_20_COLOUR, side_colour2))))
+
 typedef enum
 {
     ANALYSE = 0, /* Analyse the input given cube state */
@@ -184,6 +189,7 @@ extern colour_count_t colour_count;
 extern formula_t *formula;
 extern int formula_count;
 extern int formula_to_apply;
+extern char stub_cube;
 
 extern void cube_init(void);
 extern void update_cube_map(void);
