@@ -183,7 +183,8 @@ typedef enum
     UP_20 = 5,
     UP_21 = 6,
     UP_22 = 7,
-    VALIDATE_CROSS = 8
+    VALIDATE_CROSS = 8,
+    VALIDATE_WHITE_CORNERS = 9
 } up_t;
 
 typedef enum

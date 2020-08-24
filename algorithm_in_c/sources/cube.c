@@ -1113,7 +1113,7 @@ void cube_solve(void)
 											/* Solved */
 											break;
 										case 3:
-											add_formula("D R Di RI", "WHITE CORNER 02");
+											add_formula("D R Di Ri", "WHITE CORNER 02");
 											break;
 										case 4:
 											add_formula("D Bi D D B", "WHITE CORNER 02");
@@ -1217,13 +1217,318 @@ void cube_solve(void)
 							break;
 
 						case UP_20:
+							if (WHITE_CORNER_03_NOT_SOLVED)
+							{
+								int corner_num = 0;
+								corner_num = search_corner_colour_of_side(FRONT, WHITE, GREEN, LEFT_CENTER_COLOUR);
+								if (corner_num) /* Found in Front side */
+								{
+									switch (corner_num)
+									{
+									case 1:
+										add_formula("Fi Di Di F L D D Li", "WHITE CORNER 20");
+										break;
+									case 2:
+										add_formula("F D D Fi Fi D F", "WHITE CORNER 20");
+										break;
+									case 3:
+										add_formula("D L Di Li", "WHITE CORNER 20");
+										break;
+									case 4:
+										add_formula("D Fi D D F", "WHITE CORNER 20");
+										break;
+									}
+								}
+								else
+								{
+									corner_num = search_corner_colour_of_side(BACK, WHITE, GREEN, LEFT_CENTER_COLOUR);
+									if (corner_num) /* Found in Back side */
+									{
+										switch (corner_num)
+										{
+										case 1:
+											/* Solved */
+											break;
+										case 2:
+											/* Solved */
+											break;
+										case 3:
+											add_formula("L D D Li", "WHITE CORNER 20");
+											break;
+										case 4:
+											add_formula("Fi D F", "WHITE CORNER 20");
+											break;
+										}
+									}
+									else
+									{
+										corner_num = search_corner_colour_of_side(RIGHT, WHITE, GREEN, LEFT_CENTER_COLOUR);
+										if (corner_num) /* Found in Right side */
+										{
+											switch (corner_num)
+											{
+											case 1:
+												add_formula("Ri L Di Li R", "WHITE CORNER 20");
+												break;
+											case 2:
+												/* Solved */
+												break;
+											case 3:
+												add_formula("L Di Li", "WHITE CORNER 20");
+												break;
+											case 4:
+												add_formula("Fi D D F", "WHITE CORNER 20");
+												break;
+											}
+										}
+										else
+										{
+											corner_num = search_corner_colour_of_side(LEFT, WHITE, GREEN, LEFT_CENTER_COLOUR);
+											if (corner_num) /* Found in Left side */
+											{
+												switch (corner_num)
+												{
+												case 1:
+													/* Solved */
+													break;
+												case 2:
+													add_formula("L D D Li Fi D D F", "WHITE CORNER 20");
+													break;
+												case 3:
+													add_formula("Di L D D Li", "WHITE CORNER 20");
+													break;
+												case 4:
+													add_formula("Di Fi D F", "WHITE CORNER 20");
+													break;
+												}
+											}
+											else
+											{
+												corner_num = search_corner_colour_of_side(DOWN, WHITE, GREEN, LEFT_CENTER_COLOUR);
+												if (corner_num) /* Found in Down side */
+												{
+													switch (corner_num)
+													{
+													case 1:
+														add_formula("L Di Li Fi D D F", "WHITE CORNER 20");
+														break;
+													case 2:
+														add_formula("Ri L D D Li R", "WHITE CORNER 20");
+														break;
+													case 3:
+														add_formula("Di Ri L D D Li R", "WHITE CORNER 20");
+														break;
+													case 4:
+														add_formula("D D Ri L D D Li R", "WHITE CORNER 20");
+														break;
+													}
+												}
+												else
+												{
+													corner_num = search_corner_colour_of_side(UP, WHITE, GREEN, LEFT_CENTER_COLOUR);
+													if (corner_num) /* Found in UP side */
+													{
+														switch (corner_num)
+														{
+														case 1:
+															/* Solved */
+															break;
+														case 2:
+															/* Solved */
+															break;
+														case 3:
+															/* In place */
+															break;
+														case 4:
+															add_formula("Ri D R L Di Li", "WHITE CORNER 20");
+															break;
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								print_screen();
+								apply_formula();
+							}
+							if (WHITE_CORNER_03_SOLVED)
+								stage1_substage_2 = UP_22;
 							break;
 
 						case UP_22:
+							if (WHITE_CORNER_04_NOT_SOLVED)
+							{
+								int corner_num = 0;
+								corner_num = search_corner_colour_of_side(FRONT, WHITE, GREEN, RIGHT_CENTER_COLOUR);
+								if (corner_num) /* Found in Front side */
+								{
+									switch (corner_num)
+									{
+									case 1:
+										/* Solved */
+										break;
+									case 2:
+										add_formula("Ri D R F D Fi", "WHITE CORNER 22");
+										break;
+									case 3:
+										add_formula("D Ri Di R", "WHITE CORNER 22");
+										break;
+									case 4:
+										add_formula("F D Fi", "WHITE CORNER 22");
+										break;
+									}
+								}
+								else
+								{
+									corner_num = search_corner_colour_of_side(BACK, WHITE, GREEN, RIGHT_CENTER_COLOUR);
+									if (corner_num) /* Found in Back side */
+									{
+										switch (corner_num)
+										{
+										case 1:
+											/* Solved */
+											break;
+										case 2:
+											/* Solved */
+											break;
+										case 3:
+											add_formula("F Di Fi", "WHITE CORNER 22");
+											break;
+										case 4:
+											add_formula("Ri D D R", "WHITE CORNER 22");
+											break;
+										}
+									}
+									else
+									{
+										corner_num = search_corner_colour_of_side(RIGHT, WHITE, GREEN, RIGHT_CENTER_COLOUR);
+										if (corner_num) /* Found in Right side */
+										{
+											switch (corner_num)
+											{
+											case 1:
+												add_formula("Ri Di R D Ri Di R", "WHITE CORNER 22");
+												break;
+											case 2:
+												/* Solved */
+												break;
+											case 3:
+												add_formula("Ri Di R", "WHITE CORNER 22");
+												break;
+											case 4:
+												add_formula("Di F D Fi", "WHITE CORNER 22");
+												break;
+											}
+										}
+										else
+										{
+											corner_num = search_corner_colour_of_side(LEFT, WHITE, GREEN, RIGHT_CENTER_COLOUR);
+											if (corner_num) /* Found in Left side */
+											{
+												switch (corner_num)
+												{
+												case 1:
+													/* Solved */
+													break;
+												case 2:
+													/* Solved */
+													break;
+												case 3:
+													add_formula("F D D Fi", "WHITE CORNER 22");
+													break;
+												case 4:
+													add_formula("Ri D R", "WHITE CORNER 22");
+													break;
+												}
+											}
+											else
+											{
+												corner_num = search_corner_colour_of_side(DOWN, WHITE, GREEN, RIGHT_CENTER_COLOUR);
+												if (corner_num) /* Found in Down side */
+												{
+													switch (corner_num)
+													{
+													case 1:
+														add_formula("D Ri D R F D D Fi", "WHITE CORNER 22");
+														break;
+													case 2:
+														add_formula("Ri D R F D D Fi", "WHITE CORNER 22");
+														break;
+													case 3:
+														add_formula("D D Ri D R F D D Fi", "WHITE CORNER 22");
+														break;
+													case 4:
+														add_formula("Di Ri D R F D D Fi", "WHITE CORNER 22");
+														break;
+													}
+												}
+												else
+												{
+													corner_num = search_corner_colour_of_side(UP, WHITE, GREEN, RIGHT_CENTER_COLOUR);
+													if (corner_num) /* Found in UP side */
+													{
+														switch (corner_num)
+														{
+														case 1:
+															/* Solved */
+															break;
+														case 2:
+															/* Solved */
+															break;
+														case 3:
+															/* Solved */
+															break;
+														case 4:
+															/* In place */
+															break;
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								print_screen();
+								apply_formula();
+							}
+							if (WHITE_CORNER_04_SOLVED)
+								stage1_substage_2 = VALIDATE_WHITE_CORNERS;
+							break;
+
+						case VALIDATE_WHITE_CORNERS:
+							if (WHITE_CORNER_01_SOLVED)
+							{
+								if (WHITE_CORNER_02_SOLVED)
+								{
+									if (WHITE_CORNER_03_SOLVED)
+									{
+										if (WHITE_CORNER_04_SOLVED)
+										{
+											white_corners_complete = 1;
+										}
+										else
+										{
+											stage1_substage_2 = UP_22;
+										}	
+									}
+									else
+									{
+										stage1_substage_2 = UP_20;
+									}									
+								}
+								else
+								{
+									stage1_substage_2 = UP_02;
+								}
+							}
+							else
+							{
+								stage1_substage_2 = UP_00;
+							}
 							break;
 						}
 					}
-
 					/* White corners solved */
 					stage1_completed = COMPLETE;
 					break;
@@ -1234,6 +1539,8 @@ void cube_solve(void)
 			break;
 
 		case STAGE2:
+		wait_for_enter("STAGE 2");
+		wait_for_enter("STAGE 2");
 			break;
 
 		case STAGE3:
@@ -1342,6 +1649,7 @@ static void formulae_update_step(char *step, char *formula_description)
 {
 	if (!validate_step(step))
 	{
+		printf(" : Step '%s'", step);
 		print_error("wrong step received to forumlae_update() function. Press 'Enter' to continue");
 		getchar();
 		getchar();
