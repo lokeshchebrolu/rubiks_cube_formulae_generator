@@ -31,6 +31,7 @@
 #define IS_INVERSE (temp_step[1] == 'i')
 #define START_FORMULA "S"
 #define END_FORMULA "E"
+#define COMPLETE (0)
 
 #define CURRENT_FORMULA formula[formula_count - 1]
 
@@ -249,10 +250,17 @@ typedef enum
 
 typedef enum
 {
-    COMPLETE = 0,
     WHITE_CROSS = 1,
     WHITE_CORNERS = 2
 } stage1_t;
+
+typedef enum
+{
+    GREEN_LINE2 = 1,
+    RED_LINE2 = 2,
+    BLUE_LINE2 = 3,
+    ORANGE_LINE2 = 4,
+} stage2_t;
 
 extern cube_t cube;
 extern colour_count_t colour_count;

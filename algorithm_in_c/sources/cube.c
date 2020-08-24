@@ -206,7 +206,7 @@ void cube_solve(void)
 
 	int analysis_completed = 0;
 	stage1_t stage1_completed = WHITE_CROSS;
-	int stage2_completed = 0;
+	stage2_t stage2_completed = GREEN_LINE2;
 	int stage3_completed = 0;
 	int stage4_completed = 0;
 
@@ -308,7 +308,7 @@ void cube_solve(void)
 		case STAGE1:
 
 			formula_to_apply = 1;
-			while (stage1_completed != COMPLETE)
+			while (stage1_completed != COMPLETE) /* Top white not completed */
 			{
 				switch (stage1_completed)
 				{
@@ -1510,12 +1510,12 @@ void cube_solve(void)
 										else
 										{
 											stage1_substage_2 = UP_22;
-										}	
+										}
 									}
 									else
 									{
 										stage1_substage_2 = UP_20;
-									}									
+									}
 								}
 								else
 								{
@@ -1523,9 +1523,7 @@ void cube_solve(void)
 								}
 							}
 							else
-							{
 								stage1_substage_2 = UP_00;
-							}
 							break;
 						}
 					}
@@ -1539,8 +1537,15 @@ void cube_solve(void)
 			break;
 
 		case STAGE2:
-		wait_for_enter("STAGE 2");
-		wait_for_enter("STAGE 2");
+			/* Move White top to down */
+			add_formula("Z Z", " WHITE TO DOWN ");
+			print_screen();
+			apply_formula();
+
+			while(stage2_completed != COMPLETE)
+			{
+				
+			}
 			break;
 
 		case STAGE3:
