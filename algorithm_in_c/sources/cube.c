@@ -1542,9 +1542,50 @@ void cube_solve(void)
 			print_screen();
 			apply_formula();
 
-			while(stage2_completed != COMPLETE)
+			while (stage2_completed != COMPLETE)
 			{
-				
+				switch (stage2_completed)
+				{
+				case GREEN_LINE2:
+					if (GREEN_LINE2_NOT_SOLVED)
+					{
+
+					}
+					if (GREEN_LINE2_SOLVED)
+					{
+						stage2_completed = RED_LINE2;
+					}
+					break;
+				case RED_LINE2:
+					if (RED_LINE2_NOT_SOLVED)
+					{
+					}
+					if (RED_LINE2_SOLVED)
+					{
+						stage2_completed = BLUE_LINE2;
+					}
+					break;
+				case BLUE_LINE2:
+					if (BLUE_LINE2_NOT_SOLVED)
+					{
+					}
+					if (BLUE_LINE2_SOLVED)
+					{
+						stage2_completed = ORANGE_LINE2;
+					}
+					break;
+				case ORANGE_LINE2:
+					if (ORANGE_LINE2_NOT_SOLVED)
+					{
+					}
+					if (ORANGE_LINE2_SOLVED)
+					{
+						stage2_completed = VALIDATE_LINE2;
+					}
+					break;
+				case VALIDATE_LINE2:
+					break;
+				}
 			}
 			break;
 
