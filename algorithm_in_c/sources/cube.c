@@ -206,7 +206,7 @@ void cube_solve(void)
 
 	int analysis_completed = 0;
 	stage1_t stage1_completed = WHITE_CROSS;
-	stage2_t stage2_completed = GREEN_LINE2;
+	stage2_t stage2_completed = LINE2_SIDE1;
 	int stage3_completed = 0;
 	int stage4_completed = 0;
 
@@ -1541,67 +1541,50 @@ void cube_solve(void)
 			add_formula("Z Z", " WHITE TO DOWN ");
 			print_screen();
 			apply_formula();
-
-			while (stage2_completed != COMPLETE)
+			if (LINE2_NOT_SOLVED)
 			{
-				switch (stage2_completed)
+				for (stage2_completed = LINE2_SIDE1; stage2_completed <= VALIDATE_CROSS; stage2_completed++)
 				{
-				case GREEN_LINE2:
-					if (GREEN_LINE2_NOT_SOLVED)
+					while(LINE2_FRONT_NOT_SOLVED)
 					{
+						if (LINE2_MIRROR_CHECK)
+						{
+							add_formula("F F U U F F U U F F", "  FRONT MIRROR ");
+						}
+						else
+						{
+							if(LINE2_FRONT_10_NOT_SOLVED)
+							{
+								
+							}
+							if(LINE2_FRONT_12_NOT_SOLVED)
+							{
 
+							}
+						}
 					}
-					if (GREEN_LINE2_SOLVED)
-					{
-						stage2_completed = RED_LINE2;
-					}
-					break;
-				case RED_LINE2:
-					if (RED_LINE2_NOT_SOLVED)
-					{
-					}
-					if (RED_LINE2_SOLVED)
-					{
-						stage2_completed = BLUE_LINE2;
-					}
-					break;
-				case BLUE_LINE2:
-					if (BLUE_LINE2_NOT_SOLVED)
-					{
-					}
-					if (BLUE_LINE2_SOLVED)
-					{
-						stage2_completed = ORANGE_LINE2;
-					}
-					break;
-				case ORANGE_LINE2:
-					if (ORANGE_LINE2_NOT_SOLVED)
-					{
-					}
-					if (ORANGE_LINE2_SOLVED)
-					{
-						stage2_completed = VALIDATE_LINE2;
-					}
-					break;
-				case VALIDATE_LINE2:
-					break;
 				}
 			}
-			break;
+			if(LINE2_SOLVED)
+			{
 
-		case STAGE3:
-			break;
-
-		case STAGE4:
-			break;
-
-		default:
-			stage = ANALYSE;
-			break;
+			}
 		}
-	}
+		break;
 
-	free_formula();
+	case STAGE3:
+		break;
+
+	case STAGE4:
+		break;
+
+	default:
+		stage = ANALYSE;
+		break;
+	}
+}
+
+free_formula();
 }
 
 static void update_cube_local(void)
@@ -1906,7 +1889,7 @@ static void apply_formula(void)
 	printf("\n");
 }
 
-static int search_edge_colour_of_side(int side, char colour_main, char colour_pair)
+static int search_edge_colour_of_side(int side, char face_colour, char colour_pair)
 {
 	int middle_num = 0;
 	switch (side)
