@@ -1543,48 +1543,281 @@ void cube_solve(void)
 			apply_formula();
 			if (LINE2_NOT_SOLVED)
 			{
-				for (stage2_completed = LINE2_SIDE1; stage2_completed <= VALIDATE_CROSS; stage2_completed++)
+				for (stage2_completed = LINE2_SIDE1; stage2_completed <= LINE2_SIDE4; stage2_completed++)
 				{
-					while(LINE2_FRONT_NOT_SOLVED)
+					while (LINE2_FRONT_NOT_SOLVED)
 					{
 						if (LINE2_MIRROR_CHECK)
 						{
+							wait_for_enter("11line2_");
 							add_formula("F F U U F F U U F F", "  FRONT MIRROR ");
 						}
 						else
 						{
-							if(LINE2_FRONT_10_NOT_SOLVED)
+							wait_for_enter("22line2_");
+							if (LINE2_FRONT_10_NOT_SOLVED)
 							{
-								
+								int line2_num = 0;
+								/* Search all sides */
+								line2_num = search_edge_colour_of_side(FRONT, FRONT_CENTER_COLOUR, LEFT_CENTER_COLOUR);
+								if (line2_num) /* Found in front */
+								{
+									switch (line2_num)
+									{
+									case 1:
+										/* Front Line 2 10 standard formula */
+										add_formula("Ui Li U L U F Ui Fi", "    FRONT 10   ");
+										break;
+									case 2:
+										/* In place */
+										break;
+									case 3:
+										/* Solved in mirror case  */
+										break;
+									case 4:
+										/* Invalid case */
+										break;
+									}
+								}
+								else
+								{
+									line2_num = search_edge_colour_of_side(BACK, FRONT_CENTER_COLOUR, LEFT_CENTER_COLOUR);
+									if (line2_num) /* Found in back */
+									{
+										switch (line2_num)
+										{
+										case 1:
+											add_formula("U Li U L U F Ui Fi", "    FRONT 10   ");
+											break;
+										case 2:
+											add_formula("Y U R Ui Ri Ui Fi U F Ui Yi Ui Li U L U F Ui Fi", "    FRONT 10   ");
+											break;
+										case 3:
+											add_formula("Yi Ui Li U L U F Ui Fi U Y Ui Li U L U F Ui Fi", "    FRONT 10   ");
+											break;
+										case 4:
+											/* Invalid case */
+											break;
+										}
+									}
+									else
+									{
+										line2_num = search_edge_colour_of_side(LEFT, FRONT_CENTER_COLOUR, LEFT_CENTER_COLOUR);
+										if (line2_num) /* Found in left */
+										{
+											switch (line2_num)
+											{
+											case 1:
+												add_formula("U U Li U L U F Ui Fi", "    FRONT 10   ");
+												break;
+											case 2:
+												add_formula("Y Y U R Ui Ri Ui Fi U F Y Y Ui Li U L U F Ui Fi", "    FRONT 10   ");
+												break;
+											case 3:
+												add_formula("Ui Li U L U F Ui Fi U U Ui Li U L U F Ui Fi", "    FRONT 10   ");
+												break;
+											case 4:
+												/* Invalid case */
+												break;
+											}
+										}
+										else
+										{
+											line2_num = search_edge_colour_of_side(LEFT, FRONT_CENTER_COLOUR, LEFT_CENTER_COLOUR);
+											if (line2_num) /* Found in right */
+											{
+												switch (line2_num)
+												{
+												case 1:
+													add_formula("Li U L U F Ui Fi", "    FRONT 10   ");
+													break;
+												case 2:
+													add_formula("U R Ui Ri Ui Fi U F U U Ui Li U L U F Ui Fi", "    FRONT 10   ");
+													break;
+												case 3:
+													add_formula("Y Y Ui Li U L U F Ui Fi Y Y Ui Li U L U F Ui Fi", "    FRONT 10   ");
+													break;
+												case 4:
+													/* Invalid case */
+													break;
+												}
+											}
+											else
+											{
+												line2_num = search_edge_colour_of_side(LEFT, FRONT_CENTER_COLOUR, LEFT_CENTER_COLOUR);
+												if (line2_num) /* Found in UP */
+												{
+													switch (line2_num)
+													{
+													case 1:
+														add_formula("Yi R Ui Ri Ui Fi U F Y", "    FRONT 10   ");
+														break;
+													case 2:
+														add_formula("Yi U R Ui Ri Ui Fi U F Y", "    FRONT 10   ");
+														break;
+													case 3:
+														add_formula("Yi Ui R Ui Ri Ui Fi U F Y", "    FRONT 10   ");
+														break;
+													case 4:
+														add_formula("Yi U U R Ui Ri Ui Fi U F Y", "    FRONT 10   ");
+														break;
+													}
+												}
+												else
+												{
+													/* Down case is Invalid */
+												}
+											}
+										}
+									}
+								}
 							}
-							if(LINE2_FRONT_12_NOT_SOLVED)
+							if (LINE2_FRONT_12_NOT_SOLVED)
 							{
-
+								int line2_num = 0;
+								/* Search all sides */
+								line2_num = search_edge_colour_of_side(FRONT, FRONT_CENTER_COLOUR, RIGHT_CENTER_COLOUR);
+								if (line2_num) /* Found in front */
+								{
+									switch (line2_num)
+									{
+									case 1:
+										/* Front Line 2 12 standard formula */
+										add_formula("U R Ui Ri Ui Fi U F", "    FRONT 12   ");
+										break;
+									case 2:
+										/* Solved */
+										break;
+									case 3:
+										/* In place  */
+										break;
+									case 4:
+										/* Invalid case */
+										break;
+									}
+								}
+								else
+								{
+									line2_num = search_edge_colour_of_side(BACK, FRONT_CENTER_COLOUR, RIGHT_CENTER_COLOUR);
+									if (line2_num) /* Found in back */
+									{
+										switch (line2_num)
+										{
+										case 1:
+											add_formula("Ui R Ui Ri Ui Fi U F", "    FRONT 12   ");
+											break;
+										case 2:
+											add_formula("Y U R Ui Ri Ui Fi U F Yi R Ui Ri Ui Fi U F", "    FRONT 12   ");
+											break;
+										case 3:
+											add_formula("Yi Ui Li U L U F Ui Fi U U Y R Ui Ri Ui Fi U F", "    FRONT 12   ");
+											break;
+										case 4:
+											/* Invalid case */
+											break;
+										}
+									}
+									else
+									{
+										line2_num = search_edge_colour_of_side(LEFT, FRONT_CENTER_COLOUR, RIGHT_CENTER_COLOUR);
+										if (line2_num) /* Found in left */
+										{
+											switch (line2_num)
+											{
+											case 1:
+												add_formula("R Ui Ri Ui Fi U F", "    FRONT 12   ");
+												break;
+											case 2:
+												add_formula("Y Y U R Ui Ri Ui Fi U F Y Y U R Ui Ri Ui Fi U F", "    FRONT 12   ");
+												break;
+											case 3:
+												/* Solved */
+												break;
+											case 4:
+												/* Invalid case */
+												break;
+											}
+										}
+										else
+										{
+											line2_num = search_edge_colour_of_side(LEFT, FRONT_CENTER_COLOUR, RIGHT_CENTER_COLOUR);
+											if (line2_num) /* Found in right */
+											{
+												switch (line2_num)
+												{
+												case 1:
+													add_formula("U U R Ui Ri Ui Fi U F", "    FRONT 12   ");
+													break;
+												case 2:
+													add_formula("U R Ui Ri Ui Fi U F Ui R Ui Ri Ui Fi U F", "    FRONT 12   ");
+													break;
+												case 3:
+													add_formula("Y Y Ui Li U L U F Ui Fi Y Y U R Ui Ri Ui Fi U F", "    FRONT 12   ");
+													break;
+												case 4:
+													/* Invalid case */
+													break;
+												}
+											}
+											else
+											{
+												line2_num = search_edge_colour_of_side(LEFT, FRONT_CENTER_COLOUR, RIGHT_CENTER_COLOUR);
+												if (line2_num) /* Found in UP */
+												{
+													switch (line2_num)
+													{
+													case 1:
+														add_formula("Y Li U L U F Ui Fi", "    FRONT 10   ");
+														break;
+													case 2:
+														add_formula("Y U Li U L U F Ui Fi", "    FRONT 10   ");
+														break;
+													case 3:
+														add_formula("Y Ui Li U L U F Ui Fi", "    FRONT 10   ");
+														break;
+													case 4:
+														add_formula("Y U U Li U L U F Ui Fi", "    FRONT 10   ");
+														break;
+													}
+												}
+												else
+												{
+													/* Down case is Invalid */
+												}
+											}
+										}
+									}
+								}
 							}
 						}
+						print_screen();
+						apply_formula();
 					}
+					add_formula("Yi", "LINE2 NEXT SIDE");
+					print_screen();
+					apply_formula();
 				}
 			}
-			if(LINE2_SOLVED)
+			if (LINE2_SOLVED)
 			{
-
+				wait_for_enter("_line2_");
+				wait_for_enter("_line2_");
 			}
+			break;
+
+		case STAGE3:
+			break;
+
+		case STAGE4:
+			break;
+
+		default:
+			stage = ANALYSE;
+			break;
 		}
-		break;
-
-	case STAGE3:
-		break;
-
-	case STAGE4:
-		break;
-
-	default:
-		stage = ANALYSE;
-		break;
 	}
-}
 
-free_formula();
+	free_formula();
 }
 
 static void update_cube_local(void)
@@ -1895,68 +2128,68 @@ static int search_edge_colour_of_side(int side, char face_colour, char colour_pa
 	switch (side)
 	{
 	case FRONT:
-		if ((FRONT_01_COLOUR == colour_main) && (UP_21_COLOUR == colour_pair))
+		if (FRONT_01_FOUND)
 			middle_num = 1;
-		else if ((FRONT_10_COLOUR == colour_main) && (LEFT_12_COLOUR == colour_pair))
+		else if (FRONT_10_FOUND)
 			middle_num = 2;
-		else if ((FRONT_12_COLOUR == colour_main) && (RIGHT_10_COLOUR == colour_pair))
+		else if (FRONT_12_FOUND)
 			middle_num = 3;
-		else if ((FRONT_21_COLOUR == colour_main) && (DOWN_01_COLOUR == colour_pair))
+		else if (FRONT_21_FOUND)
 			middle_num = 4;
 		break;
 
 	case BACK:
-		if ((BACK_01_COLOUR == colour_main) && (UP_01_COLOUR == colour_pair))
+		if (BACK_01_FOUND)
 			middle_num = 1;
-		else if ((BACK_10_COLOUR == colour_main) && (RIGHT_12_COLOUR == colour_pair))
+		else if (BACK_10_FOUND)
 			middle_num = 2;
-		else if ((BACK_12_COLOUR == colour_main) && (LEFT_10_COLOUR == colour_pair))
+		else if (BACK_12_FOUND)
 			middle_num = 3;
-		else if ((BACK_21_COLOUR == colour_main) && (DOWN_21_COLOUR == colour_pair))
+		else if (BACK_21_FOUND)
 			middle_num = 4;
 		break;
 
 	case LEFT:
-		if ((LEFT_01_COLOUR == colour_main) && (UP_10_COLOUR == colour_pair))
+		if (LEFT_01_FOUND)
 			middle_num = 1;
-		else if ((LEFT_10_COLOUR == colour_main) && (BACK_12_COLOUR == colour_pair))
+		else if (LEFT_10_FOUND)
 			middle_num = 2;
-		else if ((LEFT_12_COLOUR == colour_main) && (FRONT_10_COLOUR == colour_pair))
+		else if (LEFT_12_FOUND)
 			middle_num = 3;
-		else if ((LEFT_21_COLOUR == colour_main) && (DOWN_10_COLOUR == colour_pair))
+		else if (LEFT_21_FOUND)
 			middle_num = 4;
 		break;
 
 	case RIGHT:
-		if ((RIGHT_01_COLOUR == colour_main) && (UP_12_COLOUR == colour_pair))
+		if (RIGHT_01_FOUND)
 			middle_num = 1;
-		else if ((RIGHT_10_COLOUR == colour_main) && (FRONT_12_COLOUR == colour_pair))
+		else if (RIGHT_10_FOUND)
 			middle_num = 2;
-		else if ((RIGHT_12_COLOUR == colour_main) && (BACK_10_COLOUR == colour_pair))
+		else if (RIGHT_12_FOUND)
 			middle_num = 3;
-		else if ((RIGHT_21_COLOUR == colour_main) && (DOWN_12_COLOUR == colour_pair))
+		else if (RIGHT_21_FOUND)
 			middle_num = 4;
 		break;
 
 	case DOWN:
-		if ((DOWN_01_COLOUR == colour_main) && (FRONT_21_COLOUR == colour_pair))
+		if (DOWN_01_FOUND)
 			middle_num = 1;
-		else if ((DOWN_10_COLOUR == colour_main) && (LEFT_21_COLOUR == colour_pair))
+		else if (DOWN_10_FOUND)
 			middle_num = 2;
-		else if ((DOWN_12_COLOUR == colour_main) && (RIGHT_21_COLOUR == colour_pair))
+		else if (DOWN_12_FOUND)
 			middle_num = 3;
-		else if ((DOWN_21_COLOUR == colour_main) && (BACK_21_COLOUR == colour_pair))
+		else if (DOWN_21_FOUND)
 			middle_num = 4;
 		break;
 
 	case UP:
-		if ((UP_01_COLOUR == colour_main) && (BACK_01_COLOUR == colour_pair))
+		if (UP_01_FOUND)
 			middle_num = 1;
-		else if ((UP_10_COLOUR == colour_main) && (LEFT_01_COLOUR == colour_pair))
+		else if (UP_10_FOUND)
 			middle_num = 2;
-		else if ((UP_12_COLOUR == colour_main) && (RIGHT_01_COLOUR == colour_pair))
+		else if (UP_12_FOUND)
 			middle_num = 3;
-		else if ((UP_21_COLOUR == colour_main) && (FRONT_01_COLOUR == colour_pair))
+		else if (UP_21_FOUND)
 			middle_num = 4;
 		break;
 	}
