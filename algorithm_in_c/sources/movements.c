@@ -189,6 +189,22 @@ void Zi(void)
 	B();
 }
 
+void M(void)
+{
+	/* Rotate middle towards you like L*/
+	Xi();
+	Li();
+	R();
+}
+
+void Mi(void)
+{
+	/* Rotate middle away from you like Li*/
+	X();
+	L();
+	Ri();
+}
+
 void up_line_move(int line)
 {
 	char temp[3];

@@ -68,6 +68,8 @@ extern void Z(void);
 extern void Xi(void);
 extern void Yi(void);
 extern void Zi(void);
+extern void M(void);
+extern void Mi(void);
 
 extern void up_line_move(int line);
 extern void front_line_move(int line);
