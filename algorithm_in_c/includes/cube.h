@@ -241,6 +241,71 @@
 #define UP_21_FOUND (is_same_colour(UP_21_COLOUR, face_colour) && is_same_colour(FRONT_01_COLOUR, colour_pair))
 
 /***************/
+
+/*** OLL cases ***/
+/* Reference : https://www.speedcubereview.com/oll.html */
+/* 'x' : dont care condition
+   'y' : Yellow colour 
+   order of map is as follows :
+     UP(00,01,02,10,11,12,20,21,22),BACK(02,01,00),RIGHT(02,01,00),FRONT(02,01,00),LEFT(02,01,00) 
+*/
+#define OLL1 "xxxxyxxxxxyxyyyxyxyyy"
+#define OLL2 "xxxxyxxxxyyyxyyxyxyyx"
+#define OLL3 "yxxxyxxxxxyxyyxyyxyyx"
+#define OLL4 "xxyxyxxxxxyxxyyxyyxyy"
+#define OLL5 "yyxyyxxxxxxxyyxyyxyxx"
+#define OLL6 "xyyxyyxxxxxxxxyxyyxyy"
+#define OLL7 "xxyxyyxyxyyxxxxyxxyyx"
+#define OLL8 "yxxyyxxyxxyyxyyxxyxxx"
+#define OLL9 "xyxyyxxxyxxyxyxxyyxxy"
+#define OLL10 "xyxxyyyxxyxxyxxyyxxyx"
+#define OLL11 "xxxxyyyyxyyxyxxyxxxyx"
+#define OLL12 "xxxyyxxyyxyyxyxxxyxxy"
+#define OLL13 "xxxyyyyxxyyxyxxyyxxxx"
+#define OLL14 "xxxyyyxxyxyyxxxxyyxxy"
+#define OLL15 "xxxyyyxxyyyxyxxxyxyxx"
+#define OLL16 "xxxyyyyxxxyyxxyxyxxxy"
+#define OLL17 "yxxxyxxxyxyyxyxxyxyyx"
+#define OLL18 "yxyxyxxxxxyxxyxyyyxyx"
+#define OLL19 "xxxxyxyxyxyxyyxxyxxyy"
+#define OLL20 "yxyxyxyxyxyxxyxxyxxyx"
+#define OLL21 "xyxyyyxyxyxyxxxyxyxxx"
+#define OLL22 "xyxyyyxyxxxyxxxyxxyxy"
+#define OLL23 "yyyyyyxyxxxxxxxyxyxxx"
+#define OLL24 "xyyyyyxyyyxxxxxxxyxxx"
+#define OLL25 "yyxyyyxyyxxxyxxxxyxxx"
+#define OLL26 "xyxyyyxyyxxyxxxxxyxxy"
+#define OLL27 "xyxyyyyyxyxxyxxyxxxxx"
+#define OLL28 "yxyxyyyyyxyxxxxxxxxyx"
+#define OLL29 "yxyyyxxyxxyxxyyxxxyxx"
+#define OLL30 "yxyxyyxyxxyxxxyxxxyyx"
+#define OLL31 "xyyxyyxxyyxxxxxxyyxyx"
+#define OLL32 "yyxyyxyxxxxyxyxyyxxxx"
+#define OLL33 "xxyyyyxxyyyxxxxxyyxxx"
+#define OLL34 "xxxyyyyxyxyxyxxxyxxxy"
+#define OLL35 "yxxxyyxyyxyxyxxxxyxyx"
+#define OLL36 "yxxyyxxyyxyxyyxxxyxxx"
+#define OLL37 "yyxyyxxxyxxxyyxxyyxxx"
+#define OLL38 "xxyxyyyyxxyxxxxyxxxyy"
+#define OLL39 "xxyyyyyxxyyxxxyxyxxxx"
+#define OLL40 "yxxyyyxxyxyyxxxxyxyxx"
+#define OLL41 "yxyyyxxyxxyxxyxyxyxxx"
+#define OLL42 "yxyxyyxyxxyxxxxyxyxyx"
+#define OLL43 "xyyxyyxxyxxxxxxxyxyyy"
+#define OLL44 "yyxyyxyxxxxxyyyxyxxxx"
+#define OLL45 "xxyyyyxxyxyxxxxxyxyxy"
+#define OLL46 "yyxxyxyyxxxxyyyxxxxyx"
+#define OLL47 "xyxxyyxxxyxxyxyxyyxyx"
+#define OLL48 "xyxyyxxxxxxyxyxyyxyxy"
+#define OLL49 "xxxyyxxyxyyxyyyxxyxxx"
+#define OLL50 "xxxxyyxyxxyyxxxyxxyyy"
+#define OLL51 "xxxyyyxxxyyxyxyxyyxxx"
+#define OLL52 "xyxxyxxyxyxxyyyxxyxyx"
+#define OLL53 "xxxyyyxxxxyxyxyxyxyxy"
+#define OLL54 "xxxxyyxyxyyyxxxyxyxyx"
+#define OLL55 "xyxxyxxyxxxxyyyxxxyyy"
+#define OLL56 "xxxyyyxxxxyxyxyxyxyxy"
+#define OLL57 "yxyyyyyxyxyxxxxxyxxxx"
 /***************************************/
 
 typedef enum
