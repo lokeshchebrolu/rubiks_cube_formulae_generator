@@ -26,6 +26,8 @@ static void apply_formula(void);
 static int search_edge_colour_of_side(int side, char colour_main, char colour_pair);
 static int search_corner_colour_of_side(int side, char face_colour, char side_colour1, char side_colour2);
 static void cube_init_temp_colour(void);
+static int cube_which_OLL_case(void);
+static int cube_validate_OLL_case(char *OLL_map);
 static void cube_shuffle(void);
 static void free_formula(void);
 
