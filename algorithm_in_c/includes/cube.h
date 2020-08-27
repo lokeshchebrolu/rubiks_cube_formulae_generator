@@ -338,7 +338,6 @@ typedef enum
     LINE2_SIDE2 = 2,
     LINE2_SIDE3 = 3,
     LINE2_SIDE4 = 4,
-    VALIDATE_LINE2 = 5
 } stage2_t;
 
 extern cube_t cube;
