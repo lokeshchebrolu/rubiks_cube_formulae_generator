@@ -15,6 +15,8 @@ formula_t *formula;
 int formula_to_apply;
 int formula_count;
 char stub_cube;
+char OLL_case[57][22] = {OLL1, OLL2, OLL3, OLL4, OLL5, OLL6, OLL7, OLL8, OLL9, OLL10, OLL11, OLL12, OLL13, OLL14, OLL15, OLL16, OLL17, OLL18, OLL19, OLL20, OLL21, OLL22, OLL23, OLL24, OLL25, OLL26, OLL27, OLL28, OLL29, OLL30, OLL31, OLL32, OLL33, OLL34, OLL35, OLL36, OLL37, OLL38, OLL39, OLL40, OLL41, OLL42, OLL43, OLL44, OLL45, OLL46, OLL47, OLL48, OLL49, OLL50, OLL51, OLL52, OLL53, OLL54, OLL55, OLL56, OLL57};
+char FORMULA_OLL[57][40] = {FORMULA_OLL1, FORMULA_OLL2, FORMULA_OLL3, FORMULA_OLL4, FORMULA_OLL5, FORMULA_OLL6, FORMULA_OLL7, FORMULA_OLL8, FORMULA_OLL9, FORMULA_OLL10, FORMULA_OLL11, FORMULA_OLL12, FORMULA_OLL13, FORMULA_OLL14, FORMULA_OLL15, FORMULA_OLL16, FORMULA_OLL17, FORMULA_OLL18, FORMULA_OLL19, FORMULA_OLL20, FORMULA_OLL21, FORMULA_OLL22, FORMULA_OLL23, FORMULA_OLL24, FORMULA_OLL25, FORMULA_OLL26, FORMULA_OLL27, FORMULA_OLL28, FORMULA_OLL29, FORMULA_OLL30, FORMULA_OLL31, FORMULA_OLL32, FORMULA_OLL33, FORMULA_OLL34, FORMULA_OLL35, FORMULA_OLL36, FORMULA_OLL37, FORMULA_OLL38, FORMULA_OLL39, FORMULA_OLL40, FORMULA_OLL41, FORMULA_OLL42, FORMULA_OLL43, FORMULA_OLL44, FORMULA_OLL45, FORMULA_OLL46, FORMULA_OLL47, FORMULA_OLL48, FORMULA_OLL49, FORMULA_OLL50, FORMULA_OLL51, FORMULA_OLL52, FORMULA_OLL53, FORMULA_OLL54, FORMULA_OLL55, FORMULA_OLL56, FORMULA_OLL57};
 
 static cube_t cube_local;
 
@@ -27,7 +29,9 @@ static int search_edge_colour_of_side(int side, char colour_main, char colour_pa
 static int search_corner_colour_of_side(int side, char face_colour, char side_colour1, char side_colour2);
 static void cube_init_temp_colour(void);
 static int cube_which_OLL_case(void);
-static int cube_validate_OLL_case(char *OLL_map);
+static void cube_solve_OLL(void);
+static int OLL_solved(void);
+
 static void cube_shuffle(void);
 static void free_formula(void);
 
@@ -1810,19 +1814,24 @@ void cube_solve(void)
 			break;
 
 		case STAGE3:
-			wait_for_enter("_line2_");
+			cube_solve_OLL();
+			if (OLL_solved())
+			{
+				stage = STAGE4;
+			}
 			break;
 
 		case STAGE4:
+			wait_for_enter("stage4");
 			break;
 
 		default:
 			stage = ANALYSE;
 			break;
 		}
-	}
 
-	free_formula();
+		free_formula();
+	}
 }
 
 static void update_cube_local(void)
@@ -1898,6 +1907,7 @@ static int validate_step(char *step)
 	case 'X':
 	case 'Y':
 	case 'Z':
+	case 'M':
 		switch (step[1])
 		{
 		case '\0':
@@ -2121,6 +2131,13 @@ static void apply_formula(void)
 				Z();
 			break;
 
+		case 'M':
+			if (IS_INVERSE)
+				Mi();
+			else
+				M();
+			break;
+
 		default:
 			print_error("Invalid step in formula\n");
 			break;
@@ -2282,65 +2299,65 @@ static int search_corner_colour_of_side(int side, char face_colour, char side_co
 
 static void cube_init_temp_colour(void)
 {
-	BACK_00_COLOUR = GREEN;
-	BACK_01_COLOUR = RED;
+	BACK_00_COLOUR = BLUE;
+	BACK_01_COLOUR = BLUE;
 	BACK_02_COLOUR = BLUE;
 	BACK_10_COLOUR = BLUE;
-	BACK_11_COLOUR = YELLOW;
-	BACK_12_COLOUR = WHITE;
-	BACK_20_COLOUR = ORANGE;
-	BACK_21_COLOUR = YELLOW;
-	BACK_22_COLOUR = YELLOW;
+	BACK_11_COLOUR = BLUE;
+	BACK_12_COLOUR = BLUE;
+	BACK_20_COLOUR = BLUE;
+	BACK_21_COLOUR = BLUE;
+	BACK_22_COLOUR = BLUE;
 
-	LEFT_00_COLOUR = WHITE;
-	LEFT_01_COLOUR = GREEN;
-	LEFT_02_COLOUR = WHITE;
-	LEFT_10_COLOUR = GREEN;
-	LEFT_11_COLOUR = GREEN;
-	LEFT_12_COLOUR = ORANGE;
-	LEFT_20_COLOUR = GREEN;
+	LEFT_00_COLOUR = RED;
+	LEFT_01_COLOUR = RED;
+	LEFT_02_COLOUR = RED;
+	LEFT_10_COLOUR = RED;
+	LEFT_11_COLOUR = RED;
+	LEFT_12_COLOUR = RED;
+	LEFT_20_COLOUR = RED;
 	LEFT_21_COLOUR = RED;
-	LEFT_22_COLOUR = BLUE;
+	LEFT_22_COLOUR = RED;
 
-	UP_00_COLOUR = RED;
-	UP_01_COLOUR = GREEN;
-	UP_02_COLOUR = ORANGE;
+	UP_00_COLOUR = YELLOW;
+	UP_01_COLOUR = YELLOW;
+	UP_02_COLOUR = YELLOW;
 	UP_10_COLOUR = YELLOW;
-	UP_11_COLOUR = ORANGE;
-	UP_12_COLOUR = ORANGE;
-	UP_20_COLOUR = RED;
-	UP_21_COLOUR = RED;
-	UP_22_COLOUR = WHITE;
+	UP_11_COLOUR = YELLOW;
+	UP_12_COLOUR = YELLOW;
+	UP_20_COLOUR = YELLOW;
+	UP_21_COLOUR = YELLOW;
+	UP_22_COLOUR = YELLOW;
 
-	RIGHT_00_COLOUR = GREEN;
-	RIGHT_01_COLOUR = BLUE;
-	RIGHT_02_COLOUR = YELLOW;
-	RIGHT_10_COLOUR = WHITE;
-	RIGHT_11_COLOUR = BLUE;
-	RIGHT_12_COLOUR = WHITE;
-	RIGHT_20_COLOUR = YELLOW;
-	RIGHT_21_COLOUR = WHITE;
-	RIGHT_22_COLOUR = WHITE;
+	RIGHT_00_COLOUR = ORANGE;
+	RIGHT_01_COLOUR = ORANGE;
+	RIGHT_02_COLOUR = ORANGE;
+	RIGHT_10_COLOUR = ORANGE;
+	RIGHT_11_COLOUR = ORANGE;
+	RIGHT_12_COLOUR = ORANGE;
+	RIGHT_20_COLOUR = ORANGE;
+	RIGHT_21_COLOUR = ORANGE;
+	RIGHT_22_COLOUR = ORANGE;
 
-	DOWN_00_COLOUR = YELLOW;
-	DOWN_01_COLOUR = YELLOW;
-	DOWN_02_COLOUR = RED;
-	DOWN_10_COLOUR = YELLOW;
-	DOWN_11_COLOUR = RED;
-	DOWN_12_COLOUR = RED;
-	DOWN_20_COLOUR = RED;
-	DOWN_21_COLOUR = ORANGE;
-	DOWN_22_COLOUR = BLUE;
+	DOWN_00_COLOUR = WHITE;
+	DOWN_01_COLOUR = WHITE;
+	DOWN_02_COLOUR = WHITE;
+	DOWN_10_COLOUR = WHITE;
+	DOWN_11_COLOUR = WHITE;
+	DOWN_12_COLOUR = WHITE;
+	DOWN_20_COLOUR = WHITE;
+	DOWN_21_COLOUR = WHITE;
+	DOWN_22_COLOUR = WHITE;
 
 	FRONT_00_COLOUR = GREEN;
-	FRONT_01_COLOUR = BLUE;
-	FRONT_02_COLOUR = ORANGE;
+	FRONT_01_COLOUR = GREEN;
+	FRONT_02_COLOUR = GREEN;
 	FRONT_10_COLOUR = GREEN;
-	FRONT_11_COLOUR = WHITE;
-	FRONT_12_COLOUR = ORANGE;
-	FRONT_20_COLOUR = ORANGE;
-	FRONT_21_COLOUR = BLUE;
-	FRONT_22_COLOUR = BLUE;
+	FRONT_11_COLOUR = GREEN;
+	FRONT_12_COLOUR = GREEN;
+	FRONT_20_COLOUR = GREEN;
+	FRONT_21_COLOUR = GREEN;
+	FRONT_22_COLOUR = GREEN;
 
 	colour_count.blue = 9;
 	colour_count.green = 9;
@@ -2348,6 +2365,179 @@ static void cube_init_temp_colour(void)
 	colour_count.red = 9;
 	colour_count.white = 9;
 	colour_count.yellow = 9;
+}
+
+static int cube_which_OLL_case(void)
+{
+	int case_pass = -1;
+	int break_case = 0;
+	for (int i = 0; i < 57; i++)
+	{
+		int side_x = 0, side_y = 0;
+		/* Checking up */
+		for (int j = 0; j <= 8; j++)
+		{
+			if (OLL_case[i][j] == 'x')
+			{
+				if (is_yellow(cube.sides.up.colour[side_x][side_y++]))
+				{
+					break_case = 1;
+				}
+			}
+			else if (OLL_case[i][j] == 'y')
+			{
+				if (!is_yellow(cube.sides.up.colour[side_x][side_y++]))
+				{
+					break_case = 1;
+				}
+			}
+			if (break_case)
+				break;
+			else
+			{
+				if (side_y == 3)
+				{
+					side_x++;
+					side_y = 0;
+				}
+			}
+		}
+		if (break_case)
+			continue;
+
+		/* Checking back */
+		side_x = 0;
+		side_y = 2;
+		for (int j = 9; j <= 11; j++)
+		{
+			if (OLL_case[i][j] == 'x')
+			{
+				if (is_yellow(cube.sides.back.colour[side_x][side_y--]))
+				{
+					break_case = 1;
+				}
+			}
+			else if (OLL_case[i][j] == 'y')
+			{
+				if (!is_yellow(cube.sides.back.colour[side_x][side_y--]))
+				{
+					break_case = 1;
+				}
+			}
+			if (break_case)
+				break;
+		}
+		if (break_case)
+			continue;
+
+		/* Checking right */
+		side_x = 0;
+		side_y = 2;
+		for (int j = 12; j <= 14; j++)
+		{
+			if (OLL_case[i][j] == 'x')
+			{
+				if (is_yellow(cube.sides.right.colour[side_x][side_y--]))
+				{
+					break_case = 1;
+				}
+			}
+			else if (OLL_case[i][j] == 'y')
+			{
+				if (!is_yellow(cube.sides.right.colour[side_x][side_y--]))
+				{
+					break_case = 1;
+				}
+			}
+			if (break_case)
+				break;
+		}
+		if (break_case)
+			continue;
+
+		/* Checking front */
+		side_x = 0;
+		side_y = 2;
+		for (int j = 15; j <= 17; j++)
+		{
+			if (OLL_case[i][j] == 'x')
+			{
+				if (is_yellow(cube.sides.front.colour[side_x][side_y--]))
+				{
+					break_case = 1;
+				}
+			}
+			else if (OLL_case[i][j] == 'y')
+			{
+				if (!is_yellow(cube.sides.front.colour[side_x][side_y--]))
+				{
+					break_case = 1;
+				}
+			}
+			if (break_case)
+				break;
+		}
+		if (break_case)
+			continue;
+
+		/* Checking left */
+		side_x = 0;
+		side_y = 2;
+		for (int j = 18; j <= 20; j++)
+		{
+			if (OLL_case[i][j] == 'x')
+			{
+				if (is_yellow(cube.sides.left.colour[side_x][side_y--]))
+				{
+					break_case = 1;
+				}
+			}
+			else if (OLL_case[i][j] == 'y')
+			{
+				if (!is_yellow(cube.sides.left.colour[side_x][side_y--]))
+				{
+					break_case = 1;
+				}
+			}
+			if (break_case)
+				break;
+		}
+		if (break_case)
+			continue;
+		else
+		{
+			case_pass = i;
+			break;
+		}
+	}
+	return case_pass;
+}
+
+static void cube_solve_OLL(void)
+{
+	add_formula(FORMULA_OLL[cube_which_OLL_case()], "TOP YELLOW");
+	print_screen();
+	apply_formula();
+}
+
+static int OLL_solved(void)
+{
+	int solved = 1;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if(!is_yellow(cube.sides.up.colour[i][j]))
+			{
+				solved = 0;
+			}
+			if(!solved)
+			break;
+		}
+		if(!solved)
+		break;
+	}
+	return solved;
 }
 
 static void cube_shuffle(void)

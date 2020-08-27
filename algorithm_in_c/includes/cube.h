@@ -249,6 +249,7 @@
    order of map is as follows :
      UP(00,01,02,10,11,12,20,21,22),BACK(02,01,00),RIGHT(02,01,00),FRONT(02,01,00),LEFT(02,01,00) 
 */
+
 #define OLL1 "xxxxyxxxxxyxyyyxyxyyy"
 #define OLL2 "xxxxyxxxxyyyxyyxyxyyx"
 #define OLL3 "yxxxyxxxxxyxyyxyyxyyx"
@@ -307,6 +308,66 @@
 #define OLL56 "xxxyyyxxxxyxyxyxyxyxy"
 #define OLL57 "yxyyyyyxyxyxxxxxyxxxx"
 /***************************************/
+
+/*** OLL Formulae ***/
+#define FORMULA_OLL1 "R U2 R2 F R Fi U2 Ri F R Fi"
+#define FORMULA_OLL2 "li Ui l U2 Li U2 L U2 Ri F R"
+#define FORMULA_OLL3 "F U R Ui Ri Fi U F R U Ri Ui Fi"
+#define FORMULA_OLL4 "Fi Ui Li U L F U F R U Ri Ui Fi"
+#define FORMULA_OLL5 "li U2 L U Li U l"
+#define FORMULA_OLL6 "r U2 Ri Ui R Ui ri"
+#define FORMULA_OLL7 "l U Li U L U2 li"
+#define FORMULA_OLL8 "ri Ui R Ui Ri U2 r"
+#define FORMULA_OLL9 "R U Ri Ui Ri F R R U Ri Ui Fi"
+#define FORMULA_OLL10 "Li Ui L U L Fi Li Li Ui L U F"
+#define FORMULA_OLL11 "M R U Ri U R U2 Ri U Mi"
+#define FORMULA_OLL12 "M Li Ui L Ui Li U2 L Ui Mi"
+#define FORMULA_OLL13 "r Ui ri Ui r U ri yi Ri U R"
+#define FORMULA_OLL14 "li U l U li Ui l y L Ui Li"
+#define FORMULA_OLL15 "ri Ui r Ri Ui R U ri U r"
+#define FORMULA_OLL16 "l U li L U Li Ui l Ui li"
+#define FORMULA_OLL17 "R U Ri U Ri F R Fi U2 Ri F R Fi"
+#define FORMULA_OLL18 "F Ri Fi R U R Ui Ri U F R U Ri Ui"
+#define FORMULA_OLL19 "F Ri Fi R U R Ui Ri Ui F R U Ri Ui"
+#define FORMULA_OLL20 "Mi U2 M U2 Mi U M U2 Mi U2 M"
+#define FORMULA_OLL21 "F R U Ri Ui R U Ri U R U Ri U Fi"
+#define FORMULA_OLL22 "R U2 R2 Ui R2 Ui R2 U2 R"
+#define FORMULA_OLL23 "R2 D Ri U2 R Di Ri U2 Ri"
+#define FORMULA_OLL24 "r U Ri Ui ri F R Fi"
+#define FORMULA_OLL25 "Ri F R Bi Ri Fi R B"
+#define FORMULA_OLL26 "Li Ui L Ui Li U2 L"
+#define FORMULA_OLL27 "R U Ri U R U2 Ri"
+#define FORMULA_OLL28 "Mi U M U2 Mi U M"
+#define FORMULA_OLL29 "M U R U Ri Ui Ri F R Fi Mi"
+#define FORMULA_OLL30 "M Ui Li Ui L U L Fi Li F Mi"
+#define FORMULA_OLL31 "Ri Ui F U R Ui Ri Fi R"
+#define FORMULA_OLL32 "L U Fi Ui Li U L F Li"
+#define FORMULA_OLL33 "R U Ri Ui Ri F R Fi"
+#define FORMULA_OLL34 "R U Ri Ui Bi Ri F R Fi B"
+#define FORMULA_OLL35 "R U2 R2 F R Fi R U2 Ri"
+#define FORMULA_OLL36 "Ri Ui R Ui Ri U R U R Bi Ri B"
+#define FORMULA_OLL37 "F Ri Fi R U R Ui Ri"
+#define FORMULA_OLL38 "L U Li U L Ui Li Ui Li B L Bi"
+#define FORMULA_OLL39 "L Fi Li Ui L U F Ui Li"
+#define FORMULA_OLL40 "Ri F R U Ri Ui Fi U R"
+#define FORMULA_OLL41 "M U F R U Ri Ui Fi Mi"
+#define FORMULA_OLL42 "M Ui Fi Li Ui L U F Mi"
+#define FORMULA_OLL43 "Fi Ui Li U L F"
+#define FORMULA_OLL44 "F U R Ui Ri Fi"
+#define FORMULA_OLL45 "F R U Ri Ui Fi"
+#define FORMULA_OLL46 "Ri Ui Ri F R Fi U R"
+#define FORMULA_OLL47 "Fi Li Ui L U Li Ui L U F"
+#define FORMULA_OLL48 "F R U Ri Ui R U Ri Ui Fi"
+#define FORMULA_OLL49 "R Bi R2 F R2 B R2 Fi R"
+#define FORMULA_OLL50 "Li B L2 Fi L2 Bi L2 F Li"
+#define FORMULA_OLL51 "F U R Ui Ri U R Ui Ri Fi"
+#define FORMULA_OLL52 "R U Ri U R di R Ui Ri Fi"
+#define FORMULA_OLL53 "ri Ui r Ri Ui R U Ri Ui R U ri U r"
+#define FORMULA_OLL54 "l U li L U Li Ui L U Li Ui l Ui li"
+#define FORMULA_OLL55 "R U2 R2 Ui R Ui Ri U2 F R Fi"
+#define FORMULA_OLL56 "ri Ui r Ui Ri U R Ui Ri U R ri U r"
+#define FORMULA_OLL57 "R U Ri Ui r Ri U R Ui ri"
+/********************/
 
 typedef enum
 {
@@ -411,6 +472,8 @@ extern formula_t *formula;
 extern int formula_count;
 extern int formula_to_apply;
 extern char stub_cube;
+extern char OLL_case[57][22];
+extern char FORMULA_OLL[57][40];
 
 extern void cube_init(void);
 extern void update_cube_map(void);
