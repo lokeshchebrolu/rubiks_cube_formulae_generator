@@ -31,7 +31,8 @@ static void cube_init_temp_colour(void);
 static int cube_which_OLL_case(void);
 static void cube_solve_OLL(void);
 static int OLL_solved(void);
-
+static void cube_solve_PLL(void);
+static int PLL_solved(void);
 static void cube_shuffle(void);
 static void free_formula(void);
 
@@ -1816,7 +1817,10 @@ void cube_solve(void)
 			break;
 
 		case STAGE4:
-			wait_for_enter("stage4");
+			if(!PLL_solved())
+				cube_solve_PLL();
+			else
+				cube_solved = 1;
 			break;
 
 		default:
@@ -2517,6 +2521,16 @@ static int OLL_solved(void)
 			break;
 	}
 	return solved;
+}
+
+static void cube_solve_PLL(void)
+{
+
+}
+
+static int PLL_solved(void)
+{
+	/* Return 1 if solved else returns >1 with different numbers of cases of PLL*/
 }
 
 static void cube_shuffle(void)
