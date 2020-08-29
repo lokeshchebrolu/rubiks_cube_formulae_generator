@@ -2531,6 +2531,18 @@ static void cube_solve_PLL(void)
 static int PLL_solved(void)
 {
 	/* Return 1 if solved else returns >1 with different numbers of cases of PLL*/
+	int PLL_solved_status = 0;
+	int four_sides_PLL_status[4]={0};
+
+	/* Check all four sides */
+	/* Check back */
+	char current_colour = cube.sides.back.colour[0][i];
+	int i;
+	for(i = 1 ;(i<3) && (cube.sides.back.colour[0][i] == current_colour);i++);
+	if(i==3)
+	{
+		four_sides_PLL_status[0] = 1;
+	}
 }
 
 static void cube_shuffle(void)
