@@ -466,6 +466,14 @@ typedef enum
     LINE2_SIDE4 = 4,
 } stage2_t;
 
+typedef enum
+{
+    PLL_BACK = 1,
+    PLL_RIGHT = 2,
+    PLL_FRONT = 3,
+    PLL_LEFT = 4,
+} PLL_sides_t;
+
 extern cube_t cube;
 extern colour_count_t colour_count;
 extern formula_t *formula;

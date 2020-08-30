@@ -1817,7 +1817,7 @@ void cube_solve(void)
 			break;
 
 		case STAGE4:
-			if(!PLL_solved())
+			if (!PLL_solved())
 				cube_solve_PLL();
 			else
 				cube_solved = 1;
@@ -2396,7 +2396,7 @@ static int cube_which_OLL_case(void)
 			}
 			if (break_case)
 				continue;
-			
+
 			/* Checking back */
 			side_x = 0;
 			side_y = 2;
@@ -2497,7 +2497,7 @@ static void cube_solve_OLL(void)
 {
 	int OLL_case_num = cube_which_OLL_case();
 	char msg[20];
-	sprintf(msg,"  TOP YELLOW %2d",OLL_case_num);
+	sprintf(msg, "  TOP YELLOW %2d", OLL_case_num);
 	add_formula(FORMULA_OLL[OLL_case_num], msg);
 	print_screen();
 	apply_formula();
@@ -2525,24 +2525,155 @@ static int OLL_solved(void)
 
 static void cube_solve_PLL(void)
 {
-
 }
 
 static int PLL_solved(void)
 {
 	/* Return 1 if solved else returns >1 with different numbers of cases of PLL*/
 	int PLL_solved_status = 0;
-	int four_sides_PLL_status[4]={0};
+	int four_sides_PLL_status[4] = {0};
+	PLL_sides_t pll_sides = PLL_BACK;
 
 	/* Check all four sides */
 	/* Check back */
-	char current_colour = cube.sides.back.colour[0][i];
+	char current_colour;
 	int i;
-	for(i = 1 ;(i<3) && (cube.sides.back.colour[0][i] == current_colour);i++);
-	if(i==3)
+	while (pll_sides != COMPLETE)
 	{
-		four_sides_PLL_status[0] = 1;
+		switch (pll_sides)
+		{
+		case PLL_BACK:
+			current_colour = cube.sides.back.colour[0][0];
+			for (i = 1; (i < 3) && (cube.sides.back.colour[0][i] == current_colour); i++)
+				;
+			if (i == 3)
+				four_sides_PLL_status[0] = 1;
+			pll_sides = PLL_RIGHT;
+			break;
+
+		case PLL_RIGHT:
+			current_colour = cube.sides.right.colour[0][0];
+			for (i = 1; (i < 3) && (cube.sides.right.colour[0][i] == current_colour); i++)
+				;
+			if (i == 3)
+				four_sides_PLL_status[1] = 1;
+			pll_sides = PLL_FRONT;
+			break;
+
+		case PLL_FRONT:
+			current_colour = cube.sides.front.colour[0][0];
+			for (i = 1; (i < 3) && (cube.sides.front.colour[0][i] == current_colour); i++)
+				;
+			if (i == 3)
+				four_sides_PLL_status[2] = 1;
+			pll_sides = PLL_LEFT;
+			break;
+
+		case PLL_LEFT:
+			current_colour = cube.sides.left.colour[0][0];
+			for (i = 1; (i < 3) && (cube.sides.left.colour[0][i] == current_colour); i++)
+				;
+			if (i == 3)
+				four_sides_PLL_status[3] = 1;
+			pll_sides = COMPLETE;
+			break;
+		}
 	}
+	printf("%d %d %d %d", four_sides_PLL_status[0], four_sides_PLL_status[1], four_sides_PLL_status[2], four_sides_PLL_status[3]);
+	wait_for_enter(" _PLL");
+	if (four_sides_PLL_status[0] && four_sides_PLL_status[1] && four_sides_PLL_status[2] && four_sides_PLL_status[3]) /* All 4 Solved */
+		return 1;
+	else if (four_sides_PLL_status[1]) /* Right solved */
+	{
+		switch(side_of_center_colour(cube.sides.right.colour[0][1]))
+		{
+			case FRONT:
+				add_formula("U Y Y", "  PLL ROTATE   ");
+				break;
+
+			case BACK:
+				add_formula("Ui", "  PLL ROTATE   ");
+				break;
+
+			case LEFT:
+				add_formula("U U Y", "  PLL ROTATE   ");
+				break;
+
+			case RIGHT:
+				add_formula("Yi", "  PLL ROTATE   ");
+				break;
+
+			case DOWN:
+				/* Invalid case */
+				break;
+
+			case UP:
+				/* Invalid case */
+				break;
+		}
+	}
+	else if (four_sides_PLL_status[2]) /* Front solved */
+	{
+		switch(side_of_center_colour(cube.sides.front.colour[0][1]))
+		{
+			case FRONT:
+				add_formula("Y Y", "  PLL ROTATE   ");
+				break;
+
+			case BACK:
+				add_formula("U U", "  PLL ROTATE   ");
+				break;
+
+			case LEFT:
+				add_formula("U Y", "  PLL ROTATE   ");
+				break;
+
+			case RIGHT:
+				add_formula("Ui Yi", "  PLL ROTATE   ");
+				break;
+
+			case DOWN:
+				/* Invalid case */
+				break;
+
+			case UP:
+				/* Invalid case */
+				break;
+		}
+	}
+	else if(four_sides_PLL_status[3]) /* Left Solved */
+	{
+		switch(side_of_center_colour(cube.sides.left.colour[0][1]))
+		{
+			case FRONT:
+				add_formula("Ui Y Y", "  PLL ROTATE   ");
+				break;
+
+			case BACK:
+				add_formula("U", "  PLL ROTATE   ");
+				break;
+
+			case LEFT:
+				add_formula("Y", "  PLL ROTATE   ");
+				break;
+
+			case RIGHT:
+				add_formula("U U Yi", "  PLL ROTATE   ");
+				break;
+
+			case DOWN:
+				/* Invalid case */
+				break;
+
+			case UP:
+				/* Invalid case */
+				break;
+		}
+	}
+	print_screen();
+	apply_formula();
+	wait_for_enter(" _PLL");
+	wait_for_enter(" _PLL");
 }
 
 static void cube_shuffle(void)
@@ -2560,6 +2691,7 @@ static void cube_shuffle(void)
 
 	int opt = atoi(time_val) % 7;
 
+	opt = 0;
 	switch (opt)
 	{
 	case 0:
