@@ -32,7 +32,7 @@ static int cube_which_OLL_case(void);
 static void cube_solve_OLL(void);
 static int OLL_solved(void);
 static void cube_solve_PLL(void);
-static int PLL_solved(void);
+static int cube_which_PLL_case(void);
 static void cube_shuffle(void);
 static void free_formula(void);
 
@@ -2525,12 +2525,109 @@ static int OLL_solved(void)
 
 static void cube_solve_PLL(void)
 {
+	int PLL_case_num = cube_which_PLL_case();
+
+	/* Orient PLL case to back */
+	switch (PLL_case_num)
+	{
+	case PLL_BACK_SOLVED:
+		break;
+
+	case PLL_RIGHT_SOLVED:
+		switch (side_of_center_colour(RIGHT_01_COLOUR))
+		{
+		case FRONT:
+			add_formula("U Y Y", "  PLL ROTATE   ");
+			break;
+
+		case BACK:
+			add_formula("Ui", "  PLL ROTATE   ");
+			break;
+
+		case LEFT:
+			add_formula("U U Y", "  PLL ROTATE   ");
+			break;
+
+		case RIGHT:
+			add_formula("Yi", "  PLL ROTATE   ");
+			break;
+
+		case DOWN:
+			/* Invalid case */
+			break;
+
+		case UP:
+			/* Invalid case */
+			break;
+		}
+		break;
+	case PLL_FRONT_SOLVED:
+		switch (side_of_center_colour(FRONT_01_COLOUR))
+		{
+		case FRONT:
+			add_formula("Y Y", "  PLL ROTATE   ");
+			break;
+
+		case BACK:
+			add_formula("U U", "  PLL ROTATE   ");
+			break;
+
+		case LEFT:
+			add_formula("U Y", "  PLL ROTATE   ");
+			break;
+
+		case RIGHT:
+			add_formula("Ui Yi", "  PLL ROTATE   ");
+			break;
+
+		case DOWN:
+			/* Invalid case */
+			break;
+
+		case UP:
+			/* Invalid case */
+			break;
+		}
+		break;
+
+	case PLL_LEFT_SOLVED:
+		switch (side_of_center_colour(LEFT_01_COLOUR))
+		{
+		case FRONT:
+			add_formula("Ui Y Y", "  PLL ROTATE   ");
+			break;
+
+		case BACK:
+			add_formula("U", "  PLL ROTATE   ");
+			break;
+
+		case LEFT:
+			add_formula("Y", "  PLL ROTATE   ");
+			break;
+
+		case RIGHT:
+			add_formula("U U Yi", "  PLL ROTATE   ");
+			break;
+
+		case DOWN:
+			/* Invalid case */
+			break;
+
+		case UP:
+			/* Invalid case */
+			break;
+		}
+		break;
+	}
+	print_screen();
+	apply_formula();
+
 }
 
-static int PLL_solved(void)
+static int cube_which_PLL_case(void)
 {
 	/* Return 1 if solved else returns >1 with different numbers of cases of PLL*/
-	int PLL_solved_status = 0;
+	int cube_which_PLL_case_status = 0;
 	int four_sides_PLL_status[4] = {0};
 	PLL_sides_t pll_sides = PLL_BACK;
 
@@ -2543,7 +2640,7 @@ static int PLL_solved(void)
 		switch (pll_sides)
 		{
 		case PLL_BACK:
-			current_colour = cube.sides.back.colour[0][0];
+			current_colour = BACK_00_COLOUR;
 			for (i = 1; (i < 3) && (cube.sides.back.colour[0][i] == current_colour); i++)
 				;
 			if (i == 3)
@@ -2552,7 +2649,7 @@ static int PLL_solved(void)
 			break;
 
 		case PLL_RIGHT:
-			current_colour = cube.sides.right.colour[0][0];
+			current_colour = RIGHT_00_COLOUR;
 			for (i = 1; (i < 3) && (cube.sides.right.colour[0][i] == current_colour); i++)
 				;
 			if (i == 3)
@@ -2561,7 +2658,7 @@ static int PLL_solved(void)
 			break;
 
 		case PLL_FRONT:
-			current_colour = cube.sides.front.colour[0][0];
+			current_colour = FRONT_00_COLOUR;
 			for (i = 1; (i < 3) && (cube.sides.front.colour[0][i] == current_colour); i++)
 				;
 			if (i == 3)
@@ -2570,7 +2667,7 @@ static int PLL_solved(void)
 			break;
 
 		case PLL_LEFT:
-			current_colour = cube.sides.left.colour[0][0];
+			current_colour = LEFT_00_COLOUR;
 			for (i = 1; (i < 3) && (cube.sides.left.colour[0][i] == current_colour); i++)
 				;
 			if (i == 3)
@@ -2579,101 +2676,68 @@ static int PLL_solved(void)
 			break;
 		}
 	}
-	printf("%d %d %d %d", four_sides_PLL_status[0], four_sides_PLL_status[1], four_sides_PLL_status[2], four_sides_PLL_status[3]);
-	wait_for_enter(" _PLL");
+
 	if (four_sides_PLL_status[0] && four_sides_PLL_status[1] && four_sides_PLL_status[2] && four_sides_PLL_status[3]) /* All 4 Solved */
-		return 1;
+		return COMPLETE;
+	else if (four_sides_PLL_status[0]) /* Back solved */
+		return PLL_BACK_SOLVED;
 	else if (four_sides_PLL_status[1]) /* Right solved */
-	{
-		switch(side_of_center_colour(cube.sides.right.colour[0][1]))
-		{
-			case FRONT:
-				add_formula("U Y Y", "  PLL ROTATE   ");
-				break;
-
-			case BACK:
-				add_formula("Ui", "  PLL ROTATE   ");
-				break;
-
-			case LEFT:
-				add_formula("U U Y", "  PLL ROTATE   ");
-				break;
-
-			case RIGHT:
-				add_formula("Yi", "  PLL ROTATE   ");
-				break;
-
-			case DOWN:
-				/* Invalid case */
-				break;
-
-			case UP:
-				/* Invalid case */
-				break;
-		}
-	}
+		return PLL_RIGHT_SOLVED;
 	else if (four_sides_PLL_status[2]) /* Front solved */
+		return PLL_FRONT_SOLVED;
+	else if (four_sides_PLL_status[3]) /* Left Solved */
+		return PLL_LEFT_SOLVED;
+
+	/* Check for two complete cases 00,02 completed and 01 unsolved */
+	pll_sides = PLL_BACK;
+	four_sides_PLL_status[0] = four_sides_PLL_status[1] = four_sides_PLL_status[2] = four_sides_PLL_status[3] = 0;
+	while (pll_sides != COMPLETE)
 	{
-		switch(side_of_center_colour(cube.sides.front.colour[0][1]))
+		switch (pll_sides)
 		{
-			case FRONT:
-				add_formula("Y Y", "  PLL ROTATE   ");
-				break;
+		case PLL_BACK:
+			if (is_same_colour(BACK_00_COLOUR, BACK_02_COLOUR) && is_not_same_colour(BACK_00_COLOUR, BACK_01_COLOUR))
+				four_sides_PLL_status[0] = 1;
+			pll_sides = PLL_RIGHT;
+			break;
 
-			case BACK:
-				add_formula("U U", "  PLL ROTATE   ");
-				break;
+		case PLL_RIGHT:
+			if (is_same_colour(RIGHT_00_COLOUR, RIGHT_02_COLOUR) && is_not_same_colour(RIGHT_00_COLOUR, RIGHT_01_COLOUR))
+				four_sides_PLL_status[1] = 1;
+			pll_sides = PLL_FRONT;
+			break;
 
-			case LEFT:
-				add_formula("U Y", "  PLL ROTATE   ");
-				break;
+		case PLL_FRONT:
+			if (is_same_colour(FRONT_00_COLOUR, FRONT_02_COLOUR) && is_not_same_colour(FRONT_00_COLOUR, FRONT_01_COLOUR))
+				four_sides_PLL_status[2] = 1;
+			pll_sides = PLL_LEFT;
+			break;
 
-			case RIGHT:
-				add_formula("Ui Yi", "  PLL ROTATE   ");
-				break;
-
-			case DOWN:
-				/* Invalid case */
-				break;
-
-			case UP:
-				/* Invalid case */
-				break;
+		case PLL_LEFT:
+			if (is_same_colour(LEFT_00_COLOUR, LEFT_02_COLOUR) && is_not_same_colour(LEFT_00_COLOUR, LEFT_01_COLOUR))
+				four_sides_PLL_status[3] = 1;
+			pll_sides = COMPLETE;
+			break;
 		}
 	}
-	else if(four_sides_PLL_status[3]) /* Left Solved */
-	{
-		switch(side_of_center_colour(cube.sides.left.colour[0][1]))
-		{
-			case FRONT:
-				add_formula("Ui Y Y", "  PLL ROTATE   ");
-				break;
 
-			case BACK:
-				add_formula("U", "  PLL ROTATE   ");
-				break;
+	if (four_sides_PLL_status[0] && four_sides_PLL_status[1] && four_sides_PLL_status[2] && four_sides_PLL_status[3]) /* All 4 Solved */
+		return PLL_MIRROR_SOLVED;
+	else if (four_sides_PLL_status[0]) /* Back solved */
+		return PLL_BACK_MIRROR_SOLVED;
+	else if (four_sides_PLL_status[1]) /* Right solved */
+		return PLL_RIGHT_MIRROR_SOLVED;
+	else if (four_sides_PLL_status[2]) /* Front solved */
+		return PLL_FRONT_MIRROR_SOLVED;
+	else if (four_sides_PLL_status[3]) /* Left Solved */
+		return PLL_LEFT_MIRROR_SOLVED;
+}
 
-			case LEFT:
-				add_formula("Y", "  PLL ROTATE   ");
-				break;
-
-			case RIGHT:
-				add_formula("U U Yi", "  PLL ROTATE   ");
-				break;
-
-			case DOWN:
-				/* Invalid case */
-				break;
-
-			case UP:
-				/* Invalid case */
-				break;
-		}
-	}
-	print_screen();
-	apply_formula();
-	wait_for_enter(" _PLL");
-	wait_for_enter(" _PLL");
+static int PLL_solved(void)
+{
+	if (cube_which_PLL_case() == COMPLETE)
+		return 1;
+	return 0;
 }
 
 static void cube_shuffle(void)

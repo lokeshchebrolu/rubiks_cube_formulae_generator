@@ -472,6 +472,15 @@ typedef enum
     PLL_RIGHT = 2,
     PLL_FRONT = 3,
     PLL_LEFT = 4,
+    PLL_BACK_SOLVED = 5,
+    PLL_RIGHT_SOLVED = 6,
+    PLL_FRONT_SOLVED = 7,
+    PLL_LEFT_SOLVED = 8,
+    PLL_BACK_MIRROR_SOLVED = 9,
+    PLL_RIGHT_MIRROR_SOLVED = 10,
+    PLL_FRONT_MIRROR_SOLVED = 11,
+    PLL_LEFT_MIRROR_SOLVED = 12,
+    PLL_MIRROR_SOLVED = 13
 } PLL_sides_t;
 
 extern cube_t cube;
