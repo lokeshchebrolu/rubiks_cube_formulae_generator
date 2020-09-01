@@ -84,7 +84,7 @@ void cube_init(void)
 			cube.sides.down.colour[i][j] = 'B';
 	}
 
-	printf("Stub cube?[y/n]: ");
+	printf("\n Shuffle cube?[y/n]: ");
 	scanf(" %c", &stub_cube);
 
 	if (stub_cube == 'y')
@@ -105,7 +105,6 @@ void cube_init(void)
 		read_cube();
 		input = 0;
 	}
-	stub_cube = 'n';
 }
 
 void update_cube_map(void)
@@ -539,7 +538,7 @@ void cube_solve(void)
 													add_formula("L Ui Fi U Li", "   SOLVE UP10  ");
 													break;
 												case 3:
-													add_formula("L L Ui Fi U Li", "   SOLVE UP10  ");
+													add_formula("L L U Bi Ui", "   SOLVE UP10  ");
 													break;
 												case 4:
 													add_formula("Li Ui Fi U Li", "   SOLVE UP10  ");
@@ -1817,6 +1816,22 @@ void cube_solve(void)
 	free_formula();
 	formula_to_apply = 0;
 	print_screen();
+	printf("\n     ");
+	SET_GREEN_COLOUR;
+	SET_FG_WHITE;
+	printf("  -------------  ");
+	RESET_COLOUR;
+	printf("\n     ");
+	SET_GREEN_COLOUR;
+	SET_FG_WHITE;
+	printf(" | CUBE SOLVED | ");
+	RESET_COLOUR;
+	printf("\n     ");
+	SET_GREEN_COLOUR;
+	SET_FG_WHITE;
+	printf("  -------------  ");
+	RESET_COLOUR;
+	printf("\n");
 }
 
 static void update_cube_local(void)
@@ -1992,8 +2007,15 @@ static void apply_formula(void)
 	char temp_step[3];
 	for (int i = 0; (i < CURRENT_FORMULA.step_count - 1) || (i == 0); i++)
 	{
-		MOVE_CURSOR_UP(1);
-		MOVE_CURSOR_FORWARD(41);
+
+		if (stub_cube != 'y')
+		{
+			MOVE_CURSOR_UP(1);
+			MOVE_CURSOR_FORWARD(41);
+		}
+		else
+			printf("\n Apply Below Shuffle Formula:\n ");
+		
 		for (int j = 0; j < i; j++)
 		{
 			SET_GREEN_COLOUR;
@@ -2003,8 +2025,7 @@ static void apply_formula(void)
 			printf(" ");
 		}
 		strcpy(temp_step, CURRENT_FORMULA.steps[i].step);
-		if (stub_cube != 'y')
-			wait_for_enter(NULL);
+		wait_for_enter(NULL);
 
 		switch (temp_step[0])
 		{
@@ -2876,7 +2897,7 @@ static void cube_shuffle(void)
 
 	int opt = atoi(time_val) % 7;
 
-	opt = 4;
+	opt = 2;
 	switch (opt)
 	{
 	case 0:
@@ -2918,7 +2939,7 @@ static void reverse_formula(char *s)
 	int s_len;
 	char s_final[100];
 	char s_temp[100];
-	
+
 	s_len = strlen(s);
 	strcpy(s_temp, s);
 
@@ -2931,32 +2952,32 @@ static void reverse_formula(char *s)
 	}
 
 	/* Reverse each step */
-	int i=0,j=0;
-    while (i < s_len)
-    {
-        switch (s_temp[i])
-        {
-        case ' ':
-            s_final[j++] = ' ';
-            i++;
-            break;
+	int i = 0, j = 0;
+	while (i < s_len)
+	{
+		switch (s_temp[i])
+		{
+		case ' ':
+			s_final[j++] = ' ';
+			i++;
+			break;
 
-        case 'i':
-            s_final[j++] = s_temp[++i];
-            i++;
-            break;
+		case 'i':
+			s_final[j++] = s_temp[++i];
+			i++;
+			break;
 
-        default:
-            s_final[j++] = s_temp[i++];
-            s_final[j++] = 'i';
-            break;
-        }
-    }
+		default:
+			s_final[j++] = s_temp[i++];
+			s_final[j++] = 'i';
+			break;
+		}
+	}
 
-	printf("\n%s\n",s_final);
+	printf("\n%s\n", s_final);
 	wait_for_enter("__");
 	wait_for_enter("__");
-	add_formula(s_final,"    REVERSE    ");
+	add_formula(s_final, "    REVERSE    ");
 }
 
 static void free_formula(void)

@@ -23,33 +23,41 @@ int main(int argc, char *argv[])
 		wait_for_enter("");
 		if (!correct_input)
 		{
-			printf("Please enter colours correctly. Press <Enter> to continue");
+			printf(" Please enter colours correctly. Press <Enter> to continue");
 			getchar();
 			continue;
 		}
 
-		printf("Verify the cube sides you entered.\nWant to change cube colours?[y/n]:");
-		nullify = scanf(" %c", &opt);
-		switch (opt)
+		if (stub_cube != 'y')
 		{
-		case 'y':
-		case 'Y':
-			correct_input = 0;
-			break;
+			printf(" Verify the cube sides you entered.\n Want to change cube colours?[y/n]:");
+			nullify = scanf(" %c", &opt);
+			switch (opt)
+			{
+			case 'y':
+			case 'Y':
+				correct_input = 0;
+				break;
 
-		case 'n':
-		case 'N':
-			correct_input = 1;
-			break;
+			case 'n':
+			case 'N':
+				correct_input = 1;
+				break;
 
-		default:
-			printf("Invalid option\n");
-			break;
+			default:
+				printf(" Invalid option\n");
+				break;
+			}
 		}
+		else
+		{
+			correct_input = 1;
+			stub_cube = 'n';
+		}
+
 	} while (!correct_input);
 
 	cube_solve();
 
-	printf("DONE\n");
 	return 0;
 }
