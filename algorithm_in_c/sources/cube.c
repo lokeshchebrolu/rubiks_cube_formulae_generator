@@ -2897,7 +2897,6 @@ static void cube_shuffle(void)
 
 	int opt = atoi(time_val) % 7;
 
-	opt = 2;
 	switch (opt)
 	{
 	case 0:
