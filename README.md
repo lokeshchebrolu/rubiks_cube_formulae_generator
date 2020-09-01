@@ -10,3 +10,5 @@ Sample Output of C version
 <p>
 	<img src="./algorithm_in_c/images/sample_output_in_c.png" width="498" height="440")
 </p>
+
+Demo video : https://youtu.be/vRDHErL-heU
