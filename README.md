@@ -12,4 +12,5 @@ Sample Output of C version
 </p>
 
 Demo video : https://youtu.be/vRDHErL-heU
+
 Formula notations : https://youtu.be/xlquDKKSGVI
