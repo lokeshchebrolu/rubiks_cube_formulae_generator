@@ -32,7 +32,9 @@ static int cube_which_OLL_case(void);
 static void cube_solve_OLL(void);
 static int OLL_solved(void);
 static void cube_solve_PLL(void);
+static int cube_which_direction_PLL_case(void);
 static int cube_which_PLL_case(void);
+static int PLL_solved(void);
 static void cube_shuffle(void);
 static void free_formula(void);
 
@@ -211,21 +213,11 @@ void cube_solve(void)
 	up_t stage1_substage_1 = UP_01;
 	up_t stage1_substage_2 = UP_00;
 
-	int analysis_completed = 0;
 	stage1_t stage1_completed = WHITE_CROSS;
 	stage2_t stage2_completed = LINE2_SIDE1;
-	int stage3_completed = 0;
-	int stage4_completed = 0;
 
 	int cross_complete = 0;
 	int white_corners_complete = 0;
-
-	char blue_side;
-	char white_side;
-	char red_side;
-	char orange_side;
-	char green_side;
-	char yellow_side;
 
 	formula_to_apply = 1;
 
@@ -236,9 +228,8 @@ void cube_solve(void)
 		switch (stage)
 		{
 		case ANALYSE:
-			white_side = side_of_center_colour(WHITE);
 			/* Move white side to UP */
-			switch (white_side)
+			switch (side_of_center_colour(WHITE))
 			{
 			case FRONT:
 				add_formula("X", "  WHITE TO UP1 ");
@@ -269,10 +260,9 @@ void cube_solve(void)
 			wait_for_enter(NULL);
 			apply_formula();
 
-			blue_side = side_of_center_colour(BLUE);
 			formula_to_apply = 1;
 			/* Move blue to back */
-			switch (blue_side)
+			switch (side_of_center_colour(BLUE))
 			{
 			case FRONT:
 				add_formula("d d", "  BLUE TO BACK ");
@@ -301,11 +291,6 @@ void cube_solve(void)
 				formula_to_apply = 0;
 				break;
 			}
-
-			red_side = side_of_center_colour(RED);
-			orange_side = side_of_center_colour(ORANGE);
-			yellow_side = side_of_center_colour(YELLOW);
-			green_side = side_of_center_colour(GREEN);
 
 			print_screen();
 			apply_formula();
@@ -1989,7 +1974,6 @@ static void add_formula(char *formula_new, char *description)
 	formulae_update_step(START_FORMULA, description);
 
 	token = strtok(temp_str, " ");
-	int temp = 1;
 	while (token)
 	{
 		formulae_update_step(token, NULL);
@@ -2525,109 +2509,235 @@ static int OLL_solved(void)
 
 static void cube_solve_PLL(void)
 {
-	int PLL_case_num = cube_which_PLL_case();
+	int PLL_case_num = TEMP_INIT;
+	int PLL_direction_case_num = 0;
+	int PLL_solved_status = NOT_COMPLETE;
 
-	/* Orient PLL case to back */
-	switch (PLL_case_num)
+	while (PLL_solved_status == NOT_COMPLETE)
 	{
-	case PLL_BACK_SOLVED:
-		break;
-
-	case PLL_RIGHT_SOLVED:
-		switch (side_of_center_colour(RIGHT_01_COLOUR))
+		/* Get latest PLL case */
+		PLL_case_num = cube_which_PLL_case();
+		if (PLL_case_num == COMPLETE)
 		{
-		case FRONT:
-			add_formula("U Y Y", "  PLL ROTATE   ");
+			PLL_solved_status = COMPLETE;
+			continue;
+		}
+		/* Orient one side solved PLL case to back */
+		switch (PLL_case_num)
+		{
+		case PLL_BACK_SOLVED:
 			break;
 
-		case BACK:
-			add_formula("Ui", "  PLL ROTATE   ");
+		case PLL_RIGHT_SOLVED:
+			switch (side_of_center_colour(RIGHT_01_COLOUR))
+			{
+			case FRONT:
+				add_formula("U Y Y", "  PLL ORIENT   ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case BACK:
+				add_formula("Ui", "  PLL ORIENT   ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case LEFT:
+				add_formula("U U Y", "  PLL ORIENT   ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case RIGHT:
+				add_formula("Yi", "  PLL ORIENT   ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case DOWN:
+				/* Invalid case */
+				break;
+
+			case UP:
+				/* Invalid case */
+				break;
+			}
+			break;
+		case PLL_FRONT_SOLVED:
+			switch (side_of_center_colour(FRONT_01_COLOUR))
+			{
+			case FRONT:
+				add_formula("Y Y", "  PLL ROTATE   ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case BACK:
+				add_formula("U U", "  PLL ROTATE   ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case LEFT:
+				add_formula("U Y", "  PLL ROTATE   ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case RIGHT:
+				add_formula("Ui Yi", "  PLL ROTATE   ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case DOWN:
+				/* Invalid case */
+				break;
+
+			case UP:
+				/* Invalid case */
+				break;
+			}
 			break;
 
-		case LEFT:
-			add_formula("U U Y", "  PLL ROTATE   ");
-			break;
+		case PLL_LEFT_SOLVED:
+			switch (side_of_center_colour(LEFT_01_COLOUR))
+			{
+			case FRONT:
+				add_formula("Ui Y Y", "  PLL ROTATE   ");
+				print_screen();
+				apply_formula();
+				break;
 
-		case RIGHT:
-			add_formula("Yi", "  PLL ROTATE   ");
-			break;
+			case BACK:
+				add_formula("U", "  PLL ROTATE   ");
+				print_screen();
+				apply_formula();
+				break;
 
-		case DOWN:
-			/* Invalid case */
-			break;
+			case LEFT:
+				add_formula("Y", "  PLL ROTATE   ");
+				print_screen();
+				apply_formula();
+				break;
 
-		case UP:
-			/* Invalid case */
+			case RIGHT:
+				add_formula("U U Yi", "  PLL ROTATE   ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case DOWN:
+				/* Invalid case */
+				break;
+
+			case UP:
+				/* Invalid case */
+				break;
+			}
 			break;
 		}
-		break;
-	case PLL_FRONT_SOLVED:
-		switch (side_of_center_colour(FRONT_01_COLOUR))
+
+		/* If one mirror is solved, orient it */
+		PLL_case_num = cube_which_PLL_case();
+		switch (PLL_case_num)
 		{
-		case FRONT:
-			add_formula("Y Y", "  PLL ROTATE   ");
+		case PLL_BACK_MIRROR_SOLVED:
 			break;
 
-		case BACK:
-			add_formula("U U", "  PLL ROTATE   ");
+		case PLL_RIGHT_MIRROR_SOLVED:
+			add_formula("Ui", "  PLL ORIENT   ");
+			print_screen();
+			apply_formula();
 			break;
 
-		case LEFT:
-			add_formula("U Y", "  PLL ROTATE   ");
+		case PLL_FRONT_MIRROR_SOLVED:
+			add_formula("U U", "  PLL ORIENT   ");
+			print_screen();
+			apply_formula();
 			break;
 
-		case RIGHT:
-			add_formula("Ui Yi", "  PLL ROTATE   ");
-			break;
-
-		case DOWN:
-			/* Invalid case */
-			break;
-
-		case UP:
-			/* Invalid case */
+		case PLL_LEFT_MIRROR_SOLVED:
+			add_formula("U", "  PLL ORIENT   ");
+			print_screen();
+			apply_formula();
 			break;
 		}
-		break;
 
-	case PLL_LEFT_SOLVED:
-		switch (side_of_center_colour(LEFT_01_COLOUR))
+		if (PLL_3_MIRRORS_NOT_SOLVED)
 		{
-		case FRONT:
-			add_formula("Ui Y Y", "  PLL ROTATE   ");
-			break;
+			add_formula("Ri F Ri B B R Fi Ri B B R R Ui", " PLL 3 MIRRORS ");
+			print_screen();
+			apply_formula();
+		}
+		if (PLL_4_MIRRORS_SOLVED)
+		{
+			/* Orient 4 PLL sides to their centers */
+			switch (side_of_center_colour(BACK_00_COLOUR))
+			{
+			case BACK:
+				break;
 
-		case BACK:
-			add_formula("U", "  PLL ROTATE   ");
-			break;
+			case RIGHT:
+				add_formula("U", " PLL 4 MIRRORS ");
+				print_screen();
+				apply_formula();
+				break;
 
-		case LEFT:
-			add_formula("Y", "  PLL ROTATE   ");
-			break;
+			case FRONT:
+				add_formula("U U", " PLL 4 MIRRORS ");
+				print_screen();
+				apply_formula();
+				break;
 
-		case RIGHT:
-			add_formula("U U Yi", "  PLL ROTATE   ");
-			break;
+			case LEFT:
+				add_formula("Ui", " PLL 4 MIRRORS ");
+				print_screen();
+				apply_formula();
+				break;
+			}
+		}
 
-		case DOWN:
-			/* Invalid case */
+		switch (cube_which_PLL_case())
+		{
+		case PLL_RIGHT_SOLVED:
+		case PLL_FRONT_SOLVED:
+		case PLL_LEFT_SOLVED:
 			break;
+		default:
+			/* Solve Mirrors  */
+			PLL_direction_case_num = cube_which_direction_PLL_case();
+			switch (PLL_direction_case_num)
+			{
 
-		case UP:
-			/* Invalid case */
+			case LEFT:
+				add_formula("F F U L Ri F F Li R U F F", "PLL LEFT MIRROR");
+				print_screen();
+				apply_formula();
+				break;
+
+			case RIGHT:
+				add_formula("F F Ui L Ri F F Li R Ui F F", " PLL R8 MIRROR ");
+				print_screen();
+				apply_formula();
+				break;
+
+			case BACK:
+			case FRONT:
+				add_formula("F F Ui L Ri F F Li R Ui F F", "  PLL MIRRORS  ");
+				print_screen();
+				apply_formula();
+				break;
+			}
 			break;
 		}
-		break;
 	}
-	print_screen();
-	apply_formula();
-
 }
 
+/* cube_which_PLL_case() function to be used irrespective of center alignment  */
 static int cube_which_PLL_case(void)
 {
-	/* Return 1 if solved else returns >1 with different numbers of cases of PLL*/
-	int cube_which_PLL_case_status = 0;
 	int four_sides_PLL_status[4] = {0};
 	PLL_sides_t pll_sides = PLL_BACK;
 
@@ -2731,6 +2841,13 @@ static int cube_which_PLL_case(void)
 		return PLL_FRONT_MIRROR_SOLVED;
 	else if (four_sides_PLL_status[3]) /* Left Solved */
 		return PLL_LEFT_MIRROR_SOLVED;
+	return NOT_COMPLETE;
+}
+
+static int cube_which_direction_PLL_case(void)
+{
+	/* LEFT or RIGHT will be returned */
+	return side_of_center_colour(FRONT_01_COLOUR);
 }
 
 static int PLL_solved(void)
@@ -2755,7 +2872,7 @@ static void cube_shuffle(void)
 
 	int opt = atoi(time_val) % 7;
 
-	opt = 0;
+	opt = 3;
 	switch (opt)
 	{
 	case 0:

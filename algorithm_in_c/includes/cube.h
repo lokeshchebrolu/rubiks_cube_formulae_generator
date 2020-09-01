@@ -32,6 +32,8 @@
 #define START_FORMULA "S"
 #define END_FORMULA "E"
 #define COMPLETE (0)
+#define NOT_COMPLETE (1)
+#define TEMP_INIT (0);
 
 #define CURRENT_FORMULA formula[formula_count - 1]
 
@@ -322,8 +324,8 @@
 #define FORMULA_OLL10 "Li Ui L U L Fi Li Li Ui L U F"
 #define FORMULA_OLL11 "M R U Ri U R U U Ri U Mi"
 #define FORMULA_OLL12 "M Li Ui L Ui Li U U L Ui Mi"
-#define FORMULA_OLL13 "r Ui ri Ui r U ri yi Ri U R"
-#define FORMULA_OLL14 "li U l U li Ui l y L Ui Li"
+#define FORMULA_OLL13 "r Ui ri Ui r U ri Yi Ri U R"
+#define FORMULA_OLL14 "li U l U li Ui l Y L Ui Li"
 #define FORMULA_OLL15 "ri Ui r Ri Ui R U ri U r"
 #define FORMULA_OLL16 "l U li L U Li Ui l Ui li"
 #define FORMULA_OLL17 "R U Ri U Ri F R Fi U U Ri F R Fi"
@@ -368,6 +370,58 @@
 #define FORMULA_OLL56 "ri Ui r Ui Ri U R Ui Ri U R ri U r"
 #define FORMULA_OLL57 "R U Ri Ui r Ri U R Ui ri"
 /********************/
+
+/*** PLL Macros ***/
+
+/* Mirror condition check */
+/* Note : Below macros to be used when PLL cube is oriented to back correctly with center */
+#define BACK_PLL_SOLVED (is_same_colour(BACK_CENTER_COLOUR, BACK_00_COLOUR) && \
+                         is_same_colour(BACK_CENTER_COLOUR, BACK_01_COLOUR) && \
+                         is_same_colour(BACK_CENTER_COLOUR, BACK_02_COLOUR))
+
+#define RIGHT_PLL_SOLVED (is_same_colour(RIGHT_CENTER_COLOUR, RIGHT_00_COLOUR) && \
+                          is_same_colour(RIGHT_CENTER_COLOUR, RIGHT_01_COLOUR) && \
+                          is_same_colour(RIGHT_CENTER_COLOUR, RIGHT_02_COLOUR))
+
+#define FRONT_PLL_SOLVED (is_same_colour(FRONT_CENTER_COLOUR, FRONT_00_COLOUR) && \
+                          is_same_colour(FRONT_CENTER_COLOUR, FRONT_01_COLOUR) && \
+                          is_same_colour(FRONT_CENTER_COLOUR, FRONT_02_COLOUR))
+
+#define LEFT_PLL_SOLVED (is_same_colour(LEFT_CENTER_COLOUR, LEFT_00_COLOUR) && \
+                         is_same_colour(LEFT_CENTER_COLOUR, LEFT_01_COLOUR) && \
+                         is_same_colour(LEFT_CENTER_COLOUR, LEFT_02_COLOUR))
+#define BACK_PLL_NOT_SOLVED (!BACK_PLL_SOLVED)
+#define RIGHT_PLL_NOT_SOLVED (!RIGHT_PLL_SOLVED)
+#define FRONT_PLL_NOT_SOLVED (!FRONT_PLL_SOLVED)
+#define LEFT_PLL_NOT_SOLVED (!LEFT_PLL_SOLVED)
+
+#define BACK_MIRROR_SOLVED (is_same_colour(BACK_CENTER_COLOUR, BACK_00_COLOUR) &&     \
+                            is_not_same_colour(BACK_CENTER_COLOUR, BACK_01_COLOUR) && \
+                            is_same_colour(BACK_CENTER_COLOUR, BACK_02_COLOUR))
+
+#define RIGHT_MIRROR_SOLVED (is_same_colour(RIGHT_CENTER_COLOUR, RIGHT_00_COLOUR) &&     \
+                             is_not_same_colour(RIGHT_CENTER_COLOUR, RIGHT_01_COLOUR) && \
+                             is_same_colour(RIGHT_CENTER_COLOUR, RIGHT_02_COLOUR))
+
+#define FRONT_MIRROR_SOLVED (is_same_colour(FRONT_CENTER_COLOUR, FRONT_00_COLOUR) &&     \
+                             is_not_same_colour(FRONT_CENTER_COLOUR, FRONT_01_COLOUR) && \
+                             is_same_colour(FRONT_CENTER_COLOUR, FRONT_02_COLOUR))
+
+#define LEFT_MIRROR_SOLVED (is_same_colour(LEFT_CENTER_COLOUR, LEFT_00_COLOUR) &&     \
+                            is_not_same_colour(LEFT_CENTER_COLOUR, LEFT_01_COLOUR) && \
+                            is_same_colour(LEFT_CENTER_COLOUR, LEFT_02_COLOUR))
+
+#define BACK_MIRROR_NOT_SOLVED (!BACK_MIRROR_SOLVED)
+#define RIGHT_MIRROR_NOT_SOLVED (!RIGHT_MIRROR_SOLVED)
+#define FRONT_MIRROR_NOT_SOLVED (!FRONT_MIRROR_SOLVED)
+#define LEFT_MIRROR_NOT_SOLVED (!LEFT_MIRROR_SOLVED)
+
+#define PLL_3_MIRRORS_SOLVED (LEFT_MIRROR_SOLVED && FRONT_MIRROR_SOLVED && RIGHT_MIRROR_SOLVED && BACK_PLL_SOLVED)
+#define PLL_3_MIRRORS_NOT_SOLVED (!PLL_3_MIRRORS_SOLVED)
+
+#define PLL_4_MIRRORS_SOLVED (LEFT_MIRROR_SOLVED && FRONT_MIRROR_SOLVED && RIGHT_MIRROR_SOLVED && BACK_MIRROR_SOLVED)
+#define PLL_4_MIRRORS_NOT_SOLVED (!PLL_4_MIRRORS_SOLVED)
+/******************/
 
 typedef enum
 {
@@ -480,7 +534,9 @@ typedef enum
     PLL_RIGHT_MIRROR_SOLVED = 10,
     PLL_FRONT_MIRROR_SOLVED = 11,
     PLL_LEFT_MIRROR_SOLVED = 12,
-    PLL_MIRROR_SOLVED = 13
+    PLL_MIRROR_SOLVED = 13,
+    PLL_LEFT_CASE = 14,
+    PLL_RIGHT_CASE = 15
 } PLL_sides_t;
 
 extern cube_t cube;
