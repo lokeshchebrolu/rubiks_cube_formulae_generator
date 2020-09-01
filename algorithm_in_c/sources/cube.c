@@ -36,6 +36,7 @@ static int cube_which_direction_PLL_case(void);
 static int cube_which_PLL_case(void);
 static int PLL_solved(void);
 static void cube_shuffle(void);
+static void reverse_formula(char *s);
 static void free_formula(void);
 
 void cube_init(void)
@@ -1814,6 +1815,8 @@ void cube_solve(void)
 		}
 	}
 	free_formula();
+	formula_to_apply = 0;
+	print_screen();
 }
 
 static void update_cube_local(void)
@@ -2353,7 +2356,7 @@ static int cube_which_OLL_case(void)
 	int case_pass = -1;
 	int break_case = 0;
 	int three_check = 0;
-	while (three_check < 3)
+	while (three_check < 4)
 	{
 		case_pass = -1;
 		for (int i = 0; (i < 57) && (case_pass == -1); i++)
@@ -2704,6 +2707,7 @@ static void cube_solve_PLL(void)
 		case PLL_RIGHT_SOLVED:
 		case PLL_FRONT_SOLVED:
 		case PLL_LEFT_SOLVED:
+		case COMPLETE:
 			break;
 		default:
 			/* Solve Mirrors  */
@@ -2872,7 +2876,7 @@ static void cube_shuffle(void)
 
 	int opt = atoi(time_val) % 7;
 
-	opt = 3;
+	opt = 4;
 	switch (opt)
 	{
 	case 0:
@@ -2896,13 +2900,63 @@ static void cube_shuffle(void)
 	case 6:
 		add_formula("Ri D Bi Li U U Fi L L F U Fi D D U Li Bi Li Ri F F U Bi L D L L R D D Fi D D B B Li B D", "SHUFFLE CUBE");
 		break;
+	case 7:
+		reverse_formula(FORMULA_OLL1);
+		break;
 	default:
 		add_formula("F D D L Bi Li U U B Ui Ri B L L F Di Ui Bi Fi L D D Ui B B Fi D Bi D D Ui Li R R D D F R", "SHUFFLE CUBE");
 		break;
 	}
 
+	print_screen();
 	apply_formula();
 	free_formula();
+}
+
+static void reverse_formula(char *s)
+{
+	int s_len;
+	char s_final[100];
+	char s_temp[100];
+	
+	s_len = strlen(s);
+	strcpy(s_temp, s);
+
+	/* Reverse formula string */
+	for (int i = 0, j = s_len - 1; (i < j) && (j > i); i++, j--)
+	{
+		char c_temp = s_temp[i];
+		s_temp[i] = s_temp[j];
+		s_temp[j] = c_temp;
+	}
+
+	/* Reverse each step */
+	int i=0,j=0;
+    while (i < s_len)
+    {
+        switch (s_temp[i])
+        {
+        case ' ':
+            s_final[j++] = ' ';
+            i++;
+            break;
+
+        case 'i':
+            s_final[j++] = s_temp[++i];
+            i++;
+            break;
+
+        default:
+            s_final[j++] = s_temp[i++];
+            s_final[j++] = 'i';
+            break;
+        }
+    }
+
+	printf("\n%s\n",s_final);
+	wait_for_enter("__");
+	wait_for_enter("__");
+	add_formula(s_final,"    REVERSE    ");
 }
 
 static void free_formula(void)
